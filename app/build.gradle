@@ -1,0 +1,43 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.akira.akirastoryboard'
+    compileSdk 33
+    buildToolsVersion "33.0.0"
+
+    defaultConfig {
+        applicationId "com.akira.akirastoryboard"
+        minSdk 19
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    
+    compileOptions {
+		sourceCompatibility JavaVersion.VERSION_11
+		targetCompatibility JavaVersion.VERSION_11
+	}
+	
+	buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation 'androidx.navigation:navigation-fragment:2.5.3'
+	implementation 'androidx.navigation:navigation-ui:2.5.3'
+	implementation 'androidx.appcompat:appcompat:1.6.1'
+	implementation 'androidx.fragment:fragment:1.5.5'
+	implementation 'com.google.android.material:material:1.9.0-beta01'
+	implementation 'org.projectlombok:lombok:1.18.26'
+	annotationProcessor 'org.projectlombok:lombok:1.18.26'
+}

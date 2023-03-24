@@ -1,0 +1,4 @@
+<resources>
+	<string name="app_name">Akira Storyboard</string>
+	<string name="akira_fab_behavior">com.akira.akirastoryboard.widgets.behaviors.FabScrollingBehavior</string>
+</resources>

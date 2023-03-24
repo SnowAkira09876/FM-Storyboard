@@ -1,0 +1,9 @@
+.androidide
+app/build
+app/proguard-rules.pro
+build
+images
+app/google-services.json
+.gradle
+.ssh
+gradle
