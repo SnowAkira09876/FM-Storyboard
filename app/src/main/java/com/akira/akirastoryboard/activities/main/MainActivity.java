@@ -20,7 +20,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter>
   private ActivityMainBinding binding;
   private LinearLayoutManager lm;
   private RecyclerView rv;
-  private GroupedSceneAdapter<GroupedSceneItemModel> adapter;
+  private GroupedSceneAdapter adapter;
 
   @Override
   protected MainActivityPresenter createPresenter() {

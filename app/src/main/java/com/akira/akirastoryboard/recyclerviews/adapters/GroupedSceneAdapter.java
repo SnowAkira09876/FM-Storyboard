@@ -10,11 +10,13 @@ import com.akira.akirastoryboard.common.recyclerview.BaseRecyclerAdapter;
 import com.akira.akirastoryboard.pojos.GroupedSceneItemModel;
 import com.akira.akirastoryboard.recyclerviews.viewholders.GroupedSceneViewHolder;
 
-public class GroupedSceneAdapter<T extends GroupedSceneItemModel> extends BaseListAdapter<GroupedSceneItemModel, GroupedSceneViewHolder> {
+public class GroupedSceneAdapter
+    extends BaseListAdapter<GroupedSceneItemModel, GroupedSceneViewHolder> {
   private GroupedSceneItemClickListener listener;
 
   public GroupedSceneAdapter(
-      DiffUtil.ItemCallback<GroupedSceneItemModel> diffUtil, GroupedSceneItemClickListener listener) {
+      DiffUtil.ItemCallback<GroupedSceneItemModel> diffUtil,
+      GroupedSceneItemClickListener listener) {
     super(diffUtil);
     this.listener = listener;
   }

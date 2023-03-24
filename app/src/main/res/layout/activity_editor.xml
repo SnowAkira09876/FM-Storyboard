@@ -6,25 +6,29 @@
 	android:layout_width="match_parent"
 	android:fitsSystemWindows="true"
 >
-	<LinearLayout
+
+	<com.google.android.material.appbar.AppBarLayout
+		app:liftOnScroll="false"
+		android:id="@+id/appBar"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:fitsSystemWindows="true"
+	>
+
+		<com.google.android.material.appbar.MaterialToolbar
+			android:id="@+id/toolBar"
+			android:layout_width="match_parent"
+			android:layout_height="?attr/actionBarSize"
+			app:menu="@menu/frame_toolbar_menu"
+		 />
+
+	</com.google.android.material.appbar.AppBarLayout>
+
+	<androidx.recyclerview.widget.RecyclerView
+		app:layout_behavior="@string/appbar_scrolling_view_behavior"
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
-		android:orientation="vertical">
-
-		<ImageView
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:src="@drawable/sample"
-			android:scaleType="fitCenter"
-			android:adjustViewBounds="true"
-			android:id="@+id/iv_image" />
-
-		<androidx.recyclerview.widget.RecyclerView
-			android:layout_height="wrap_content"
-			android:layout_width="match_parent"
-			android:id="@+id/rv" />
-
-	</LinearLayout>
+		android:id="@+id/rv" />
 
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
 		android:layout_height="wrap_content"

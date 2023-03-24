@@ -6,6 +6,7 @@ import com.akira.akirastoryboard.pojos.FrameItemModel;
 import com.akira.akirastoryboard.pojos.GroupedSceneItemModel;
 import com.akira.akirastoryboard.pojos.SceneItemModel;
 import com.akira.akirastoryboard.recyclerviews.adapters.CategoryAdapter;
+import com.akira.akirastoryboard.recyclerviews.adapters.EditorAdapter;
 import com.akira.akirastoryboard.recyclerviews.adapters.FrameAdapter;
 import com.akira.akirastoryboard.recyclerviews.adapters.GroupedSceneAdapter;
 import com.akira.akirastoryboard.recyclerviews.adapters.SceneAdapter;
@@ -66,22 +67,24 @@ public class AdapterFactory {
         }
       };
 
-  public static GroupedSceneAdapter<GroupedSceneItemModel> getGroupedSceneAdapter(
+  public static GroupedSceneAdapter getGroupedSceneAdapter(
       GroupedSceneAdapter.GroupedSceneItemClickListener listener) {
-    return new GroupedSceneAdapter<>(groupedSceneDiffUtil, listener);
+    return new GroupedSceneAdapter(groupedSceneDiffUtil, listener);
   }
 
-  public static SceneAdapter<SceneItemModel> getSceneAdapter(
-      SceneAdapter.SceneItemClickListener listener) {
-    return new SceneAdapter<>(sceneDiffUtil, listener);
+  public static SceneAdapter getSceneAdapter(SceneAdapter.SceneItemClickListener listener) {
+    return new SceneAdapter(sceneDiffUtil, listener);
   }
 
-  public static FrameAdapter<FrameItemModel> getFrameAdapter(
-      FrameAdapter.FrameItemClickListener listener) {
-    return new FrameAdapter<>(frameDiffUtil, listener);
+  public static FrameAdapter getFrameAdapter(FrameAdapter.FrameItemClickListener listener) {
+    return new FrameAdapter(frameDiffUtil, listener);
   }
 
-  public static CategoryAdapter<CategoryItemModel> getCategoryAdapter() {
-    return new CategoryAdapter<>(categoryDiffUtil);
+  public static CategoryAdapter getCategoryAdapter() {
+    return new CategoryAdapter(categoryDiffUtil);
+  }
+
+  public static EditorAdapter getEditorAdapter() {
+    return new EditorAdapter(categoryDiffUtil);
   }
 }

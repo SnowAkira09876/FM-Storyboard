@@ -8,8 +8,7 @@ import com.akira.akirastoryboard.databinding.ItemCategoryBinding;
 import com.akira.akirastoryboard.pojos.CategoryItemModel;
 import com.akira.akirastoryboard.recyclerviews.viewholders.CategoryViewHolder;
 
-public class CategoryAdapter<T extends CategoryItemModel>
-    extends BaseListAdapter<CategoryItemModel, CategoryViewHolder> {
+public class CategoryAdapter extends BaseListAdapter<CategoryItemModel, CategoryViewHolder> {
 
   public CategoryAdapter(DiffUtil.ItemCallback<CategoryItemModel> diffUtil) {
     super(diffUtil);

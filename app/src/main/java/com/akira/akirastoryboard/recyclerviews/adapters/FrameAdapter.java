@@ -9,10 +9,9 @@ import com.akira.akirastoryboard.databinding.ItemFrameBinding;
 import com.akira.akirastoryboard.pojos.FrameItemModel;
 import com.akira.akirastoryboard.recyclerviews.viewholders.FrameViewHolder;
 
-public class FrameAdapter<T extends FrameItemModel>
-    extends BaseListAdapter<FrameItemModel, FrameViewHolder> {
+public class FrameAdapter extends BaseListAdapter<FrameItemModel, FrameViewHolder> {
   private FrameItemClickListener listener;
-  
+
   public FrameAdapter(
       DiffUtil.ItemCallback<FrameItemModel> diffUtil, FrameItemClickListener listener) {
     super(diffUtil);

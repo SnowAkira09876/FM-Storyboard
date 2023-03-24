@@ -24,7 +24,7 @@ public class FrameActivity extends BaseActivity<FrameActivityPresenter>
   private ActivityFrameBinding binding;
   private LinearLayoutManager lm;
   private RecyclerView rv;
-  private FrameAdapter<FrameItemModel> adapter;
+  private FrameAdapter adapter;
   private MaterialToolbar toolbar;
   private String toolbar_title = "";
   private FrameItemModel model;
@@ -103,6 +103,8 @@ public class FrameActivity extends BaseActivity<FrameActivityPresenter>
         Intent intent = new Intent(this, EditorActivity.class);
         intent.putExtra("frame", model);
         launcher.launch(intent);
+		
+		mode.finish();	
         return true;
     }
     return false;

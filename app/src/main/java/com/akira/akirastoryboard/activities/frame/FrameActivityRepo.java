@@ -18,7 +18,8 @@ public class FrameActivityRepo {
 
   public void getList() {
     for (int i = 0; i < 10; i++) {
-      CategoryItemModel category0 = new CategoryItemModel("Title " + i, "Description " + i);
+      CategoryItemModel category0 =
+          new CategoryItemModel("Image", "Title " + i, "Description " + i);
       categories.add(category0);
 
       FrameItemModel model = new FrameItemModel("", categories);

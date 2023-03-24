@@ -19,7 +19,7 @@ public class SceneActivity extends BaseActivity<SceneActivityPresenter>
   private ActivitySceneBinding binding;
   private LinearLayoutManager lm;
   private RecyclerView rv;
-  private SceneAdapter<SceneItemModel> adapter;
+  private SceneAdapter adapter;
   private MaterialToolbar toolbar;
   private String toolbar_title = "";
 

@@ -1,11 +1,9 @@
 package com.akira.akirastoryboard.recyclerviews.viewholders;
 
 import android.widget.ImageView;
-import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.akira.akirastoryboard.databinding.ItemFrameBinding;
-import com.akira.akirastoryboard.pojos.CategoryItemModel;
 import com.akira.akirastoryboard.pojos.FrameItemModel;
 import com.akira.akirastoryboard.recyclerviews.AdapterFactory;
 import com.akira.akirastoryboard.recyclerviews.adapters.CategoryAdapter;
@@ -15,7 +13,7 @@ public class FrameViewHolder extends RecyclerView.ViewHolder {
   private ImageView image;
   private RecyclerView rv;
   private LinearLayoutManager lm;
-  private CategoryAdapter<CategoryItemModel> adapter;
+  private CategoryAdapter adapter;
 
   public FrameViewHolder(ItemFrameBinding binding) {
     super(binding.getRoot());
@@ -32,6 +30,7 @@ public class FrameViewHolder extends RecyclerView.ViewHolder {
     rv.setAdapter(adapter);
 
     adapter.submitList(model.getCategories());
+		
     image.setOnLongClickListener(
         v -> {
           listener.onFrameLongClick(model);

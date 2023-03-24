@@ -9,7 +9,7 @@ import com.akira.akirastoryboard.common.recyclerview.BaseRecyclerAdapter;
 import com.akira.akirastoryboard.pojos.SceneItemModel;
 import com.akira.akirastoryboard.recyclerviews.viewholders.SceneViewHolder;
 
-public class SceneAdapter<T extends SceneItemModel> extends BaseListAdapter<SceneItemModel, SceneViewHolder> {
+public class SceneAdapter extends BaseListAdapter<SceneItemModel, SceneViewHolder> {
   private SceneItemClickListener listener;
 
   public SceneAdapter(
