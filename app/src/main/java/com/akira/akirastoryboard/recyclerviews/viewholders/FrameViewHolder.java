@@ -8,6 +8,8 @@ import com.akira.akirastoryboard.pojos.FrameItemModel;
 import com.akira.akirastoryboard.recyclerviews.AdapterFactory;
 import com.akira.akirastoryboard.recyclerviews.adapters.CategoryAdapter;
 import com.akira.akirastoryboard.recyclerviews.adapters.FrameAdapter;
+import com.squareup.picasso.Picasso;
+import com.akira.akirastoryboard.R;
 
 public class FrameViewHolder extends RecyclerView.ViewHolder {
   private ImageView image;
@@ -25,15 +27,18 @@ public class FrameViewHolder extends RecyclerView.ViewHolder {
     this.rv = binding.rv;
   }
 
-  public void bind(FrameItemModel model, FrameAdapter.FrameItemClickListener listener) {
+  public void bind(FrameItemModel model, FrameAdapter.FrameItemClickListener listener, RecyclerView.RecycledViewPool pool) {
+    Picasso.get().load(R.drawable.sample).into(image);
+		
+	rv.setRecycledViewPool(pool);	
     rv.setLayoutManager(lm);
     rv.setAdapter(adapter);
 
     adapter.submitList(model.getCategories());
-		
+
     image.setOnLongClickListener(
         v -> {
-          listener.onFrameLongClick(model);
+          listener.onFrameLongClick(model, itemView);
           return true;
         });
   }

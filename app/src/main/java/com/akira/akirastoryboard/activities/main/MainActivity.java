@@ -3,32 +3,23 @@ package com.akira.akirastoryboard.activities.main;
 import android.content.Intent;
 import android.os.*;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.akira.akirastoryboard.activities.scene.SceneActivity;
-import com.akira.akirastoryboard.common.activity.BaseActivity;
 import com.akira.akirastoryboard.databinding.ActivityMainBinding;
 import com.akira.akirastoryboard.pojos.GroupedSceneItemModel;
 import com.akira.akirastoryboard.recyclerviews.AdapterFactory;
 import com.akira.akirastoryboard.recyclerviews.adapters.GroupedSceneAdapter;
-import com.akira.akirastoryboard.recyclerviews.adapters.SceneAdapter;
-import java.util.List;
 
-public class MainActivity extends BaseActivity<MainActivityPresenter>
-    implements MainActivityView, GroupedSceneAdapter.GroupedSceneItemClickListener {
+public class MainActivity extends AppCompatActivity
+    implements GroupedSceneAdapter.GroupedSceneItemClickListener {
 
   private ActivityMainBinding binding;
   private LinearLayoutManager lm;
   private RecyclerView rv;
   private GroupedSceneAdapter adapter;
-
-  @Override
-  protected MainActivityPresenter createPresenter() {
-    return new MainActivityPresenter(this);
-  }
-
-  @Override
-  protected void injectDependencies() {}
+  private final MainActivityViewModel viewModel = new MainActivityViewModel();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +32,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenter>
 
     onsetViewBinding();
     onsetViews();
-
-    presenter.getList();
+    onsetViewModels();
   }
 
   private void onsetViewBinding() {
@@ -61,8 +51,13 @@ public class MainActivity extends BaseActivity<MainActivityPresenter>
     startActivity(new Intent(this, SceneActivity.class).putExtras(bundle));
   }
 
-  @Override
-  public void setList(List<GroupedSceneItemModel> list) {
-    adapter.submitList(list);
+  private void onsetViewModels() {
+    viewModel
+        .getList()
+        .observe(
+            this,
+            list -> {
+              adapter.submitList(list);
+            });
   }
 }

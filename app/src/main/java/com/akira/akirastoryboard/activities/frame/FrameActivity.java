@@ -4,23 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+import android.view.View;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.akira.akirastoryboard.activities.editor.EditorActivity;
-import com.akira.akirastoryboard.common.activity.BaseActivity;
 import com.akira.akirastoryboard.databinding.ActivityFrameBinding;
 import com.akira.akirastoryboard.pojos.FrameItemModel;
 import com.akira.akirastoryboard.recyclerviews.AdapterFactory;
 import com.akira.akirastoryboard.recyclerviews.adapters.FrameAdapter;
 import com.google.android.material.appbar.MaterialToolbar;
-import java.util.List;
 import com.akira.akirastoryboard.R;
 
-public class FrameActivity extends BaseActivity<FrameActivityPresenter>
-    implements FrameActivityView, ActionMode.Callback, FrameAdapter.FrameItemClickListener {
+public class FrameActivity extends AppCompatActivity
+    implements ActionMode.Callback, FrameAdapter.FrameItemClickListener {
   private ActivityFrameBinding binding;
   private LinearLayoutManager lm;
   private RecyclerView rv;
@@ -28,24 +26,8 @@ public class FrameActivity extends BaseActivity<FrameActivityPresenter>
   private MaterialToolbar toolbar;
   private String toolbar_title = "";
   private FrameItemModel model;
-  private ActivityResultLauncher<Intent> launcher =
-      registerForActivityResult(
-          new ActivityResultContracts.StartActivityForResult(),
-          result -> {
-            if (result.getResultCode() == RESULT_OK) {
-              Intent data = result.getData();
-              FrameItemModel receivedModel =
-                  getParcelableExtraEachApi(data, "frame", FrameItemModel.class);
-            }
-          });
-
-  @Override
-  protected FrameActivityPresenter createPresenter() {
-    return new FrameActivityPresenter(this);
-  }
-
-  @Override
-  protected void injectDependencies() {}
+  private View startView;
+  private final FrameActivityViewModel viewModel = new FrameActivityViewModel();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +44,7 @@ public class FrameActivity extends BaseActivity<FrameActivityPresenter>
 
     onsetViewBinding();
     onsetViews();
-
-    presenter.getList();
-  }
-
-  @Override
-  public void setList(List<FrameItemModel> list) {
-    adapter.submitList(list);
+    onsetViewModels();
   }
 
   private void onsetViewBinding() {
@@ -81,6 +57,16 @@ public class FrameActivity extends BaseActivity<FrameActivityPresenter>
     lm.setInitialPrefetchItemCount(5);
     rv.setLayoutManager(lm);
     rv.setAdapter(adapter);
+  }
+
+  private void onsetViewModels() {
+    viewModel
+        .getList()
+        .observe(
+            this,
+            list -> {
+              adapter.submitList(list);
+            });
   }
 
   @Override
@@ -101,10 +87,8 @@ public class FrameActivity extends BaseActivity<FrameActivityPresenter>
     switch (menu.getItemId()) {
       case R.id.contextual_edit:
         Intent intent = new Intent(this, EditorActivity.class);
-        intent.putExtra("frame", model);
-        launcher.launch(intent);
-		
-		mode.finish();	
+        startActivity(intent);
+        mode.finish();
         return true;
     }
     return false;
@@ -114,8 +98,9 @@ public class FrameActivity extends BaseActivity<FrameActivityPresenter>
   public void onDestroyActionMode(ActionMode mode) {}
 
   @Override
-  public void onFrameLongClick(FrameItemModel model) {
+  public void onFrameLongClick(FrameItemModel model, View startView) {
     this.model = model;
+    this.startView = startView;
     startSupportActionMode(this);
   }
 }

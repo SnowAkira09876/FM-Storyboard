@@ -4,7 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
-import com.akira.akirastoryboard.common.recyclerview.BaseListAdapter;
+import com.akira.akirastoryboard.recyclerviews.BaseListAdapter;
 import com.akira.akirastoryboard.databinding.ItemEditorCategoryBinding;
 import com.akira.akirastoryboard.databinding.ItemEditorImageBinding;
 import com.akira.akirastoryboard.pojos.CategoryItemModel;

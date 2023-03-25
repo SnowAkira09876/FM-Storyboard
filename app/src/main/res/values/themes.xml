@@ -47,6 +47,19 @@
 			tools:targetApi="29">false</item>
 
 		<item name="windowActionModeOverlay">true</item>
-		<item name="actionModeStyle">@style/Base.Widget.Material3.ActionMode</item>
+	</style>
+
+	<style
+		name="RoundedImageView"
+		parent="">
+		<item name="cornerFamily">rounded</item>
+		<item name="cornerSize">10%</item>
+	</style>
+	
+	<style
+		name="RoundedFrame"
+		parent="">
+		<item name="cornerFamily">rounded</item>
+		<item name="cornerSize">3%</item>
 	</style>
 </resources>

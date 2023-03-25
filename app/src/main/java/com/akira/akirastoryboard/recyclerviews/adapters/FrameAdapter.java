@@ -1,16 +1,18 @@
 package com.akira.akirastoryboard.recyclerviews.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.DiffUtil;
-import com.akira.akirastoryboard.common.recyclerview.BaseListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
+import com.akira.akirastoryboard.recyclerviews.BaseListAdapter;
 import com.akira.akirastoryboard.databinding.ItemFrameBinding;
 import com.akira.akirastoryboard.pojos.FrameItemModel;
 import com.akira.akirastoryboard.recyclerviews.viewholders.FrameViewHolder;
 
 public class FrameAdapter extends BaseListAdapter<FrameItemModel, FrameViewHolder> {
   private FrameItemClickListener listener;
+  private final RecyclerView.RecycledViewPool pool = new RecyclerView.RecycledViewPool();
 
   public FrameAdapter(
       DiffUtil.ItemCallback<FrameItemModel> diffUtil, FrameItemClickListener listener) {
@@ -26,10 +28,10 @@ public class FrameAdapter extends BaseListAdapter<FrameItemModel, FrameViewHolde
 
   @Override
   public void onBindViewHolder(FrameViewHolder holder, int position) {
-    holder.bind(getItem(position), listener);
+    holder.bind(getItem(position), listener, pool);
   }
 
   public interface FrameItemClickListener {
-    void onFrameLongClick(FrameItemModel model);
+    void onFrameLongClick(FrameItemModel model, View startView);
   }
 }

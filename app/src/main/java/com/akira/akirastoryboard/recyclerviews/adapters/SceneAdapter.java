@@ -3,9 +3,8 @@ package com.akira.akirastoryboard.recyclerviews.adapters;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.DiffUtil;
-import com.akira.akirastoryboard.common.recyclerview.BaseListAdapter;
+import com.akira.akirastoryboard.recyclerviews.BaseListAdapter;
 import com.akira.akirastoryboard.databinding.ItemSceneBinding;
-import com.akira.akirastoryboard.common.recyclerview.BaseRecyclerAdapter;
 import com.akira.akirastoryboard.pojos.SceneItemModel;
 import com.akira.akirastoryboard.recyclerviews.viewholders.SceneViewHolder;
 

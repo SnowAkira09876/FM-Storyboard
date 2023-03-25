@@ -1,26 +1,25 @@
 package com.akira.akirastoryboard.recyclerviews.viewholders;
 
-import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.akira.akirastoryboard.databinding.ItemSceneBinding;
 import com.akira.akirastoryboard.pojos.SceneItemModel;
 import com.akira.akirastoryboard.recyclerviews.adapters.SceneAdapter;
+import com.squareup.picasso.Picasso;
+import com.akira.akirastoryboard.R;
 
 public class SceneViewHolder extends RecyclerView.ViewHolder {
-  private TextView title, time, frames;
+  private ItemSceneBinding binding;
 
   public SceneViewHolder(ItemSceneBinding binding) {
     super(binding.getRoot());
-    this.title = binding.sceneTitle;
-    this.time = binding.sceneTime;
-    this.frames = binding.sceneFrames;
+    this.binding = binding;
   }
 
   public void bind(
       SceneItemModel model, SceneAdapter.SceneItemClickListener listener, int position) {
-    title.setText(model.getTitle());
-    time.setText(model.getTime());
-    frames.setText(model.getFrames());
+    Picasso.get().load(R.drawable.sample).into(binding.sceneImage);
+    binding.setModel(model);
+    binding.executePendingBindings();
 
     itemView.setOnClickListener(
         v -> {

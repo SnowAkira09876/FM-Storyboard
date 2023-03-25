@@ -1,25 +1,25 @@
 package com.akira.akirastoryboard.activities.editor;
 
-import com.akira.akirastoryboard.activities.editor.EditorActivityView;
+import androidx.lifecycle.MutableLiveData;
 import com.akira.akirastoryboard.pojos.CategoryItemModel;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EditorActivityRepo {
-  private WeakReference<EditorActivityView> view;
-  private final List<CategoryItemModel> categories = new ArrayList<>();
+  private final List<CategoryItemModel> list = new ArrayList<>();
 
-  public EditorActivityRepo(EditorActivityView view) {
-    this.view = new WeakReference<>(view);
-  }
+  public EditorActivityRepo() {}
 
-  public void getList() {
+  public MutableLiveData<List<CategoryItemModel>> getList() {
+    MutableLiveData<List<CategoryItemModel>> mutableLiveData = new MutableLiveData<>();
+
     for (int i = 0; i < 10; i++) {
-      CategoryItemModel category0 = new CategoryItemModel("Image", "Title " + i, "Description " + i);
-      categories.add(category0);
+      CategoryItemModel model =
+          new CategoryItemModel("Image " + i, "Category " + i, "Description " + i);
+      list.add(model);
     }
+    mutableLiveData.setValue(list);
 
-    view.get().setList(categories);
+    return mutableLiveData;
   }
 }

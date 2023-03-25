@@ -1,4 +1,4 @@
-package com.akira.akirastoryboard.common.recyclerview;
+package com.akira.akirastoryboard.recyclerviews;
 
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.DiffUtil;

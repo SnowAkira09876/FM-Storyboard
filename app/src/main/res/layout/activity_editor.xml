@@ -9,18 +9,26 @@
 
 	<com.google.android.material.appbar.AppBarLayout
 		app:liftOnScroll="false"
-		android:id="@+id/appBar"
+		android:id="@+id/appBar_editor"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:fitsSystemWindows="true"
 	>
 
-		<com.google.android.material.appbar.MaterialToolbar
-			android:id="@+id/toolBar"
+		<com.google.android.material.appbar.CollapsingToolbarLayout
+			app:titleCollapseMode="scale"
+			android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
 			android:layout_width="match_parent"
-			android:layout_height="?attr/actionBarSize"
-			app:menu="@menu/frame_toolbar_menu"
-		 />
+			app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+			style="?attr/collapsingToolbarLayoutLargeStyle">
+
+			<com.google.android.material.appbar.MaterialToolbar
+				android:layout_height="?attr/actionBarSize"
+				android:layout_width="match_parent"
+				app:layout_collapseMode="pin"
+				android:id="@+id/toolBar" />
+
+		</com.google.android.material.appbar.CollapsingToolbarLayout>
 
 	</com.google.android.material.appbar.AppBarLayout>
 
@@ -28,7 +36,7 @@
 		app:layout_behavior="@string/appbar_scrolling_view_behavior"
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
-		android:id="@+id/rv" />
+		android:id="@+id/rv_editor" />
 
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
 		android:layout_height="wrap_content"
