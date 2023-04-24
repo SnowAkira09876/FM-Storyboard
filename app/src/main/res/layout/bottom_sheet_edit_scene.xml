@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:text="Edit Scene" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Name"
+            android:paddingTop="15dp"
+            android:id="@+id/tl_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="textPersonName"
+                android:id="@+id/te_name" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        
+                <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Story"
+            android:paddingTop="8dp"
+            android:id="@+id/tl_story">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/te_story" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            style="@style/Widget.Material3.Button"
+            android:layout_marginTop="15dp"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_marginTop="8dp"
+            android:text="Delete" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

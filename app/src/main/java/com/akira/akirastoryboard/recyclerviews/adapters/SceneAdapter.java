@@ -30,5 +30,7 @@ public class SceneAdapter extends BaseListAdapter<SceneItemModel, SceneViewHolde
 
   public interface SceneItemClickListener {
     void onSceneClick(int position, SceneItemModel model);
+		
+	void onSceneLongClick(int position, SceneItemModel model);	
   }
 }

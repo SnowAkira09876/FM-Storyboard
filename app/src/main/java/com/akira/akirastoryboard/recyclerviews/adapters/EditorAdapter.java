@@ -14,9 +14,12 @@ import com.akira.akirastoryboard.recyclerviews.viewholders.EditorImageViewHolder
 public class EditorAdapter extends BaseListAdapter<CategoryItemModel, RecyclerView.ViewHolder> {
   private static final int IMAGE_TYPE = 0;
   private static final int CATEGORY_TYPE = 1;
+  private EditorItemClickListener listener;
 
-  public EditorAdapter(DiffUtil.ItemCallback<CategoryItemModel> diffUtil) {
+  public EditorAdapter(
+      DiffUtil.ItemCallback<CategoryItemModel> diffUtil, EditorItemClickListener listener) {
     super(diffUtil);
+    this.listener = listener;
   }
 
   @Override
@@ -29,7 +32,8 @@ public class EditorAdapter extends BaseListAdapter<CategoryItemModel, RecyclerVi
 
       case CATEGORY_TYPE:
         return new EditorCategoryViewHolder(
-            ItemEditorCategoryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+            ItemEditorCategoryBinding.inflate(
+                LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     return null;
@@ -43,13 +47,14 @@ public class EditorAdapter extends BaseListAdapter<CategoryItemModel, RecyclerVi
       case IMAGE_TYPE:
         EditorImageViewHolder viewHolder0 = (EditorImageViewHolder) holder;
         CategoryItemModel model0 = getItem(position);
+        viewHolder0.bind(model0, listener, position);
         break;
 
       case CATEGORY_TYPE:
         EditorCategoryViewHolder viewHolder1 = (EditorCategoryViewHolder) holder;
         CategoryItemModel model1 = getItem(position);
 
-        viewHolder1.bind(model1);
+        viewHolder1.bind(model1, listener, position);
         break;
     }
   }
@@ -57,5 +62,11 @@ public class EditorAdapter extends BaseListAdapter<CategoryItemModel, RecyclerVi
   @Override
   public int getItemViewType(int position) {
     return position == 0 ? IMAGE_TYPE : CATEGORY_TYPE;
+  }
+
+  public interface EditorItemClickListener {
+    void onImageClick(int position, CategoryItemModel model);
+
+    void onCategoryClick(int position, CategoryItemModel model);
   }
 }

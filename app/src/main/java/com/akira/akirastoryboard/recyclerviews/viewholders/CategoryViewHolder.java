@@ -4,6 +4,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.akira.akirastoryboard.databinding.ItemCategoryBinding;
 import com.akira.akirastoryboard.pojos.CategoryItemModel;
+import com.akira.akirastoryboard.recyclerviews.adapters.CategoryAdapter;
 import com.akira.akirastoryboard.recyclerviews.adapters.FrameAdapter;
 
 public class CategoryViewHolder extends RecyclerView.ViewHolder {

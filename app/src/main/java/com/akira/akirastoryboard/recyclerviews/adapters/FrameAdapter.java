@@ -1,7 +1,6 @@
 package com.akira.akirastoryboard.recyclerviews.adapters;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +31,6 @@ public class FrameAdapter extends BaseListAdapter<FrameItemModel, FrameViewHolde
   }
 
   public interface FrameItemClickListener {
-    void onFrameLongClick(FrameItemModel model, View startView);
+    void onFrameLongClick(FrameItemModel model);
   }
 }

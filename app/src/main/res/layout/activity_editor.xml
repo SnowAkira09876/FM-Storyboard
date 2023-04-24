@@ -4,12 +4,13 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_height="match_parent"
 	android:layout_width="match_parent"
+	android:id="@+id/activity_root"
 	android:fitsSystemWindows="true"
 >
 
 	<com.google.android.material.appbar.AppBarLayout
 		app:liftOnScroll="false"
-		android:id="@+id/appBar_editor"
+		android:id="@+id/appbar"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:fitsSystemWindows="true"
@@ -32,11 +33,20 @@
 
 	</com.google.android.material.appbar.AppBarLayout>
 
-	<androidx.recyclerview.widget.RecyclerView
+	<com.akira.akirastoryboard.widgets.recyclerview.AkiraRecyclerView
 		app:layout_behavior="@string/appbar_scrolling_view_behavior"
-		android:layout_height="wrap_content"
+		android:layout_height="match_parent"
 		android:layout_width="match_parent"
-		android:id="@+id/rv_editor" />
+		android:id="@+id/rv"
+	 />
+
+	<TextView
+		android:textAppearance="?attr/textAppearanceTitleMedium"
+		android:id="@+id/empty_view"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:text="No items to display."
+		android:gravity="center" />
 
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
 		android:layout_height="wrap_content"

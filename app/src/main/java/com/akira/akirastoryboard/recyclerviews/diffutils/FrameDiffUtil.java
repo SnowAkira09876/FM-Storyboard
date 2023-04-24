@@ -2,7 +2,6 @@ package com.akira.akirastoryboard.recyclerviews.diffutils;
 
 import androidx.recyclerview.widget.DiffUtil;
 import com.akira.akirastoryboard.pojos.FrameItemModel;
-import java.util.Objects;
 
 public class FrameDiffUtil extends DiffUtil.ItemCallback<FrameItemModel> {
   @Override
@@ -12,6 +11,6 @@ public class FrameDiffUtil extends DiffUtil.ItemCallback<FrameItemModel> {
 
   @Override
   public boolean areContentsTheSame(FrameItemModel oldItem, FrameItemModel newItem) {
-    return Objects.equals(oldItem, newItem);
+    return oldItem.equals(newItem);
   }
 }

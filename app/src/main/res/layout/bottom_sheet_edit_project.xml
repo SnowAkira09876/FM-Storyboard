@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:text="Edit Project" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_cover"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:adjustViewBounds="true"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            app:shapeAppearanceOverlay="@style/RoundedImageView"
+        />
+
+        <HorizontalScrollView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:scrollbars="none"
+            android:paddingTop="15dp">
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/btn_toggle_group">
+
+                <Button
+                    android:id="@+id/btn_toggle_fantasy"
+                    app:icon="@drawable/ic_fantasy"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    android:text="Fantasy" />
+
+                <Button
+                    android:id="@+id/btn_toggle_scifi"
+                    app:icon="@drawable/ic_science_fiction"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    android:text="Science Fiction" />
+
+                <Button
+                    android:id="@+id/btn_toggle_drama"
+                    app:icon="@drawable/ic_drama"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    android:text="Drama" />
+
+                <Button
+                    android:id="@+id/btn_toggle_horror"
+                    app:icon="@drawable/ic_horror"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    android:text="Horror" />
+
+                <Button
+                    android:id="@+id/btn_toggle_psy_thrill"
+                    app:icon="@drawable/ic_psychological_thriller"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    android:text="Psychological Thriller" />
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        </HorizontalScrollView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Image path"
+            android:paddingTop="15dp"
+            android:id="@+id/tl_path">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="textPersonName"
+                android:id="@+id/te_path" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Name"
+            android:paddingTop="15dp"
+            android:id="@+id/tl_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="textPersonName"
+                android:id="@+id/te_name" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_create"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            style="@style/Widget.Material3.Button"
+            android:layout_marginTop="15dp"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_marginTop="8dp"
+            android:text="Delete" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

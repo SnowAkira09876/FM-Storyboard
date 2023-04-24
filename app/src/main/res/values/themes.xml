@@ -47,19 +47,10 @@
 			tools:targetApi="29">false</item>
 
 		<item name="windowActionModeOverlay">true</item>
-	</style>
+		<item name="actionModeStyle">@style/Widget.App.ActionMode</item>
+		<item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.ActionBar</item>
 
-	<style
-		name="RoundedImageView"
-		parent="">
-		<item name="cornerFamily">rounded</item>
-		<item name="cornerSize">10%</item>
-	</style>
-	
-	<style
-		name="RoundedFrame"
-		parent="">
-		<item name="cornerFamily">rounded</item>
-		<item name="cornerSize">3%</item>
+		<item name="android:windowBackground">?attr/colorSurface</item>
+		<item name="android:colorBackground">?attr/colorSurface</item>
 	</style>
 </resources>

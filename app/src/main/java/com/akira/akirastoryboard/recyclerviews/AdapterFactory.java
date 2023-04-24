@@ -3,18 +3,18 @@ package com.akira.akirastoryboard.recyclerviews;
 import com.akira.akirastoryboard.recyclerviews.adapters.CategoryAdapter;
 import com.akira.akirastoryboard.recyclerviews.adapters.EditorAdapter;
 import com.akira.akirastoryboard.recyclerviews.adapters.FrameAdapter;
-import com.akira.akirastoryboard.recyclerviews.adapters.GroupedSceneAdapter;
+import com.akira.akirastoryboard.recyclerviews.adapters.ProjectAdapter;
 import com.akira.akirastoryboard.recyclerviews.adapters.SceneAdapter;
 import com.akira.akirastoryboard.recyclerviews.diffutils.CategoryDiffUtil;
 import com.akira.akirastoryboard.recyclerviews.diffutils.FrameDiffUtil;
-import com.akira.akirastoryboard.recyclerviews.diffutils.GroupedSceneDiffUtil;
+import com.akira.akirastoryboard.recyclerviews.diffutils.ProjectDiffUtil;
 import com.akira.akirastoryboard.recyclerviews.diffutils.SceneDiffUtil;
 
 public class AdapterFactory {
 
-  public static GroupedSceneAdapter getGroupedSceneAdapter(
-      GroupedSceneAdapter.GroupedSceneItemClickListener listener) {
-    return new GroupedSceneAdapter(new GroupedSceneDiffUtil(), listener);
+  public static ProjectAdapter getProjectAdapter(
+      ProjectAdapter.ProjectItemClickListener listener) {
+    return new ProjectAdapter(new ProjectDiffUtil(), listener);
   }
 
   public static SceneAdapter getSceneAdapter(SceneAdapter.SceneItemClickListener listener) {
@@ -29,7 +29,7 @@ public class AdapterFactory {
     return new CategoryAdapter(new CategoryDiffUtil());
   }
 
-  public static EditorAdapter getEditorAdapter() {
-    return new EditorAdapter(new CategoryDiffUtil());
+  public static EditorAdapter getEditorAdapter(EditorAdapter.EditorItemClickListener listener) {
+    return new EditorAdapter(new CategoryDiffUtil(), listener);
   }
 }

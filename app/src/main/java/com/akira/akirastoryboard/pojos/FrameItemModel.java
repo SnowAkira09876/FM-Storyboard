@@ -6,9 +6,7 @@ import android.os.Parcelable;
 import com.akira.akirastoryboard.pojos.FrameItemModel;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Data;
 
-@Data
 public class FrameItemModel implements Parcelable {
   private String image;
   private List<CategoryItemModel> categories;
@@ -49,5 +47,21 @@ public class FrameItemModel implements Parcelable {
   public void writeToParcel(Parcel dest, int flags) {
     dest.writeString(image);
     dest.writeList(categories);
+  }
+
+  public String getImage() {
+    return this.image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
+  }
+
+  public List<CategoryItemModel> getCategories() {
+    return this.categories;
+  }
+
+  public void setCategories(List<CategoryItemModel> categories) {
+    this.categories = categories;
   }
 }

@@ -1,9 +1,21 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 	<style
 		name="Widget.App.ActionMode"
 		parent="Widget.AppCompat.ActionMode">
-		<item name="titleTextStyle">?attr/textAppearanceHeadline6</item>
-		<item name="subtitleTextStyle">?attr/textAppearanceSubtitle1</item>
-		<item name="background">@color/material_grey_900</item>
+		<item name="background">?attr/colorSurface</item>
+	</style>
+
+	<style
+		name="RoundedImageView"
+		parent="">
+		<item name="cornerFamily">rounded</item>
+		<item name="cornerSize">10%</item>
+	</style>
+
+	<style
+		name="RoundedFrame"
+		parent="">
+		<item name="cornerFamily">rounded</item>
+		<item name="cornerSize">3%</item>
 	</style>
 </resources>
