@@ -12,6 +12,7 @@ import com.google.android.material.appbar.AppBarLayout;
 public class AkiraRecyclerView extends RecyclerView {
   private View emptyView;
   private AppBarLayout appbar;
+  private boolean emptyViewVisible;
 
   private final AdapterDataObserver observer =
       new AdapterDataObserver() {
@@ -67,14 +68,22 @@ public class AkiraRecyclerView extends RecyclerView {
 
   private void checkIfEmpty() {
     if (emptyView != null && getAdapter() != null) {
-      final boolean emptyViewVisible = getAdapter().getItemCount() == 0;
+      emptyViewVisible = getAdapter().getItemCount() == 0;
       emptyView.setVisibility(emptyViewVisible ? VISIBLE : GONE);
       setVisibility(emptyViewVisible ? GONE : VISIBLE);
     }
 
     if (appbar != null && getAdapter() != null) {
-      final boolean emptyViewVisible = getAdapter().getItemCount() == 0;
+      emptyViewVisible = getAdapter().getItemCount() == 0;
       appbar.setExpanded(emptyViewVisible ? false : true);
     }
+  }
+
+  public boolean getEmptyViewVisible() {
+    return this.emptyViewVisible;
+  }
+
+  public void setEmptyViewVisible(boolean emptyViewVisible) {
+    this.emptyViewVisible = emptyViewVisible;
   }
 }

@@ -10,8 +10,7 @@ public class SceneItemModel implements Parcelable {
   @PrimaryKey(autoGenerate = true)
   private int id;
 
-  private int projectId;
-  private String title, story;
+  private String projectId, sceneId, title, frames, info;
 
   public SceneItemModel() {}
 
@@ -30,9 +29,11 @@ public class SceneItemModel implements Parcelable {
 
   protected SceneItemModel(Parcel in) {
     id = in.readInt();
-    projectId = in.readInt();
+    projectId = in.readString();
+    sceneId = in.readString();
     title = in.readString();
-    story = in.readString();
+    frames = in.readString();
+    info = in.readString();
   }
 
   @Override
@@ -43,9 +44,11 @@ public class SceneItemModel implements Parcelable {
   @Override
   public void writeToParcel(Parcel dest, int flags) {
     dest.writeInt(id);
-    dest.writeInt(projectId);
+    dest.writeString(projectId);
+    dest.writeString(sceneId);
     dest.writeString(title);
-    dest.writeString(story);
+    dest.writeString(frames);
+    dest.writeString(info);
   }
 
   public int getId() {
@@ -56,12 +59,20 @@ public class SceneItemModel implements Parcelable {
     this.id = id;
   }
 
-  public int getProjectId() {
+  public String getProjectId() {
     return this.projectId;
   }
 
-  public void setProjectId(int projectId) {
+  public void setProjectId(String projectId) {
     this.projectId = projectId;
+  }
+
+  public String getSceneId() {
+    return this.sceneId;
+  }
+
+  public void setSceneId(String sceneId) {
+    this.sceneId = sceneId;
   }
 
   public String getTitle() {
@@ -72,11 +83,19 @@ public class SceneItemModel implements Parcelable {
     this.title = title;
   }
 
-  public String getStory() {
-    return this.story;
+  public String getFrames() {
+    return this.frames;
   }
 
-  public void setStory(String story) {
-    this.story = story;
+  public void setFrames(String frames) {
+    this.frames = frames;
+  }
+
+  public String getInfo() {
+    return this.info;
+  }
+
+  public void setInfo(String info) {
+    this.info = info;
   }
 }

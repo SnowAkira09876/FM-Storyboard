@@ -1,7 +1,5 @@
 package com.akira.akirastoryboard.pojos;
 
-import android.net.Uri;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.room.Entity;
@@ -12,7 +10,7 @@ public class ProjectItemModel implements Parcelable {
   @PrimaryKey(autoGenerate = true)
   private int id;
 
-  private String title, scenes, genres, imagePath;
+  private String projectId, title, scenes, info, imagePath;
 
   public ProjectItemModel() {}
 
@@ -29,12 +27,12 @@ public class ProjectItemModel implements Parcelable {
         }
       };
 
-  @SuppressWarnings("deprecation")
   protected ProjectItemModel(Parcel in) {
     id = in.readInt();
+    projectId = in.readString();
     title = in.readString();
     scenes = in.readString();
-    genres = in.readString();
+    info = in.readString();
     imagePath = in.readString();
   }
 
@@ -46,9 +44,10 @@ public class ProjectItemModel implements Parcelable {
   @Override
   public void writeToParcel(Parcel dest, int flags) {
     dest.writeInt(id);
+    dest.writeString(projectId);
     dest.writeString(title);
     dest.writeString(scenes);
-    dest.writeString(genres);
+    dest.writeString(info);
     dest.writeString(imagePath);
   }
 
@@ -58,6 +57,14 @@ public class ProjectItemModel implements Parcelable {
 
   public void setId(int id) {
     this.id = id;
+  }
+  
+  public String getProjectId() {
+    return this.projectId;
+  }
+
+  public void setProjectId(String projectId) {
+    this.projectId = projectId;
   }
 
   public String getTitle() {
@@ -76,12 +83,12 @@ public class ProjectItemModel implements Parcelable {
     this.scenes = scenes;
   }
 
-  public String getGenres() {
-    return this.genres;
+  public String getInfo() {
+    return this.info;
   }
 
-  public void setGenres(String genres) {
-    this.genres = genres;
+  public void setInfo(String info) {
+    this.info = info;
   }
 
   public String getImagePath() {

@@ -45,9 +45,5 @@
 		<item
 			name="android:enforceNavigationBarContrast"
 			tools:targetApi="29">false</item>
-
-		<item name="windowActionModeOverlay">true</item>
-		<item name="actionModeStyle">@style/Widget.App.ActionMode</item>
-		<item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
 	</style>
 </resources>

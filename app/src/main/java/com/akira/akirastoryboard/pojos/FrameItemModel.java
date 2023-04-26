@@ -1,15 +1,17 @@
 package com.akira.akirastoryboard.pojos;
 
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.akira.akirastoryboard.pojos.FrameItemModel;
-import java.util.ArrayList;
-import java.util.List;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+@Entity(tableName = "FramesTable")
 public class FrameItemModel implements Parcelable {
-  private String image;
-  private List<CategoryItemModel> categories;
+  @PrimaryKey(autoGenerate = true)
+  private int id;
+
+  private String sceneId, imagePath, info;
+
   public static final Creator<FrameItemModel> CREATOR =
       new Creator<FrameItemModel>() {
         @Override
@@ -23,19 +25,14 @@ public class FrameItemModel implements Parcelable {
         }
       };
 
-  public FrameItemModel(String image, List<CategoryItemModel> categories) {
-    this.image = image;
-    this.categories = categories;
-  }
+  public FrameItemModel() {}
 
   @SuppressWarnings("deprecation")
   protected FrameItemModel(Parcel in) {
-    image = in.readString();
-    categories = new ArrayList<>();
-
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-      in.readList(categories, CategoryItemModel.class.getClassLoader(), CategoryItemModel.class);
-    else in.readList(categories, CategoryItemModel.class.getClassLoader());
+    this.id = in.readInt();
+    this.sceneId = in.readString();
+    this.imagePath = in.readString();
+    this.info = in.readString();
   }
 
   @Override
@@ -45,23 +42,41 @@ public class FrameItemModel implements Parcelable {
 
   @Override
   public void writeToParcel(Parcel dest, int flags) {
-    dest.writeString(image);
-    dest.writeList(categories);
+    dest.writeInt(id);
+    dest.writeString(sceneId);
+    dest.writeString(imagePath);
+    dest.writeString(info);
   }
 
-  public String getImage() {
-    return this.image;
+  public int getId() {
+    return this.id;
   }
 
-  public void setImage(String image) {
-    this.image = image;
+  public void setId(int id) {
+    this.id = id;
   }
 
-  public List<CategoryItemModel> getCategories() {
-    return this.categories;
+  public String getSceneId() {
+    return this.sceneId;
   }
 
-  public void setCategories(List<CategoryItemModel> categories) {
-    this.categories = categories;
+  public void setSceneId(String sceneId) {
+    this.sceneId = sceneId;
+  }
+
+  public String getImagePath() {
+    return this.imagePath;
+  }
+
+  public void setImagePath(String imagePath) {
+    this.imagePath = imagePath;
+  }
+
+  public String getInfo() {
+    return this.info;
+  }
+
+  public void setInfo(String info) {
+    this.info = info;
   }
 }

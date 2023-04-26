@@ -1,11 +1,15 @@
 package com.akira.akirastoryboard.activities.main;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.*;
 import android.os.Bundle;
 import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.akira.akirastoryboard.StartApplication;
@@ -21,6 +25,7 @@ import com.akira.akirastoryboard.recyclerviews.adapters.ProjectAdapter;
 import com.akira.akirastoryboard.widgets.recyclerview.AkiraRecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AkiraActivity implements ProjectAdapter.ProjectItemClickListener {
   private ActivityMainBinding binding;
@@ -33,6 +38,7 @@ public class MainActivity extends AkiraActivity implements ProjectAdapter.Projec
   private TextView emptyView;
   private AppBarLayout appbar;
   private AppComponent component;
+  private final int READ_STORAGE_PERMISSION_CODE = 1;
   private ActivityResultLauncher<Intent> launcher =
       registerForActivityResult(
           new ActivityResultContracts.StartActivityForResult(),
@@ -63,6 +69,14 @@ public class MainActivity extends AkiraActivity implements ProjectAdapter.Projec
     this.fab = binding.fab;
     this.emptyView = binding.emptyView;
     this.appbar = binding.appbar;
+
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+        != PackageManager.PERMISSION_GRANTED) {
+      ActivityCompat.requestPermissions(
+          this,
+          new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
+          READ_STORAGE_PERMISSION_CODE);
+    }
   }
 
   @Override
@@ -112,7 +126,14 @@ public class MainActivity extends AkiraActivity implements ProjectAdapter.Projec
         .observe(
             this,
             model -> {
-              viewModel.deleteProject(model);
+              if (model.getScenes().equals("0 scenes")) viewModel.deleteProject(model);
+              else
+                Snackbar.make(
+                        binding.getRoot(),
+                        "Project can't be deleted if it contains scenes",
+                        Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Okay", v -> {})
+                    .show();
             });
   }
 
@@ -128,9 +149,25 @@ public class MainActivity extends AkiraActivity implements ProjectAdapter.Projec
   public void onProjectLongClick(int position, ProjectItemModel model) {
     Bundle bundle = new Bundle();
     bundle.putParcelable("project", model);
-    
+
     EditProjectBottomSheet project = new EditProjectBottomSheet();
     project.setArguments(bundle);
     project.show(getSupportFragmentManager(), null);
+  }
+
+  @Override
+  public void onRequestPermissionsResult(
+      int requestCode, String[] permissions, int[] grantResults) {
+    if (requestCode == READ_STORAGE_PERMISSION_CODE) {
+      if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        Snackbar.make(binding.getRoot(), "Akira Storyboard is ready", Snackbar.LENGTH_SHORT).show();
+      } else {
+        Snackbar.make(
+                binding.getRoot(),
+                "Akira Storyboard is still functional but you cannot put images",
+                Snackbar.LENGTH_SHORT)
+            .show();
+      }
+    }
   }
 }

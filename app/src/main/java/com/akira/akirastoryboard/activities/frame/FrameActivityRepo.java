@@ -1,30 +1,72 @@
 package com.akira.akirastoryboard.activities.frame;
 
 import androidx.lifecycle.MutableLiveData;
-import com.akira.akirastoryboard.pojos.CategoryItemModel;
+import com.akira.akirastoryboard.data.room.AkiraRoomDatabase;
 import com.akira.akirastoryboard.pojos.FrameItemModel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 
 public class FrameActivityRepo {
-  private final List<FrameItemModel> list = new ArrayList<>();
-  private final List<CategoryItemModel> categories = new ArrayList<>();
+  private final MutableLiveData<List<FrameItemModel>> mutableLiveData = new MutableLiveData<>();
+  private AkiraRoomDatabase roomDatabase;
+  private ExecutorService executor;
 
-  public FrameActivityRepo() {}
+  public FrameActivityRepo(AkiraRoomDatabase roomDatabase, ExecutorService executor) {
+    this.roomDatabase = roomDatabase;
+    this.executor = executor;
+  }
 
-  public MutableLiveData<List<FrameItemModel>> getList() {
-    MutableLiveData<List<FrameItemModel>> mutableLiveData = new MutableLiveData<>();
+  public MutableLiveData<List<FrameItemModel>> getFrames(String sceneId) {
+    List<FrameItemModel> list = new ArrayList<>();
 
-    for (int i = 0; i < 10; i++) {
-      CategoryItemModel category0 =
-          new CategoryItemModel("Image", "Title " + i, "Description " + i);
-      categories.add(category0);
+    CompletableFuture.supplyAsync(() -> roomDatabase.getFrameDAO().getFrames())
+        .thenAcceptAsync(
+            result -> {
+              for (FrameItemModel model : result) {
+                if (model.getSceneId().equals(sceneId)) list.add(model);
+              }
 
-      FrameItemModel model = new FrameItemModel("", categories);
-      list.add(model);
-    }
-    mutableLiveData.setValue(list);
-
+              mutableLiveData.postValue(list);
+            },
+            executor);
     return mutableLiveData;
+  }
+
+  public void addFrame(FrameItemModel model) {
+    CompletableFuture.runAsync(
+            () -> {
+              roomDatabase.getFrameDAO().insert(model);
+            },
+            executor)
+        .thenRun(
+            () -> {
+              getFrames(model.getSceneId());
+            });
+  }
+
+  public void updateFrame(FrameItemModel model) {
+    CompletableFuture.runAsync(
+            () -> {
+              roomDatabase.getFrameDAO().update(model);
+            },
+            executor)
+        .thenRun(
+            () -> {
+              getFrames(model.getSceneId());
+            });
+  }
+  
+  public void deleteFrame(FrameItemModel model) {
+    CompletableFuture.runAsync(
+            () -> {
+              roomDatabase.getFrameDAO().delete(model);
+            },
+            executor)
+        .thenRun(
+            () -> {
+              getFrames(model.getSceneId());
+            });
   }
 }

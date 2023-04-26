@@ -27,61 +27,6 @@
             app:shapeAppearanceOverlay="@style/RoundedImageView"
         />
 
-        <HorizontalScrollView
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:scrollbars="none"
-            android:paddingTop="15dp">
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:id="@+id/btn_toggle_group">
-
-                <Button
-                    android:id="@+id/btn_toggle_fantasy"
-                    app:icon="@drawable/ic_fantasy"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-                    android:text="Fantasy" />
-
-                <Button
-                    android:id="@+id/btn_toggle_scifi"
-                    app:icon="@drawable/ic_science_fiction"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-                    android:text="Science Fiction" />
-
-                <Button
-                    android:id="@+id/btn_toggle_drama"
-                    app:icon="@drawable/ic_drama"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-                    android:text="Drama" />
-
-                <Button
-                    android:id="@+id/btn_toggle_horror"
-                    app:icon="@drawable/ic_horror"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-                    android:text="Horror" />
-
-                <Button
-                    android:id="@+id/btn_toggle_psy_thrill"
-                    app:icon="@drawable/ic_psychological_thriller"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-                    android:text="Psychological Thriller" />
-
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-
-        </HorizontalScrollView>
-
         <com.google.android.material.textfield.TextInputLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -109,6 +54,21 @@
                 android:layout_width="match_parent"
                 android:inputType="textPersonName"
                 android:id="@+id/te_name" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Info"
+            android:paddingTop="15dp"
+            app:helperText="You can style your text with HTML formatting"
+            android:id="@+id/tl_info">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/te_info" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

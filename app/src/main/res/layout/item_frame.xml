@@ -1,29 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:layout_height="wrap_content"
-	android:layout_width="wrap_content"
-	app:cardUseCompatPadding="true"
-	app:contentPadding="10dp">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="model"
+            type="com.akira.akirastoryboard.pojos.FrameItemModel" />
+    </data>
 
-	<LinearLayout
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:orientation="vertical">
+    <com.google.android.material.card.MaterialCardView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="10dp">
 
-		<com.google.android.material.imageview.ShapeableImageView
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:adjustViewBounds="true"
-			android:id="@+id/iv_image"
-			app:shapeAppearanceOverlay="@style/RoundedFrame"  />
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical">
 
-		<androidx.recyclerview.widget.RecyclerView
-			android:layout_height="wrap_content"
-			android:layout_width="match_parent"
-			android:id="@+id/rv" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_frame"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:adjustViewBounds="true"
+                android:paddingBottom="10dp"
+                app:shapeAppearanceOverlay="@style/RoundedFrame"
+                app:imagePath="@{model.imagePath}"
+            />
 
-	</LinearLayout>
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/tv_description"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@{model.info}"
+                app:htmlText="@{model.info}"
+            />
+        </LinearLayout>
 
-</com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

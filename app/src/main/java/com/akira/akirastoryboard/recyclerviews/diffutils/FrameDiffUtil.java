@@ -6,7 +6,7 @@ import com.akira.akirastoryboard.pojos.FrameItemModel;
 public class FrameDiffUtil extends DiffUtil.ItemCallback<FrameItemModel> {
   @Override
   public boolean areItemsTheSame(FrameItemModel oldItem, FrameItemModel newItem) {
-    return oldItem.getCategories() == newItem.getCategories();
+    return oldItem.getId() == newItem.getId();
   }
 
   @Override

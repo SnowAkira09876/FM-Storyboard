@@ -31,7 +31,7 @@ public class SceneActivityViewModel extends ViewModel {
     repo.deleteScene(model);
   }
 
-  public LiveData<List<SceneItemModel>> getScenes(int projectId) {
+  public LiveData<List<SceneItemModel>> getScenes(String projectId) {
     return repo.getScenes(projectId);
   }
 

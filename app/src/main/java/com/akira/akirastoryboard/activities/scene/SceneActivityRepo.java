@@ -18,14 +18,14 @@ public class SceneActivityRepo {
     this.executor = executor;
   }
 
-  public MutableLiveData<List<SceneItemModel>> getScenes(int projectId) {
+  public MutableLiveData<List<SceneItemModel>> getScenes(String projectId) {
     List<SceneItemModel> list = new ArrayList<>();
     
     CompletableFuture.supplyAsync(() -> roomDatabase.getSceneDAO().getScenes())
         .thenAcceptAsync(
             result -> {
               for (SceneItemModel model : result) {
-                if (model.getProjectId() == projectId) list.add(model);
+                if (model.getProjectId().equals(projectId)) list.add(model);
               }
 
               mutableLiveData.postValue(list);

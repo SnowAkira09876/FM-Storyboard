@@ -28,12 +28,9 @@ import com.akira.akirastoryboard.R;
 
 public class EditProjectBottomSheet extends BottomSheetDialogFragment {
   private BottomSheetEditProjectBinding binding;
-  private TextInputEditText te_path, te_project_name;
-  private TextInputLayout tl_path, tl_project_name;
+  private TextInputEditText te_path, te_project_name, te_info;
+  private TextInputLayout tl_path, tl_project_name, tl_info;
   private Button btn_create, btn_delete;
-  private MaterialButtonToggleGroup toggle_group;
-  private MaterialButton checked_button;
-  private final List<String> genres = new ArrayList<>();
   private ProjectItemModel model;
   private MainActivityViewModel viewModel;
   private ShapeableImageView iv_cover;
@@ -62,17 +59,23 @@ public class EditProjectBottomSheet extends BottomSheetDialogFragment {
     this.tl_path = binding.tlPath;
     this.te_project_name = binding.teName;
     this.tl_project_name = binding.tlName;
+    this.te_info = binding.teInfo;
+    this.tl_info = binding.tlInfo;
+
     this.btn_create = binding.btnCreate;
     this.btn_delete = binding.btnDelete;
-    this.toggle_group = binding.btnToggleGroup;
     this.iv_cover = binding.ivCover;
   }
 
   private void onsetViews() {
-    Picasso.get().load(Uri.fromFile(new File(model.getImagePath()))).into(iv_cover);
+    Picasso.get()
+        .load(Uri.fromFile(new File(model.getImagePath())))
+        .placeholder(R.drawable.sample)
+        .into(iv_cover);
 
     te_path.setText(model.getImagePath());
     te_project_name.setText(model.getTitle());
+    te_info.setText(model.getInfo());
 
     te_path.addTextChangedListener(
         new TextWatcher() {
@@ -92,18 +95,11 @@ public class EditProjectBottomSheet extends BottomSheetDialogFragment {
           }
         });
 
-    toggle_group.addOnButtonCheckedListener(
-        (group, checkedId, isChecked) -> {
-          if (isChecked) {
-            checked_button = binding.getRoot().findViewById(checkedId);
-            genres.add(checked_button.getText().toString());
-          }
-        });
-
     btn_create.setOnClickListener(
         v -> {
           String img_path = te_path.getText().toString().trim();
           String project_name = te_project_name.getText().toString().trim();
+          String info = te_info.getText().toString().trim();
 
           if (TextUtils.isEmpty(project_name)) {
             tl_project_name.setErrorEnabled(true);
@@ -115,16 +111,22 @@ public class EditProjectBottomSheet extends BottomSheetDialogFragment {
             tl_path.setError("Cover image is empty");
           }
 
-          if (!TextUtils.isEmpty(img_path) && !TextUtils.isEmpty(project_name)) {
+          if (TextUtils.isEmpty(info)) {
+            tl_info.setErrorEnabled(true);
+            tl_info.setError("Info is empty");
+          }
+
+          if (!TextUtils.isEmpty(img_path)
+              && !TextUtils.isEmpty(project_name)
+              && !TextUtils.isEmpty(info)) {
             model.setTitle(project_name);
             model.setScenes("0 scenes");
             model.setImagePath(img_path);
-            model.setGenres(genres.isEmpty() ? "None" : TextUtils.join(", ", genres));
+            model.setInfo(info);
 
             viewModel.setUpdateProject(model);
+            dismiss();
           }
-          
-          dismiss();
         });
 
     btn_delete.setOnClickListener(

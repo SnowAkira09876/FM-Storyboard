@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.TextView;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.akira.akirastoryboard.R;
 import com.akira.akirastoryboard.StartApplication;
 import com.akira.akirastoryboard.activities.AkiraActivity;
 import com.akira.akirastoryboard.activities.frame.FrameActivity;
@@ -20,8 +23,8 @@ import com.akira.akirastoryboard.recyclerviews.adapters.SceneAdapter;
 import com.akira.akirastoryboard.widgets.recyclerview.AkiraRecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.akira.akirastoryboard.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 public class SceneActivity extends AkiraActivity implements SceneAdapter.SceneItemClickListener {
   private ActivitySceneBinding binding;
@@ -37,12 +40,27 @@ public class SceneActivity extends AkiraActivity implements SceneAdapter.SceneIt
   private SceneActivityViewModel viewModel;
   private SceneActivityVMFactory viewModelFactory;
   private AppComponent component;
+  private ActivityResultLauncher<Intent> launcher =
+      registerForActivityResult(
+          new ActivityResultContracts.StartActivityForResult(),
+          result -> {
+            if (result.getResultCode() == RESULT_OK) {
+              Intent intent = result.getData();
+              SceneItemModel model;
+              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                model = intent.getExtras().getParcelable("updated_model", SceneItemModel.class);
+              else model = intent.getExtras().getParcelable("updated_model");
+
+              viewModel.setUpdateScene(model);
+            }
+          });
 
   @Override
   public void onSceneClick(int position, SceneItemModel model) {
     Bundle bundle = new Bundle();
-    bundle.putString("title", model.getTitle());
-    startActivity(new Intent(this, FrameActivity.class).putExtras(bundle));
+    bundle.putParcelable("scene", model);
+
+    launcher.launch(new Intent(this, FrameActivity.class).putExtras(bundle));
   }
 
   @Override
@@ -98,7 +116,8 @@ public class SceneActivity extends AkiraActivity implements SceneAdapter.SceneIt
     fab.setOnClickListener(
         v -> {
           Bundle bundle = new Bundle();
-          bundle.putInt("projectId", model.getId());
+          bundle.putString("projectId", model.getProjectId());
+
           AddSceneBottomSheet bottomSheetDialog = new AddSceneBottomSheet();
           bottomSheetDialog.setArguments(bundle);
           bottomSheetDialog.show(getSupportFragmentManager(), null);
@@ -108,7 +127,7 @@ public class SceneActivity extends AkiraActivity implements SceneAdapter.SceneIt
   @Override
   protected void onsetViewModels() {
     viewModel
-        .getScenes(model.getId())
+        .getScenes(model.getProjectId())
         .observe(
             this,
             list -> {
@@ -136,7 +155,14 @@ public class SceneActivity extends AkiraActivity implements SceneAdapter.SceneIt
         .observe(
             this,
             model -> {
-              viewModel.deleteScene(model);
+              if (model.getFrames().equals("0 frames")) viewModel.deleteScene(model);
+              else
+                Snackbar.make(
+                        binding.getRoot(),
+                        "Scene can't be deleted if it contains frames",
+                        Snackbar.LENGTH_INDEFINITE)
+                    .setAction("Okay", v -> {})
+                    .show();
             });
   }
 
@@ -144,7 +170,7 @@ public class SceneActivity extends AkiraActivity implements SceneAdapter.SceneIt
   public void onBackPressed() {
     Bundle bundle = new Bundle();
     model.setScenes(String.valueOf(adapter.getItemCount()) + " scenes");
-    bundle.putParcelable("updated_model", model);
+    bundle.putParcelable("updated_model", this.model);
 
     Intent resultIntent = new Intent();
     resultIntent.putExtras(bundle);

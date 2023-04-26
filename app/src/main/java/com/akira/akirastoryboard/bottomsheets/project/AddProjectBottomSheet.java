@@ -14,25 +14,19 @@ import com.akira.akirastoryboard.activities.main.MainActivityViewModel;
 import com.akira.akirastoryboard.databinding.BottomSheetAddProjectBinding;
 import com.akira.akirastoryboard.pojos.ProjectItemModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import com.akira.akirastoryboard.R;
+import java.util.UUID;
 
 public class AddProjectBottomSheet extends BottomSheetDialogFragment {
   private BottomSheetAddProjectBinding binding;
-  private TextInputEditText te_path, te_project_name;
-  private TextInputLayout tl_path, tl_project_name;
+  private TextInputEditText te_path, te_project_name, te_info;
+  private TextInputLayout tl_path, tl_project_name, tl_info;
   private Button btn_create, btn_cancel;
-  private MaterialButtonToggleGroup toggle_group;
-  private MaterialButton checked_button;
-  private final List<String> genres = new ArrayList<>();
   private ProjectItemModel model;
   private MainActivityViewModel viewModel;
   private ShapeableImageView iv_cover;
@@ -57,9 +51,11 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
     this.tl_path = binding.tlPath;
     this.te_project_name = binding.teName;
     this.tl_project_name = binding.tlName;
+    this.te_info = binding.teInfo;
+    this.tl_info = binding.tlInfo;
+
     this.btn_create = binding.btnCreate;
     this.btn_cancel = binding.btnCancel;
-    this.toggle_group = binding.btnToggleGroup;
     this.iv_cover = binding.ivCover;
   }
 
@@ -84,17 +80,11 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
           }
         });
 
-    toggle_group.addOnButtonCheckedListener(
-        (group, checkedId, isChecked) -> {
-          if (isChecked) {
-            checked_button = binding.getRoot().findViewById(checkedId);
-            genres.add(checked_button.getText().toString());
-          }
-        });
     btn_create.setOnClickListener(
         v -> {
           String img_path = te_path.getText().toString().trim();
           String project_name = te_project_name.getText().toString().trim();
+          String info = te_info.getText().toString().trim();
 
           if (TextUtils.isEmpty(project_name)) {
             tl_project_name.setErrorEnabled(true);
@@ -106,16 +96,23 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
             tl_path.setError("Cover image is empty");
           }
 
-          if (!TextUtils.isEmpty(img_path) && !TextUtils.isEmpty(project_name)) {
+          if (TextUtils.isEmpty(info)) {
+            tl_info.setErrorEnabled(true);
+            tl_info.setError("Info is empty");
+          }
+
+          if (!TextUtils.isEmpty(img_path)
+              && !TextUtils.isEmpty(project_name)
+              && !TextUtils.isEmpty(info)) {
             model.setTitle(project_name);
             model.setScenes("0 scenes");
             model.setImagePath(img_path);
-            model.setGenres(genres.isEmpty() ? "None" : TextUtils.join(", ", genres));
+            model.setInfo(info);
+            model.setProjectId(UUID.randomUUID().toString());
 
             viewModel.setNewProject(model);
+            dismiss();
           }
-          
-          dismiss();
         });
 
     btn_cancel.setOnClickListener(

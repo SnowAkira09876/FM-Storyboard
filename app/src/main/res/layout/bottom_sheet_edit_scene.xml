@@ -31,18 +31,19 @@
                 android:id="@+id/te_name" />
 
         </com.google.android.material.textfield.TextInputLayout>
-        
-                <com.google.android.material.textfield.TextInputLayout
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:hint="Story"
+            android:hint="Info"
             android:paddingTop="8dp"
-            android:id="@+id/tl_story">
+            app:helperText="You can style your text with HTML formatting"
+            android:id="@+id/tl_info">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:id="@+id/te_story" />
+                android:id="@+id/te_info" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
