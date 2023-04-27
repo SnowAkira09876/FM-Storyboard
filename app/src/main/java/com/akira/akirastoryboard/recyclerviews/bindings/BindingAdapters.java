@@ -2,6 +2,7 @@ package com.akira.akirastoryboard.recyclerviews.bindings;
 
 import android.net.Uri;
 import android.text.Spanned;
+import android.view.Gravity;
 import android.widget.TextView;
 import androidx.core.text.HtmlCompat;
 import androidx.databinding.BindingAdapter;
@@ -18,8 +19,16 @@ public class BindingAdapters {
     textView.setText(spannedText);
   }
 
+  @BindingAdapter("centerText")
+  public static void setCenterText(TextView textView, boolean isCenter) {
+    if (isCenter) textView.setGravity(Gravity.CENTER);
+  }
+
   @BindingAdapter("imagePath")
   public static void loadImage(ShapeableImageView imageView, String path) {
-    Picasso.get().load(Uri.fromFile(new File(path))).placeholder(R.drawable.sample).into(imageView);
+    Picasso.get()
+        .load(Uri.fromFile(new File(path)))
+        .placeholder(R.drawable.ic_image_broken)
+        .into(imageView);
   }
 }

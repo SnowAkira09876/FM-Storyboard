@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import androidx.lifecycle.ViewModelProvider;
 import com.akira.akirastoryboard.activities.frame.FrameActivityViewModel;
 import com.akira.akirastoryboard.databinding.BottomSheetEditFrameBinding;
@@ -30,6 +32,7 @@ public class EditFrameBottomSheet extends BottomSheetDialogFragment {
   private FrameItemModel model;
   private FrameActivityViewModel viewModel;
   private ShapeableImageView iv_frame;
+  private CheckBox cb_centered;
 
   @SuppressWarnings("deprecation")
   @Override
@@ -60,17 +63,18 @@ public class EditFrameBottomSheet extends BottomSheetDialogFragment {
     this.btn_delete = binding.btnDelete;
 
     this.iv_frame = binding.ivFrame;
+    this.cb_centered = binding.cbCentered;
   }
 
   private void onsetViews() {
-
     Picasso.get()
         .load(Uri.fromFile(new File(model.getImagePath())))
-        .placeholder(R.drawable.sample)
+        .placeholder(R.drawable.ic_image_broken)
         .into(iv_frame);
 
     te_path.setText(model.getImagePath());
     te_info.setText(model.getInfo());
+    cb_centered.setChecked(model.getIsCentered());
 
     te_path.addTextChangedListener(
         new TextWatcher() {
@@ -85,7 +89,7 @@ public class EditFrameBottomSheet extends BottomSheetDialogFragment {
           public void afterTextChanged(Editable s) {
             Picasso.get()
                 .load(Uri.fromFile(new File(s.toString())))
-                .placeholder(R.drawable.sample)
+                .placeholder(R.drawable.ic_image_broken)
                 .into(iv_frame);
           }
         });
@@ -108,7 +112,7 @@ public class EditFrameBottomSheet extends BottomSheetDialogFragment {
           if (!TextUtils.isEmpty(img_path) && !TextUtils.isEmpty(frame_body)) {
             model.setInfo(frame_body);
             model.setImagePath(img_path);
-
+            
             viewModel.setUpdateFrame(model);
             dismiss();
           }
@@ -118,6 +122,12 @@ public class EditFrameBottomSheet extends BottomSheetDialogFragment {
         v -> {
           viewModel.deleteFrame(model);
           dismiss();
+        });
+
+    cb_centered.setOnCheckedChangeListener(
+        (CompoundButton buttonView, boolean isChecked) -> {
+          if (isChecked) model.setIsCentered(true);
+          else model.setIsCentered(false);
         });
   }
 }

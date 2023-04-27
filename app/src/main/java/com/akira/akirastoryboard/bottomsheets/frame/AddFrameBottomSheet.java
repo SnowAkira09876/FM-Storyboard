@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import androidx.lifecycle.ViewModelProvider;
 import com.akira.akirastoryboard.activities.frame.FrameActivityViewModel;
 import com.akira.akirastoryboard.activities.main.MainActivityViewModel;
@@ -37,6 +39,7 @@ public class AddFrameBottomSheet extends BottomSheetDialogFragment {
   private FrameActivityViewModel viewModel;
   private ShapeableImageView iv_frame;
   private String id;
+  private CheckBox cb_centered;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -63,11 +66,10 @@ public class AddFrameBottomSheet extends BottomSheetDialogFragment {
     this.btn_create = binding.btnCreate;
     this.btn_cancel = binding.btnCancel;
     this.iv_frame = binding.ivFrame;
+    this.cb_centered = binding.cbCentered;
   }
 
   private void onsetViews() {
-    Picasso.get().load(R.drawable.sample).into(iv_frame);
-
     te_path.addTextChangedListener(
         new TextWatcher() {
 
@@ -81,7 +83,7 @@ public class AddFrameBottomSheet extends BottomSheetDialogFragment {
           public void afterTextChanged(Editable s) {
             Picasso.get()
                 .load(Uri.fromFile(new File(s.toString())))
-                .placeholder(R.drawable.sample)
+                .placeholder(R.drawable.ic_image_broken)
                 .into(iv_frame);
           }
         });
@@ -105,7 +107,7 @@ public class AddFrameBottomSheet extends BottomSheetDialogFragment {
             model.setInfo(info);
             model.setImagePath(img_path);
             model.setSceneId(id);
-            
+
             viewModel.setNewFrame(model);
             dismiss();
           }
@@ -114,6 +116,12 @@ public class AddFrameBottomSheet extends BottomSheetDialogFragment {
     btn_cancel.setOnClickListener(
         v -> {
           dismiss();
+        });
+
+    cb_centered.setOnCheckedChangeListener(
+        (CompoundButton buttonView, boolean isChecked) -> {
+          if (isChecked) model.setIsCentered(true);
+          else model.setIsCentered(false);
         });
   }
 }

@@ -11,6 +11,7 @@ public class FrameItemModel implements Parcelable {
   private int id;
 
   private String sceneId, imagePath, info;
+  private boolean isCentered;
 
   public static final Creator<FrameItemModel> CREATOR =
       new Creator<FrameItemModel>() {
@@ -33,6 +34,7 @@ public class FrameItemModel implements Parcelable {
     this.sceneId = in.readString();
     this.imagePath = in.readString();
     this.info = in.readString();
+    this.isCentered = in.readBoolean();
   }
 
   @Override
@@ -46,6 +48,7 @@ public class FrameItemModel implements Parcelable {
     dest.writeString(sceneId);
     dest.writeString(imagePath);
     dest.writeString(info);
+    dest.writeBoolean(isCentered);
   }
 
   public int getId() {
@@ -78,5 +81,13 @@ public class FrameItemModel implements Parcelable {
 
   public void setInfo(String info) {
     this.info = info;
+  }
+
+  public boolean getIsCentered() {
+    return this.isCentered;
+  }
+
+  public void setIsCentered(boolean isCentered) {
+    this.isCentered = isCentered;
   }
 }

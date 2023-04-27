@@ -60,8 +60,6 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
   }
 
   private void onsetViews() {
-    Picasso.get().load(R.drawable.sample).into(iv_cover);
-
     te_path.addTextChangedListener(
         new TextWatcher() {
 
@@ -75,7 +73,7 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
           public void afterTextChanged(Editable s) {
             Picasso.get()
                 .load(Uri.fromFile(new File(s.toString())))
-                .placeholder(R.drawable.sample)
+                .placeholder(R.drawable.ic_image_broken)
                 .into(iv_cover);
           }
         });

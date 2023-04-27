@@ -142,7 +142,8 @@ public class MainActivity extends AkiraActivity implements ProjectAdapter.Projec
     Bundle bundle = new Bundle();
     bundle.putParcelable("project", model);
 
-    launcher.launch(new Intent(this, SceneActivity.class).putExtras(bundle));
+    launcher.launch(
+        new Intent(this, SceneActivity.class).putExtras(bundle));
   }
 
   @Override

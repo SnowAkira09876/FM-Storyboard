@@ -18,6 +18,7 @@
             android:text="New Frame" />
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:src="@drawable/ic_image_broken"
             android:id="@+id/iv_frame"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -57,6 +58,13 @@
                 android:id="@+id/te_info" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <CheckBox
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="15dp"
+            android:id="@+id/cb_centered"
+            android:text="Centered info" />
 
         <Button
             android:id="@+id/btn_create"

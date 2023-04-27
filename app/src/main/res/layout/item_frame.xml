@@ -33,9 +33,10 @@
                 android:layout_marginTop="10dp"
                 android:id="@+id/tv_description"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:text="@{model.info}"
                 app:htmlText="@{model.info}"
+                app:centerText="@{model.isCentered}"
             />
         </LinearLayout>
 

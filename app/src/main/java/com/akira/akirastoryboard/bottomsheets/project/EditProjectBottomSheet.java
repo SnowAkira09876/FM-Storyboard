@@ -70,7 +70,7 @@ public class EditProjectBottomSheet extends BottomSheetDialogFragment {
   private void onsetViews() {
     Picasso.get()
         .load(Uri.fromFile(new File(model.getImagePath())))
-        .placeholder(R.drawable.sample)
+        .placeholder(R.drawable.ic_image_broken)
         .into(iv_cover);
 
     te_path.setText(model.getImagePath());
@@ -90,7 +90,7 @@ public class EditProjectBottomSheet extends BottomSheetDialogFragment {
           public void afterTextChanged(Editable s) {
             Picasso.get()
                 .load(Uri.fromFile(new File(s.toString())))
-                .placeholder(R.drawable.sample)
+                .placeholder(R.drawable.ic_image_broken)
                 .into(iv_cover);
           }
         });

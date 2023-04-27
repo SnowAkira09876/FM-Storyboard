@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+	id 'com.diffplug.spotless'
 }
 
 android {
@@ -32,6 +33,25 @@ android {
         viewBinding true
 		dataBinding true
     }
+}
+
+spotless {
+	format 'misc', {
+		target '*.gradle', '*.md', '.gitignore'
+
+		trimTrailingWhitespace()
+		indentWithTabs()
+		endWithNewline()
+	}
+
+	java {
+	target 'src/*/java/**/*.java'
+		removeUnusedImports()
+		googleJavaFormat()
+		importOrder()
+		cleanthat()
+		formatAnnotations()
+	}
 }
 
 dependencies {
