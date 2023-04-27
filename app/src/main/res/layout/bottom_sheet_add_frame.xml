@@ -18,7 +18,7 @@
             android:text="New Frame" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:src="@drawable/ic_image_broken"
+            app:srcCompat="@drawable/ic_image_broken"
             android:id="@+id/iv_frame"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"

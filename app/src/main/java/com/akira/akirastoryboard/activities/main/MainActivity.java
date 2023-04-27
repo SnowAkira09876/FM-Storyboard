@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.akira.akirastoryboard.StartApplication;
@@ -24,8 +26,11 @@ import com.akira.akirastoryboard.recyclerviews.AdapterFactory;
 import com.akira.akirastoryboard.recyclerviews.adapters.ProjectAdapter;
 import com.akira.akirastoryboard.widgets.recyclerview.AkiraRecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.akira.akirastoryboard.R;
 
 public class MainActivity extends AkiraActivity implements ProjectAdapter.ProjectItemClickListener {
   private ActivityMainBinding binding;
@@ -34,11 +39,16 @@ public class MainActivity extends AkiraActivity implements ProjectAdapter.Projec
   private ProjectAdapter adapter;
   private MainActivityVMFactory viewModelfactory;
   private MainActivityViewModel viewModel;
+  private MaterialToolbar toolbar;
+  private NavigationView navigationView;
   private FloatingActionButton fab;
   private TextView emptyView;
   private AppBarLayout appbar;
   private AppComponent component;
   private final int READ_STORAGE_PERMISSION_CODE = 1;
+  private DrawerLayout drawerLayout;
+  private ActionBarDrawerToggle toggle;
+
   private ActivityResultLauncher<Intent> launcher =
       registerForActivityResult(
           new ActivityResultContracts.StartActivityForResult(),
@@ -69,6 +79,9 @@ public class MainActivity extends AkiraActivity implements ProjectAdapter.Projec
     this.fab = binding.fab;
     this.emptyView = binding.emptyView;
     this.appbar = binding.appbar;
+    this.toolbar = binding.toolBar;
+    this.navigationView = binding.navigationView;
+    this.drawerLayout = binding.drawerLayout;
 
     if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
         != PackageManager.PERMISSION_GRANTED) {
@@ -92,6 +105,17 @@ public class MainActivity extends AkiraActivity implements ProjectAdapter.Projec
         v -> {
           AddProjectBottomSheet project = new AddProjectBottomSheet();
           project.show(getSupportFragmentManager(), null);
+        });
+
+    this.toggle =
+        new ActionBarDrawerToggle(
+            this, drawerLayout, toolbar, R.string.nav_open, R.string.nav_close);
+    drawerLayout.addDrawerListener(toggle);
+    toggle.syncState();
+
+    navigationView.setNavigationItemSelectedListener(
+        menuItem -> {
+          return true;
         });
   }
 
@@ -142,8 +166,7 @@ public class MainActivity extends AkiraActivity implements ProjectAdapter.Projec
     Bundle bundle = new Bundle();
     bundle.putParcelable("project", model);
 
-    launcher.launch(
-        new Intent(this, SceneActivity.class).putExtras(bundle));
+    launcher.launch(new Intent(this, SceneActivity.class).putExtras(bundle));
   }
 
   @Override

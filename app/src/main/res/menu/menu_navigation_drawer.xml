@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/drawer_info_header"
+        android:title="About">
+        <menu>
+            <item
+                android:id="@+id/drawer_info_facebook"
+                android:icon="@drawable/ic_facebook"
+                android:title="Facebook"
+                android:checkable="false"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/drawer_info_guide"
+                android:icon="@drawable/ic_youtube"
+                android:title="How to use"
+                android:checkable="false"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/drawer_info_guide"
+                android:icon="@drawable/ic_gmail"
+                android:title="Feedback"
+                android:checkable="false"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/drawer_info_guide"
+                android:icon="@drawable/ic_policy"
+                android:title="Privacy Policy"
+                android:checkable="false"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
+</menu>

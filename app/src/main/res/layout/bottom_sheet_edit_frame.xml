@@ -20,7 +20,7 @@
         <com.google.android.material.imageview.ShapeableImageView
              android:layout_height="wrap_content"
              android:layout_width="match_parent"
-             android:src="@drawable/ic_image_broken"
+             app:srcCompat="@drawable/ic_image_broken"
              android:adjustViewBounds="true"
              app:shapeAppearanceOverlay="@style/RoundedImageView"
              android:paddingBottom="10dp"
