@@ -5,7 +5,7 @@ import com.akira.akirastoryboard.data.room.AkiraRoomDatabase;
 import com.akira.akirastoryboard.pojos.SceneItemModel;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 
 public class SceneActivityRepo {
@@ -19,54 +19,49 @@ public class SceneActivityRepo {
   }
 
   public MutableLiveData<List<SceneItemModel>> getScenes(String projectId) {
+    Callable<List<SceneItemModel>> callable = () -> roomDatabase.getSceneDAO().getScenes();
     List<SceneItemModel> list = new ArrayList<>();
-    
-    CompletableFuture.supplyAsync(() -> roomDatabase.getSceneDAO().getScenes())
-        .thenAcceptAsync(
-            result -> {
-              for (SceneItemModel model : result) {
-                if (model.getProjectId().equals(projectId)) list.add(model);
-              }
 
-              mutableLiveData.postValue(list);
-            },
-            executor);
+    executor.submit(
+        () -> {
+          List<SceneItemModel> scenes = roomDatabase.runInTransaction(callable);
+          for (SceneItemModel model : scenes) {
+            if (model.getProjectId().equals(projectId)) list.add(model);
+          }
+
+          mutableLiveData.postValue(list);
+        });
+
     return mutableLiveData;
   }
 
   public void addScene(SceneItemModel model) {
-    CompletableFuture.runAsync(
-            () -> {
-              roomDatabase.getSceneDAO().insert(model);
-            },
-            executor)
-        .thenRun(
-            () -> {
-              getScenes(model.getProjectId());
-            });
+    Runnable run =
+        () -> {
+          roomDatabase.getSceneDAO().insert(model);
+          getScenes(model.getProjectId());
+        };
+
+    executor.execute(() -> roomDatabase.runInTransaction(run));
   }
 
   public void updateScene(SceneItemModel model) {
-    CompletableFuture.runAsync(
-            () -> {
-              roomDatabase.getSceneDAO().update(model);
-            },
-            executor)
-        .thenRun(
-            () -> {
-              getScenes(model.getProjectId());
-            });
+    Runnable run =
+        () -> {
+          roomDatabase.getSceneDAO().update(model);
+          getScenes(model.getProjectId());
+        };
+
+    executor.execute(() -> roomDatabase.runInTransaction(run));
   }
 
   public void deleteScene(SceneItemModel model) {
-    CompletableFuture.runAsync(
-            () -> {
-              roomDatabase.getSceneDAO().delete(model);
-            },
-            executor)
-        .thenRun(
-            () -> {
-              getScenes(model.getProjectId());
-            });
+    Runnable run =
+        () -> {
+          roomDatabase.getSceneDAO().delete(model);
+          getScenes(model.getProjectId());
+        };
+
+    executor.execute(() -> roomDatabase.runInTransaction(run));
   }
 }

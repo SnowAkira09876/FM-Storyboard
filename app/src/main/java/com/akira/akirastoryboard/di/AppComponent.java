@@ -16,4 +16,5 @@ public interface AppComponent {
   SceneActivityVMFactory getSceneActivityVMFactory();
   
   FrameActivityVMFactory getFrameActivityVMFactory();
+
 }

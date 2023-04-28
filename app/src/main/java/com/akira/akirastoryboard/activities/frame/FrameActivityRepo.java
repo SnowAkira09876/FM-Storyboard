@@ -5,7 +5,7 @@ import com.akira.akirastoryboard.data.room.AkiraRoomDatabase;
 import com.akira.akirastoryboard.pojos.FrameItemModel;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 
 public class FrameActivityRepo {
@@ -19,54 +19,49 @@ public class FrameActivityRepo {
   }
 
   public MutableLiveData<List<FrameItemModel>> getFrames(String sceneId) {
+    Callable<List<FrameItemModel>> callable = () -> roomDatabase.getFrameDAO().getFrames();
     List<FrameItemModel> list = new ArrayList<>();
 
-    CompletableFuture.supplyAsync(() -> roomDatabase.getFrameDAO().getFrames())
-        .thenAcceptAsync(
-            result -> {
-              for (FrameItemModel model : result) {
-                if (model.getSceneId().equals(sceneId)) list.add(model);
-              }
+    executor.submit(
+        () -> {
+          List<FrameItemModel> frames = roomDatabase.runInTransaction(callable);
+          for (FrameItemModel model : frames) {
+            if (model.getSceneId().equals(sceneId)) list.add(model);
+          }
 
-              mutableLiveData.postValue(list);
-            },
-            executor);
+          mutableLiveData.postValue(list);
+        });
+
     return mutableLiveData;
   }
 
   public void addFrame(FrameItemModel model) {
-    CompletableFuture.runAsync(
-            () -> {
-              roomDatabase.getFrameDAO().insert(model);
-            },
-            executor)
-        .thenRun(
-            () -> {
-              getFrames(model.getSceneId());
-            });
+    Runnable run =
+        () -> {
+          roomDatabase.getFrameDAO().insert(model);
+          getFrames(model.getSceneId());
+        };
+
+    executor.execute(() -> roomDatabase.runInTransaction(run));
   }
 
   public void updateFrame(FrameItemModel model) {
-    CompletableFuture.runAsync(
-            () -> {
-              roomDatabase.getFrameDAO().update(model);
-            },
-            executor)
-        .thenRun(
-            () -> {
-              getFrames(model.getSceneId());
-            });
+    Runnable run =
+        () -> {
+          roomDatabase.getFrameDAO().update(model);
+          getFrames(model.getSceneId());
+        };
+
+    executor.execute(() -> roomDatabase.runInTransaction(run));
   }
-  
+
   public void deleteFrame(FrameItemModel model) {
-    CompletableFuture.runAsync(
-            () -> {
-              roomDatabase.getFrameDAO().delete(model);
-            },
-            executor)
-        .thenRun(
-            () -> {
-              getFrames(model.getSceneId());
-            });
+    Runnable run =
+        () -> {
+          roomDatabase.getFrameDAO().delete(model);
+          getFrames(model.getSceneId());
+        };
+
+    executor.execute(() -> roomDatabase.runInTransaction(run));
   }
 }

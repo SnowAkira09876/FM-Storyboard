@@ -71,7 +71,7 @@ public class AddSceneBottomSheet extends BottomSheetDialogFragment {
           if (!TextUtils.isEmpty(scene_name) && !TextUtils.isEmpty(scene_info)) {
             model.setTitle(scene_name);
             model.setProjectId(id);
-            model.setFrames("0 Frames");
+            model.setFrames("0 frames");
             model.setSceneId(UUID.randomUUID().toString());
             model.setInfo(scene_info);
 

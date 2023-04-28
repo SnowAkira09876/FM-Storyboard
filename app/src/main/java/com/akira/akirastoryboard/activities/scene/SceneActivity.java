@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.akira.akirastoryboard.R;
 import com.akira.akirastoryboard.StartApplication;
-import com.akira.akirastoryboard.activities.AkiraActivity;
 import com.akira.akirastoryboard.activities.frame.FrameActivity;
 import com.akira.akirastoryboard.bottomsheets.scene.AddSceneBottomSheet;
 import com.akira.akirastoryboard.bottomsheets.scene.EditSceneBottomSheet;
@@ -26,7 +26,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-public class SceneActivity extends AkiraActivity implements SceneAdapter.SceneItemClickListener {
+public class SceneActivity extends AppCompatActivity
+    implements SceneAdapter.SceneItemClickListener {
   private ActivitySceneBinding binding;
   private LinearLayoutManager lm;
   private AkiraRecyclerView rv;
@@ -60,6 +61,7 @@ public class SceneActivity extends AkiraActivity implements SceneAdapter.SceneIt
     Bundle bundle = new Bundle();
     bundle.putParcelable("scene", model);
 
+    // launcher.launch(new Intent(this, FrameActivity.class).putExtras(bundle));
     launcher.launch(new Intent(this, FrameActivity.class).putExtras(bundle));
   }
 
@@ -75,7 +77,8 @@ public class SceneActivity extends AkiraActivity implements SceneAdapter.SceneIt
 
   @SuppressWarnings("deprecation")
   @Override
-  protected void onset() {
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
       this.model =
           getIntent().getExtras() != null
@@ -97,6 +100,25 @@ public class SceneActivity extends AkiraActivity implements SceneAdapter.SceneIt
     this.adapter = AdapterFactory.getSceneAdapter(this);
     this.toolbar_title = model != null ? model.getTitle() : getString(R.string.app_name);
 
+    onsetViewBinding();
+    onsetViews();
+    onsetViewModels();
+  }
+
+  @Override
+  public void onBackPressed() {
+    Bundle bundle = new Bundle();
+    model.setScenes(String.valueOf(adapter.getItemCount()) + " scenes");
+    bundle.putParcelable("updated_model", this.model);
+
+    Intent resultIntent = new Intent();
+    resultIntent.putExtras(bundle);
+
+    setResult(RESULT_OK, resultIntent);
+    super.onBackPressed();
+  }
+
+  private void onsetViewBinding() {
     this.rv = binding.rv;
     this.toolbar = binding.toolBar;
     this.fab = binding.fab;
@@ -104,8 +126,7 @@ public class SceneActivity extends AkiraActivity implements SceneAdapter.SceneIt
     this.appbar = binding.appbar;
   }
 
-  @Override
-  protected void onsetViews() {
+  private void onsetViews() {
     setContentView(binding.getRoot());
     toolbar.setTitle(toolbar_title + " Scenes");
     rv.setLayoutManager(lm);
@@ -124,8 +145,7 @@ public class SceneActivity extends AkiraActivity implements SceneAdapter.SceneIt
         });
   }
 
-  @Override
-  protected void onsetViewModels() {
+  private void onsetViewModels() {
     viewModel
         .getScenes(model.getProjectId())
         .observe(
@@ -164,18 +184,5 @@ public class SceneActivity extends AkiraActivity implements SceneAdapter.SceneIt
                     .setAction("Okay", v -> {})
                     .show();
             });
-  }
-
-  @Override
-  public void onBackPressed() {
-    Bundle bundle = new Bundle();
-    model.setScenes(String.valueOf(adapter.getItemCount()) + " scenes");
-    bundle.putParcelable("updated_model", this.model);
-
-    Intent resultIntent = new Intent();
-    resultIntent.putExtras(bundle);
-
-    setResult(RESULT_OK, resultIntent);
-    super.onBackPressed();
   }
 }

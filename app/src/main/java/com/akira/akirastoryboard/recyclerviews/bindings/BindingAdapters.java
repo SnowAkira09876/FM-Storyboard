@@ -22,6 +22,7 @@ public class BindingAdapters {
   @BindingAdapter("centerText")
   public static void setCenterText(TextView textView, boolean isCenter) {
     if (isCenter) textView.setGravity(Gravity.CENTER);
+    else textView.setGravity(Gravity.START);
   }
 
   @BindingAdapter("imagePath")
