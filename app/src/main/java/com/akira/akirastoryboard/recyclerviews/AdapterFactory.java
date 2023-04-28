@@ -9,8 +9,7 @@ import com.akira.akirastoryboard.recyclerviews.diffutils.SceneDiffUtil;
 
 public class AdapterFactory {
 
-  public static ProjectAdapter getProjectAdapter(
-      ProjectAdapter.ProjectItemClickListener listener) {
+  public static ProjectAdapter getProjectAdapter(ProjectAdapter.ProjectItemClickListener listener) {
     return new ProjectAdapter(new ProjectDiffUtil(), listener);
   }
 

@@ -10,6 +10,8 @@ public class ProjectItemModel implements Parcelable {
   @PrimaryKey(autoGenerate = true)
   private int id;
 
+  private int number;
+
   private String projectId, title, scenes, info, imagePath;
 
   public ProjectItemModel() {}
@@ -29,6 +31,7 @@ public class ProjectItemModel implements Parcelable {
 
   protected ProjectItemModel(Parcel in) {
     id = in.readInt();
+    number = in.readInt();
     projectId = in.readString();
     title = in.readString();
     scenes = in.readString();
@@ -44,6 +47,7 @@ public class ProjectItemModel implements Parcelable {
   @Override
   public void writeToParcel(Parcel dest, int flags) {
     dest.writeInt(id);
+    dest.writeInt(number);
     dest.writeString(projectId);
     dest.writeString(title);
     dest.writeString(scenes);
@@ -58,7 +62,15 @@ public class ProjectItemModel implements Parcelable {
   public void setId(int id) {
     this.id = id;
   }
-  
+
+  public int getNumber() {
+    return this.number;
+  }
+
+  public void setNumber(int number) {
+    this.number = number;
+  }
+
   public String getProjectId() {
     return this.projectId;
   }

@@ -41,27 +41,12 @@ public class SceneActivity extends AppCompatActivity
   private SceneActivityViewModel viewModel;
   private SceneActivityVMFactory viewModelFactory;
   private AppComponent component;
-  private ActivityResultLauncher<Intent> launcher =
-      registerForActivityResult(
-          new ActivityResultContracts.StartActivityForResult(),
-          result -> {
-            if (result.getResultCode() == RESULT_OK) {
-              Intent intent = result.getData();
-              SceneItemModel model;
-              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                model = intent.getExtras().getParcelable("updated_model", SceneItemModel.class);
-              else model = intent.getExtras().getParcelable("updated_model");
-
-              viewModel.setUpdateScene(model);
-            }
-          });
+  private ActivityResultLauncher<Intent> launcher;
 
   @Override
   public void onSceneClick(int position, SceneItemModel model) {
     Bundle bundle = new Bundle();
     bundle.putParcelable("scene", model);
-
-    // launcher.launch(new Intent(this, FrameActivity.class).putExtras(bundle));
     launcher.launch(new Intent(this, FrameActivity.class).putExtras(bundle));
   }
 
@@ -93,6 +78,21 @@ public class SceneActivity extends AppCompatActivity
     this.viewModelFactory = component.getSceneActivityVMFactory();
     this.viewModel =
         new ViewModelProvider(this, viewModelFactory).get(SceneActivityViewModel.class);
+
+    this.launcher =
+        registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+              if (result.getResultCode() == RESULT_OK) {
+                Intent intent = result.getData();
+                SceneItemModel model;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                  model = intent.getExtras().getParcelable("updated_model", SceneItemModel.class);
+                else model = intent.getExtras().getParcelable("updated_model");
+
+                viewModel.setUpdateScene(model);
+              }
+            });
 
     this.binding = ActivitySceneBinding.inflate(getLayoutInflater());
 
@@ -175,7 +175,7 @@ public class SceneActivity extends AppCompatActivity
         .observe(
             this,
             model -> {
-              if (model.getFrames().equals("0 frames")) viewModel.deleteScene(model);
+              if ("0 frames".equals(model.getFrames())) viewModel.deleteScene(model);
               else
                 Snackbar.make(
                         binding.getRoot(),

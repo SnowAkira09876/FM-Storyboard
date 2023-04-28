@@ -14,9 +14,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import com.akira.akirastoryboard.R;
 import com.akira.akirastoryboard.StartApplication;
 import com.akira.akirastoryboard.activities.scene.SceneActivity;
 import com.akira.akirastoryboard.bottomsheets.project.AddProjectBottomSheet;
@@ -26,14 +25,12 @@ import com.akira.akirastoryboard.di.AppComponent;
 import com.akira.akirastoryboard.pojos.ProjectItemModel;
 import com.akira.akirastoryboard.recyclerviews.AdapterFactory;
 import com.akira.akirastoryboard.recyclerviews.adapters.ProjectAdapter;
-import com.akira.akirastoryboard.recyclerviews.callbacks.ItemMoveCallback;
 import com.akira.akirastoryboard.widgets.recyclerview.AkiraRecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.akira.akirastoryboard.R;
 
 public class MainActivity extends AppCompatActivity
     implements ProjectAdapter.ProjectItemClickListener {
@@ -52,24 +49,10 @@ public class MainActivity extends AppCompatActivity
   private final int READ_STORAGE_PERMISSION_CODE = 1;
   private DrawerLayout drawerLayout;
   private ActionBarDrawerToggle toggle;
-  private ItemTouchHelper.Callback callback;
-  private ItemTouchHelper touchHelper;
 
-  private ActivityResultLauncher<Intent> launcher =
-      registerForActivityResult(
-          new ActivityResultContracts.StartActivityForResult(),
-          result -> {
-            if (result.getResultCode() == RESULT_OK) {
-              Intent intent = result.getData();
-              ProjectItemModel model;
-              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                model = intent.getExtras().getParcelable("updated_model", ProjectItemModel.class);
-              else model = intent.getExtras().getParcelable("updated_model");
+  private ActivityResultLauncher<Intent> launcher;
 
-              viewModel.setUpdateProject(model);
-            }
-          });
-
+  @SuppressWarnings("deprecation")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -77,6 +60,20 @@ public class MainActivity extends AppCompatActivity
 
     this.viewModelfactory = component.getMainActivityVMFactory();
     this.viewModel = new ViewModelProvider(this, viewModelfactory).get(MainActivityViewModel.class);
+    this.launcher =
+        registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+              if (result.getResultCode() == RESULT_OK) {
+                Intent intent = result.getData();
+                ProjectItemModel model;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                  model = intent.getExtras().getParcelable("updated_model", ProjectItemModel.class);
+                else model = intent.getExtras().getParcelable("updated_model");
+
+                viewModel.setUpdateProject(model);
+              }
+            });
 
     this.binding = ActivityMainBinding.inflate(getLayoutInflater());
 
@@ -114,11 +111,6 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  public void requestDrag(RecyclerView.ViewHolder viewHolder) {
-    touchHelper.startDrag(viewHolder);
-  }
-
-  @Override
   public void onRequestPermissionsResult(
       int requestCode, String[] permissions, int[] grantResults) {
     if (requestCode == READ_STORAGE_PERMISSION_CODE) {
@@ -152,15 +144,10 @@ public class MainActivity extends AppCompatActivity
     rv.setAdapter(adapter);
     rv.setEmptyView(emptyView);
     rv.setToolbarCollapsedWhenEmpty(appbar);
-    this.callback = new ItemMoveCallback(adapter);
-    this.touchHelper = new ItemTouchHelper(callback);
-    
-    touchHelper.attachToRecyclerView(rv);
 
     fab.setOnClickListener(
         v -> {
-          AddProjectBottomSheet project = new AddProjectBottomSheet();
-          project.show(getSupportFragmentManager(), null);
+          new AddProjectBottomSheet().show(getSupportFragmentManager(), null);
         });
 
     this.toggle =
@@ -205,7 +192,7 @@ public class MainActivity extends AppCompatActivity
         .observe(
             this,
             model -> {
-              if (model.getScenes().equals("0 scenes")) viewModel.deleteProject(model);
+              if ("0 scenes".equals(model.getScenes())) viewModel.deleteProject(model);
               else
                 Snackbar.make(
                         binding.activityRoot,

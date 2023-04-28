@@ -1,7 +1,5 @@
 package com.akira.akirastoryboard.bottomsheets.scene;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,10 +17,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class EditSceneBottomSheet extends BottomSheetDialogFragment {
   private BottomSheetEditSceneBinding binding;
-  private TextInputEditText te_name;
-  private TextInputLayout tl_name;
-  private TextInputEditText te_info;
-  private TextInputLayout tl_info;
+  private TextInputEditText te_name, te_info, te_number;
+  private TextInputLayout tl_name, tl_info, tl_number;
   private Button btn_save, btn_delete;
   private SceneActivityViewModel viewModel;
   private SceneItemModel model;
@@ -50,6 +46,9 @@ public class EditSceneBottomSheet extends BottomSheetDialogFragment {
     this.tl_name = binding.tlName;
     this.te_info = binding.teInfo;
     this.tl_info = binding.tlInfo;
+    this.te_number = binding.teSceneNumber;
+    this.tl_number = binding.tlSceneNumber;
+
     this.btn_save = binding.btnSave;
     this.btn_delete = binding.btnDelete;
   }
@@ -57,11 +56,13 @@ public class EditSceneBottomSheet extends BottomSheetDialogFragment {
   private void onsetViews() {
     te_name.setText(model.getTitle());
     te_info.setText(model.getInfo());
+    te_number.setText(String.valueOf(model.getNumber()));
 
     btn_save.setOnClickListener(
         v -> {
           String scene_name = te_name.getText().toString().trim();
           String scene_info = te_info.getText().toString().trim();
+          String number = te_number.getText().toString().trim();
 
           if (TextUtils.isEmpty(scene_name)) {
             tl_name.setErrorEnabled(true);
@@ -72,9 +73,17 @@ public class EditSceneBottomSheet extends BottomSheetDialogFragment {
             tl_info.setError("Story is empty");
           }
 
-          if (!TextUtils.isEmpty(scene_name) && !TextUtils.isEmpty(scene_info)) {
+          if (TextUtils.isEmpty(number)) {
+            tl_number.setErrorEnabled(true);
+            tl_number.setError("Project number is empty");
+          }
+
+          if (!TextUtils.isEmpty(scene_name)
+              && !TextUtils.isEmpty(scene_info)
+              && !TextUtils.isEmpty(number)) {
             model.setTitle(scene_name);
             model.setInfo(scene_info);
+            model.setNumber(Integer.parseInt(number));
 
             viewModel.setUpdateScene(model);
             dismiss();

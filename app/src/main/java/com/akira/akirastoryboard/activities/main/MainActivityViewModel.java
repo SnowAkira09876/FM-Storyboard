@@ -3,7 +3,6 @@ package com.akira.akirastoryboard.activities.main;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import com.akira.akirastoryboard.activities.main.MainActivityRepo;
 import com.akira.akirastoryboard.data.room.AkiraRoomDatabase;
 import com.akira.akirastoryboard.pojos.ProjectItemModel;
 import java.util.List;
@@ -26,7 +25,7 @@ public class MainActivityViewModel extends ViewModel {
   public void updateProject(ProjectItemModel model) {
     repo.updateProject(model);
   }
-  
+
   public void deleteProject(ProjectItemModel model) {
     repo.deleteProject(model);
   }

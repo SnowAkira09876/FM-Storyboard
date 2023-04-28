@@ -1,68 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
-     android:layout_height="match_parent"
-     android:layout_width="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
     <LinearLayout
-         android:layout_height="match_parent"
-         android:layout_width="match_parent"
-         android:padding="15dp"
-         android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="15dp"
+        android:orientation="vertical">
 
         <TextView
-             android:layout_height="wrap_content"
-             android:layout_width="wrap_content"
-             android:textAppearance="?attr/textAppearanceHeadline6"
-             android:text="New Scene" />
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:text="New Scene" />
 
         <com.google.android.material.textfield.TextInputLayout
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             android:hint="Name"
-             android:paddingTop="15dp"
-             android:id="@+id/tl_name">
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Scene number"
+            android:paddingTop="15dp"
+            android:id="@+id/tl_scene_number">
 
             <com.google.android.material.textfield.TextInputEditText
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 android:maxLines="1"
-                 android:inputType="textPersonName"
-                 android:id="@+id/te_name" />
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="number"
+                android:digits="0123456789"
+                android:id="@+id/te_scene_number" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             android:hint="Info"
-             app:helperText="You can style your text with HTML formatting"
-             android:paddingTop="8dp"
-             android:id="@+id/tl_info">
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Name"
+            android:paddingTop="15dp"
+            android:id="@+id/tl_name">
 
             <com.google.android.material.textfield.TextInputEditText
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 android:id="@+id/te_info" />
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:inputType="textPersonName"
+                android:id="@+id/te_name" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Info"
+            app:helperText="You can style your text with HTML formatting"
+            android:paddingTop="8dp"
+            android:id="@+id/tl_info">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:id="@+id/te_info" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             style="@style/Widget.Material3.Button"
-             android:layout_marginTop="15dp"
-             android:id="@+id/btn_create"
-             android:text="Create" />
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            style="@style/Widget.Material3.Button"
+            android:layout_marginTop="15dp"
+            android:id="@+id/btn_create"
+            android:text="Create" />
 
         <Button
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             style="?attr/materialButtonOutlinedStyle"
-             android:layout_marginTop="8dp"
-             android:id="@+id/btn_cancel"
-             android:text="Cancel" />
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_marginTop="8dp"
+            android:id="@+id/btn_cancel"
+            android:text="Cancel" />
 
     </LinearLayout>
 

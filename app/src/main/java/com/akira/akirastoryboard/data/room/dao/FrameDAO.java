@@ -19,6 +19,6 @@ public interface FrameDAO {
   @Delete
   void delete(FrameItemModel model);
 
-  @Query("SELECT * FROM FramesTable")
-  List<FrameItemModel> getFrames();
+  @Query("SELECT * FROM FramesTable WHERE sceneId = :sceneId ORDER BY number ASC")
+  List<FrameItemModel> getFrames(String sceneId);
 }

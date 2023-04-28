@@ -1,7 +1,5 @@
 package com.akira.akirastoryboard.bottomsheets.scene;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -19,10 +17,8 @@ import java.util.UUID;
 
 public class AddSceneBottomSheet extends BottomSheetDialogFragment {
   private BottomSheetAddSceneBinding binding;
-  private TextInputEditText te_name;
-  private TextInputLayout tl_name;
-  private TextInputEditText te_info;
-  private TextInputLayout tl_info;
+  private TextInputEditText te_name, te_info, te_number;
+  private TextInputLayout tl_name, tl_info, tl_number;
   private Button btn_create, btn_cancel;
   private SceneActivityViewModel viewModel;
   private SceneItemModel model;
@@ -49,6 +45,9 @@ public class AddSceneBottomSheet extends BottomSheetDialogFragment {
     this.tl_name = binding.tlName;
     this.te_info = binding.teInfo;
     this.tl_info = binding.tlInfo;
+    this.te_number = binding.teSceneNumber;
+    this.tl_number = binding.tlSceneNumber;
+
     this.btn_create = binding.btnCreate;
     this.btn_cancel = binding.btnCancel;
   }
@@ -58,6 +57,7 @@ public class AddSceneBottomSheet extends BottomSheetDialogFragment {
         v -> {
           String scene_name = te_name.getText().toString().trim();
           String scene_info = te_info.getText().toString().trim();
+          String number = te_number.getText().toString().trim();
 
           if (TextUtils.isEmpty(scene_name)) {
             tl_name.setErrorEnabled(true);
@@ -68,12 +68,20 @@ public class AddSceneBottomSheet extends BottomSheetDialogFragment {
             tl_info.setError("Story is empty");
           }
 
-          if (!TextUtils.isEmpty(scene_name) && !TextUtils.isEmpty(scene_info)) {
+          if (TextUtils.isEmpty(number)) {
+            tl_number.setErrorEnabled(true);
+            tl_number.setError("Project number is empty");
+          }
+
+          if (!TextUtils.isEmpty(scene_name)
+              && !TextUtils.isEmpty(scene_info)
+              && !TextUtils.isEmpty(number)) {
             model.setTitle(scene_name);
             model.setProjectId(id);
             model.setFrames("0 frames");
             model.setSceneId(UUID.randomUUID().toString());
             model.setInfo(scene_info);
+            model.setNumber(Integer.parseInt(number));
 
             viewModel.setNewScene(model);
             dismiss();

@@ -31,6 +31,22 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            android:hint="Frame number"
+            android:paddingTop="15dp"
+            android:id="@+id/tl_frame_number">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="number"
+                android:digits="0123456789"
+                android:id="@+id/te_frame_number" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
             android:hint="Image path"
             android:paddingTop="15dp"
             android:id="@+id/tl_path">

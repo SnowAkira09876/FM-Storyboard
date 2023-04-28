@@ -1,12 +1,9 @@
 package com.akira.akirastoryboard.widgets.recyclerview;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
-import com.akira.akirastoryboard.R;
 import com.google.android.material.appbar.AppBarLayout;
 
 public class AkiraRecyclerView extends RecyclerView {

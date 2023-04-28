@@ -19,17 +19,13 @@ public class SceneActivityRepo {
   }
 
   public MutableLiveData<List<SceneItemModel>> getScenes(String projectId) {
-    Callable<List<SceneItemModel>> callable = () -> roomDatabase.getSceneDAO().getScenes();
-    List<SceneItemModel> list = new ArrayList<>();
+    Callable<List<SceneItemModel>> callable = () -> roomDatabase.getSceneDAO().getScenes(projectId);
 
     executor.submit(
         () -> {
           List<SceneItemModel> scenes = roomDatabase.runInTransaction(callable);
-          for (SceneItemModel model : scenes) {
-            if (model.getProjectId().equals(projectId)) list.add(model);
-          }
 
-          mutableLiveData.postValue(list);
+          mutableLiveData.postValue(scenes);
         });
 
     return mutableLiveData;

@@ -12,28 +12,21 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import androidx.lifecycle.ViewModelProvider;
+import com.akira.akirastoryboard.R;
 import com.akira.akirastoryboard.activities.frame.FrameActivityViewModel;
-import com.akira.akirastoryboard.activities.main.MainActivityViewModel;
 import com.akira.akirastoryboard.databinding.BottomSheetAddFrameBinding;
 import com.akira.akirastoryboard.pojos.FrameItemModel;
-import com.akira.akirastoryboard.pojos.ProjectItemModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import com.akira.akirastoryboard.R;
-import java.util.UUID;
 
 public class AddFrameBottomSheet extends BottomSheetDialogFragment {
   private BottomSheetAddFrameBinding binding;
-  private TextInputEditText te_path, te_info;
-  private TextInputLayout tl_path, tl_info;
+  private TextInputEditText te_path, te_info, te_number;
+  private TextInputLayout tl_path, tl_info, tl_number;
   private Button btn_create, btn_cancel;
   private FrameItemModel model;
   private FrameActivityViewModel viewModel;
@@ -62,6 +55,8 @@ public class AddFrameBottomSheet extends BottomSheetDialogFragment {
     this.tl_path = binding.tlPath;
     this.te_info = binding.teInfo;
     this.tl_info = binding.tlInfo;
+    this.te_number = binding.teFrameNumber;
+    this.tl_number = binding.tlFrameNumber;
 
     this.btn_create = binding.btnCreate;
     this.btn_cancel = binding.btnCancel;
@@ -92,6 +87,7 @@ public class AddFrameBottomSheet extends BottomSheetDialogFragment {
         v -> {
           String img_path = te_path.getText().toString().trim();
           String info = te_info.getText().toString().trim();
+          String number = te_number.getText().toString().trim();
 
           if (TextUtils.isEmpty(info)) {
             tl_info.setErrorEnabled(true);
@@ -103,10 +99,18 @@ public class AddFrameBottomSheet extends BottomSheetDialogFragment {
             tl_path.setError("Cover image is empty");
           }
 
-          if (!TextUtils.isEmpty(img_path) && !TextUtils.isEmpty(info)) {
+          if (TextUtils.isEmpty(number)) {
+            tl_number.setErrorEnabled(true);
+            tl_number.setError("Project number is empty");
+          }
+
+          if (!TextUtils.isEmpty(img_path)
+              && !TextUtils.isEmpty(info)
+              && !TextUtils.isEmpty(number)) {
             model.setInfo(info);
             model.setImagePath(img_path);
             model.setSceneId(id);
+            model.setNumber(Integer.parseInt(number));
 
             viewModel.setNewFrame(model);
             dismiss();

@@ -19,6 +19,6 @@ public interface SceneDAO {
   @Delete
   void delete(SceneItemModel model);
 
-  @Query("SELECT * FROM ScenesTable")
-  List<SceneItemModel> getScenes();
+  @Query("SELECT * FROM ScenesTable WHERE projectId = :projectId ORDER BY number ASC")
+  List<SceneItemModel> getScenes(String projectId);
 }

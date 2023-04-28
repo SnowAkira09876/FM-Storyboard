@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.lifecycle.ViewModelProvider;
+import com.akira.akirastoryboard.R;
 import com.akira.akirastoryboard.activities.main.MainActivityViewModel;
 import com.akira.akirastoryboard.databinding.BottomSheetAddProjectBinding;
 import com.akira.akirastoryboard.pojos.ProjectItemModel;
@@ -19,13 +20,12 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 import java.io.File;
-import com.akira.akirastoryboard.R;
 import java.util.UUID;
 
 public class AddProjectBottomSheet extends BottomSheetDialogFragment {
   private BottomSheetAddProjectBinding binding;
-  private TextInputEditText te_path, te_project_name, te_info;
-  private TextInputLayout tl_path, tl_project_name, tl_info;
+  private TextInputEditText te_path, te_project_name, te_info, te_number;
+  private TextInputLayout tl_path, tl_project_name, tl_info, tl_number;
   private Button btn_create, btn_cancel;
   private ProjectItemModel model;
   private MainActivityViewModel viewModel;
@@ -57,6 +57,8 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
     this.btn_create = binding.btnCreate;
     this.btn_cancel = binding.btnCancel;
     this.iv_cover = binding.ivCover;
+    this.te_number = binding.teProjectNumber;
+    this.tl_number = binding.tlProjectNumber;
   }
 
   private void onsetViews() {
@@ -83,6 +85,7 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
           String img_path = te_path.getText().toString().trim();
           String project_name = te_project_name.getText().toString().trim();
           String info = te_info.getText().toString().trim();
+          String number = te_number.getText().toString().trim();
 
           if (TextUtils.isEmpty(project_name)) {
             tl_project_name.setErrorEnabled(true);
@@ -99,14 +102,21 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
             tl_info.setError("Info is empty");
           }
 
+          if (TextUtils.isEmpty(number)) {
+            tl_number.setErrorEnabled(true);
+            tl_number.setError("Project number is empty");
+          }
+
           if (!TextUtils.isEmpty(img_path)
               && !TextUtils.isEmpty(project_name)
-              && !TextUtils.isEmpty(info)) {
+              && !TextUtils.isEmpty(info)
+              && !TextUtils.isEmpty(number)) {
             model.setTitle(project_name);
             model.setScenes("0 scenes");
             model.setImagePath(img_path);
             model.setInfo(info);
             model.setProjectId(UUID.randomUUID().toString());
+            model.setNumber(Integer.parseInt(number));
 
             viewModel.setNewProject(model);
             dismiss();

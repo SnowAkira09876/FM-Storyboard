@@ -2,7 +2,6 @@ package com.akira.akirastoryboard.di.modules;
 
 import android.content.Context;
 import androidx.room.Room;
-import androidx.room.RoomDatabase;
 import com.akira.akirastoryboard.data.room.AkiraRoomDatabase;
 import dagger.Module;
 import dagger.Provides;

@@ -3,7 +3,6 @@ package com.akira.akirastoryboard.activities.scene;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import com.akira.akirastoryboard.activities.scene.SceneActivityRepo;
 import com.akira.akirastoryboard.data.room.AkiraRoomDatabase;
 import com.akira.akirastoryboard.pojos.SceneItemModel;
 import java.util.List;
@@ -26,7 +25,7 @@ public class SceneActivityViewModel extends ViewModel {
   public void updateScene(SceneItemModel model) {
     repo.updateScene(model);
   }
-  
+
   public void deleteScene(SceneItemModel model) {
     repo.deleteScene(model);
   }

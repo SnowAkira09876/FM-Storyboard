@@ -11,25 +11,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.lifecycle.ViewModelProvider;
+import com.akira.akirastoryboard.R;
 import com.akira.akirastoryboard.activities.main.MainActivityViewModel;
 import com.akira.akirastoryboard.databinding.BottomSheetEditProjectBinding;
 import com.akira.akirastoryboard.pojos.ProjectItemModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import com.akira.akirastoryboard.R;
 
 public class EditProjectBottomSheet extends BottomSheetDialogFragment {
   private BottomSheetEditProjectBinding binding;
-  private TextInputEditText te_path, te_project_name, te_info;
-  private TextInputLayout tl_path, tl_project_name, tl_info;
+  private TextInputEditText te_path, te_project_name, te_info, te_number;
+  private TextInputLayout tl_path, tl_project_name, tl_info, tl_number;
   private Button btn_create, btn_delete;
   private ProjectItemModel model;
   private MainActivityViewModel viewModel;
@@ -61,6 +57,8 @@ public class EditProjectBottomSheet extends BottomSheetDialogFragment {
     this.tl_project_name = binding.tlName;
     this.te_info = binding.teInfo;
     this.tl_info = binding.tlInfo;
+    this.te_number = binding.teProjectNumber;
+    this.tl_number = binding.tlProjectNumber;
 
     this.btn_create = binding.btnCreate;
     this.btn_delete = binding.btnDelete;
@@ -76,6 +74,7 @@ public class EditProjectBottomSheet extends BottomSheetDialogFragment {
     te_path.setText(model.getImagePath());
     te_project_name.setText(model.getTitle());
     te_info.setText(model.getInfo());
+    te_number.setText(String.valueOf(model.getNumber()));
 
     te_path.addTextChangedListener(
         new TextWatcher() {
@@ -100,6 +99,7 @@ public class EditProjectBottomSheet extends BottomSheetDialogFragment {
           String img_path = te_path.getText().toString().trim();
           String project_name = te_project_name.getText().toString().trim();
           String info = te_info.getText().toString().trim();
+          String number = te_number.getText().toString().trim();
 
           if (TextUtils.isEmpty(project_name)) {
             tl_project_name.setErrorEnabled(true);
@@ -116,13 +116,19 @@ public class EditProjectBottomSheet extends BottomSheetDialogFragment {
             tl_info.setError("Info is empty");
           }
 
+          if (TextUtils.isEmpty(number)) {
+            tl_number.setErrorEnabled(true);
+            tl_number.setError("Project number is empty");
+          }
+
           if (!TextUtils.isEmpty(img_path)
               && !TextUtils.isEmpty(project_name)
-              && !TextUtils.isEmpty(info)) {
+              && !TextUtils.isEmpty(info)
+              && !TextUtils.isEmpty(number)) {
             model.setTitle(project_name);
-            model.setScenes("0 scenes");
             model.setImagePath(img_path);
             model.setInfo(info);
+            model.setNumber(Integer.parseInt(number));
 
             viewModel.setUpdateProject(model);
             dismiss();

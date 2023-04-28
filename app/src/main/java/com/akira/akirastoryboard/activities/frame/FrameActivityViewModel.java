@@ -15,7 +15,7 @@ public class FrameActivityViewModel extends ViewModel {
   private final MutableLiveData<FrameItemModel> newFrame = new MutableLiveData<>();
   private final MutableLiveData<FrameItemModel> updateFrame = new MutableLiveData<>();
   private final MutableLiveData<FrameItemModel> deleteFrame = new MutableLiveData<>();
-  
+
   public FrameActivityViewModel(AkiraRoomDatabase roomDatabase, ExecutorService executor) {
     this.roomDatabase = roomDatabase;
     this.executor = executor;
@@ -25,20 +25,20 @@ public class FrameActivityViewModel extends ViewModel {
   public LiveData<List<FrameItemModel>> getFrames(String sceneId) {
     return repo.getFrames(sceneId);
   }
-  
+
   public void addFrame(FrameItemModel model) {
     repo.addFrame(model);
   }
-  
+
   public void updateFrame(FrameItemModel model) {
     repo.updateFrame(model);
   }
-  
+
   public void deleteFrame(FrameItemModel model) {
     repo.deleteFrame(model);
   }
-  
-  //BottomSheet ViewModels
+
+  // BottomSheet ViewModels
   public void setNewFrame(FrameItemModel model) {
     this.newFrame.setValue(model);
   }
@@ -46,7 +46,7 @@ public class FrameActivityViewModel extends ViewModel {
   public LiveData<FrameItemModel> getNewFrame() {
     return this.newFrame;
   }
-  
+
   public void setUpdateFrame(FrameItemModel model) {
     this.updateFrame.setValue(model);
   }
@@ -54,7 +54,7 @@ public class FrameActivityViewModel extends ViewModel {
   public LiveData<FrameItemModel> getUpdateFrame() {
     return this.updateFrame;
   }
-  
+
   public void setDeleteFrame(FrameItemModel model) {
     this.deleteFrame.setValue(model);
   }

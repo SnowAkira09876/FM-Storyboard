@@ -1,85 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
-     android:layout_height="match_parent"
-     android:layout_width="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
     <LinearLayout
-         android:layout_height="match_parent"
-         android:layout_width="match_parent"
-         android:padding="15dp"
-         android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="15dp"
+        android:orientation="vertical">
 
         <TextView
-             android:layout_height="wrap_content"
-             android:layout_width="wrap_content"
-             android:textAppearance="?attr/textAppearanceHeadline6"
-             android:text="Edit Frame" />
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:text="Edit Frame" />
 
         <com.google.android.material.imageview.ShapeableImageView
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             app:srcCompat="@drawable/ic_image_broken"
-             android:adjustViewBounds="true"
-             app:shapeAppearanceOverlay="@style/RoundedImageView"
-             android:paddingBottom="10dp"
-             android:id="@+id/iv_frame"
-             android:paddingTop="10dp" />
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:srcCompat="@drawable/ic_image_broken"
+            android:adjustViewBounds="true"
+            app:shapeAppearanceOverlay="@style/RoundedImageView"
+            android:paddingBottom="10dp"
+            android:id="@+id/iv_frame"
+            android:paddingTop="10dp" />
 
         <com.google.android.material.textfield.TextInputLayout
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             android:hint="Image path"
-             android:paddingTop="15dp"
-             android:id="@+id/tl_path">
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Frame number"
+            android:paddingTop="15dp"
+            android:id="@+id/tl_frame_number">
 
             <com.google.android.material.textfield.TextInputEditText
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 android:inputType="textPersonName"
-                 android:id="@+id/te_path" />
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="number"
+                android:digits="0123456789"
+                android:id="@+id/te_frame_number" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             android:hint="Info"
-             app:helperText="You can style your text with HTML formatting"
-             android:paddingTop="15dp"
-             android:id="@+id/tl_info">
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Image path"
+            android:paddingTop="15dp"
+            android:id="@+id/tl_path">
 
             <com.google.android.material.textfield.TextInputEditText
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 android:inputType="textMultiLine"
-                 android:id="@+id/te_info" />
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="textPersonName"
+                android:id="@+id/te_path" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="Info"
+            app:helperText="You can style your text with HTML formatting"
+            android:paddingTop="15dp"
+            android:id="@+id/tl_info">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="textMultiLine"
+                android:id="@+id/te_info" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <CheckBox
-             android:layout_height="wrap_content"
-             android:layout_width="wrap_content"
-             android:layout_marginTop="15dp"
-             android:id="@+id/cb_centered"
-             android:text="Centered info" />
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="15dp"
+            android:id="@+id/cb_centered"
+            android:text="Centered info" />
 
         <Button
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             style="@style/Widget.Material3.Button"
-             android:layout_marginTop="15dp"
-             android:id="@+id/btn_save"
-             android:text="Save" />
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            style="@style/Widget.Material3.Button"
+            android:layout_marginTop="15dp"
+            android:id="@+id/btn_save"
+            android:text="Save" />
 
         <Button
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             style="?attr/materialButtonOutlinedStyle"
-             android:layout_marginTop="8dp"
-             android:id="@+id/btn_delete"
-             android:text="Delete" />
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_marginTop="8dp"
+            android:id="@+id/btn_delete"
+            android:text="Delete" />
 
     </LinearLayout>
 

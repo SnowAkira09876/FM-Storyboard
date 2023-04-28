@@ -12,9 +12,8 @@ import javax.inject.Singleton;
 public interface AppComponent {
 
   MainActivityVMFactory getMainActivityVMFactory();
-  
-  SceneActivityVMFactory getSceneActivityVMFactory();
-  
-  FrameActivityVMFactory getFrameActivityVMFactory();
 
+  SceneActivityVMFactory getSceneActivityVMFactory();
+
+  FrameActivityVMFactory getFrameActivityVMFactory();
 }

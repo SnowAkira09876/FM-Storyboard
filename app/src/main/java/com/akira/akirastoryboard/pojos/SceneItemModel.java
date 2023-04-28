@@ -9,6 +9,8 @@ import androidx.room.PrimaryKey;
 public class SceneItemModel implements Parcelable {
   @PrimaryKey(autoGenerate = true)
   private int id;
+  
+  private int number;
 
   private String projectId, sceneId, title, frames, info;
 
@@ -29,6 +31,7 @@ public class SceneItemModel implements Parcelable {
 
   protected SceneItemModel(Parcel in) {
     id = in.readInt();
+    number = in.readInt();
     projectId = in.readString();
     sceneId = in.readString();
     title = in.readString();
@@ -44,6 +47,7 @@ public class SceneItemModel implements Parcelable {
   @Override
   public void writeToParcel(Parcel dest, int flags) {
     dest.writeInt(id);
+    dest.writeInt(number);
     dest.writeString(projectId);
     dest.writeString(sceneId);
     dest.writeString(title);
@@ -57,6 +61,14 @@ public class SceneItemModel implements Parcelable {
 
   public void setId(int id) {
     this.id = id;
+  }
+  
+  public int getNumber() {
+    return this.number;
+  }
+
+  public void setNumber(int number) {
+    this.number = number;
   }
 
   public String getProjectId() {

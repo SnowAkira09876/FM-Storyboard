@@ -6,10 +6,10 @@ import android.view.Gravity;
 import android.widget.TextView;
 import androidx.core.text.HtmlCompat;
 import androidx.databinding.BindingAdapter;
+import com.akira.akirastoryboard.R;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.squareup.picasso.Picasso;
 import java.io.File;
-import com.akira.akirastoryboard.R;
 
 public class BindingAdapters {
 

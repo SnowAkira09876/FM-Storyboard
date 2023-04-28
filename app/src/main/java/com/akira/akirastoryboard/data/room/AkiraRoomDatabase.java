@@ -18,6 +18,6 @@ public abstract class AkiraRoomDatabase extends RoomDatabase {
   public abstract ProjectDAO getProjectDAO();
 
   public abstract SceneDAO getSceneDAO();
-  
+
   public abstract FrameDAO getFrameDAO();
 }

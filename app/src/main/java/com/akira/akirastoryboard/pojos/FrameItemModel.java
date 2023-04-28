@@ -9,8 +9,11 @@ import androidx.room.PrimaryKey;
 public class FrameItemModel implements Parcelable {
   @PrimaryKey(autoGenerate = true)
   private int id;
+  
+  private int number;
 
   private String sceneId, imagePath, info;
+  
   private boolean isCentered;
 
   public static final Creator<FrameItemModel> CREATOR =
@@ -28,13 +31,13 @@ public class FrameItemModel implements Parcelable {
 
   public FrameItemModel() {}
 
-  @SuppressWarnings("deprecation")
   protected FrameItemModel(Parcel in) {
-    this.id = in.readInt();
-    this.sceneId = in.readString();
-    this.imagePath = in.readString();
-    this.info = in.readString();
-    this.isCentered = in.readBoolean();
+    id = in.readInt();
+    number = in.readInt();
+    sceneId = in.readString();
+    imagePath = in.readString();
+    info = in.readString();
+    isCentered = in.readBoolean();
   }
 
   @Override
@@ -45,6 +48,7 @@ public class FrameItemModel implements Parcelable {
   @Override
   public void writeToParcel(Parcel dest, int flags) {
     dest.writeInt(id);
+    dest.writeInt(number);
     dest.writeString(sceneId);
     dest.writeString(imagePath);
     dest.writeString(info);
@@ -57,6 +61,14 @@ public class FrameItemModel implements Parcelable {
 
   public void setId(int id) {
     this.id = id;
+  }
+  
+  public int getNumber() {
+    return this.number;
+  }
+
+  public void setNumber(int number) {
+    this.number = number;
   }
 
   public String getSceneId() {
