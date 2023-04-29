@@ -112,7 +112,6 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
               && !TextUtils.isEmpty(info)
               && !TextUtils.isEmpty(number)) {
             model.setTitle(project_name);
-            model.setScenes("0 scenes");
             model.setImagePath(img_path);
             model.setInfo(info);
             model.setProjectId(UUID.randomUUID().toString());

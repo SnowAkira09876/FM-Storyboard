@@ -26,10 +26,6 @@
         <activity
             android:name=".activities.frame.FrameActivity"
             android:exported="false" />
-
-        <activity
-            android:name=".activities.frame.horizontal.HorizontalFrameActivity"
-            android:exported="false" />
     </application>
 
 </manifest>

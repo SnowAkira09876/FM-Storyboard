@@ -19,7 +19,7 @@ public class EditSceneBottomSheet extends BottomSheetDialogFragment {
   private BottomSheetEditSceneBinding binding;
   private TextInputEditText te_name, te_info, te_number;
   private TextInputLayout tl_name, tl_info, tl_number;
-  private Button btn_save, btn_delete;
+  private Button btn_save, btn_cancel;
   private SceneActivityViewModel viewModel;
   private SceneItemModel model;
 
@@ -50,7 +50,7 @@ public class EditSceneBottomSheet extends BottomSheetDialogFragment {
     this.tl_number = binding.tlSceneNumber;
 
     this.btn_save = binding.btnSave;
-    this.btn_delete = binding.btnDelete;
+    this.btn_cancel = binding.btnCancel;
   }
 
   private void onsetViews() {
@@ -90,9 +90,8 @@ public class EditSceneBottomSheet extends BottomSheetDialogFragment {
           }
         });
 
-    btn_delete.setOnClickListener(
+    btn_cancel.setOnClickListener(
         v -> {
-          viewModel.setDeleteScene(model);
           dismiss();
         });
   }

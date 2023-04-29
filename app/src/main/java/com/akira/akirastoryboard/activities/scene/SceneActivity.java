@@ -1,12 +1,14 @@
 package com.akira.akirastoryboard.activities.scene;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.akira.akirastoryboard.R;
@@ -23,11 +25,11 @@ import com.akira.akirastoryboard.recyclerviews.adapters.SceneAdapter;
 import com.akira.akirastoryboard.widgets.recyclerview.AkiraRecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 public class SceneActivity extends AppCompatActivity
-    implements SceneAdapter.SceneItemClickListener {
+    implements SceneAdapter.SceneItemClickListener, ActionMode.Callback {
   private ActivitySceneBinding binding;
   private LinearLayoutManager lm;
   private AkiraRecyclerView rv;
@@ -41,23 +43,19 @@ public class SceneActivity extends AppCompatActivity
   private SceneActivityViewModel viewModel;
   private SceneActivityVMFactory viewModelFactory;
   private AppComponent component;
-  private ActivityResultLauncher<Intent> launcher;
+  private SceneItemModel selected_model;
 
   @Override
   public void onSceneClick(int position, SceneItemModel model) {
     Bundle bundle = new Bundle();
     bundle.putParcelable("scene", model);
-    launcher.launch(new Intent(this, FrameActivity.class).putExtras(bundle));
+    startActivity(new Intent(this, FrameActivity.class).putExtras(bundle));
   }
 
   @Override
   public void onSceneLongClick(int position, SceneItemModel model) {
-    Bundle bundle = new Bundle();
-    bundle.putParcelable("scene", model);
-
-    EditSceneBottomSheet bottomSheetDialog = new EditSceneBottomSheet();
-    bottomSheetDialog.setArguments(bundle);
-    bottomSheetDialog.show(getSupportFragmentManager(), null);
+    this.selected_model = model;
+    startSupportActionMode(this);
   }
 
   @SuppressWarnings("deprecation")
@@ -79,21 +77,6 @@ public class SceneActivity extends AppCompatActivity
     this.viewModel =
         new ViewModelProvider(this, viewModelFactory).get(SceneActivityViewModel.class);
 
-    this.launcher =
-        registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-              if (result.getResultCode() == RESULT_OK) {
-                Intent intent = result.getData();
-                SceneItemModel model;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                  model = intent.getExtras().getParcelable("updated_model", SceneItemModel.class);
-                else model = intent.getExtras().getParcelable("updated_model");
-
-                viewModel.setUpdateScene(model);
-              }
-            });
-
     this.binding = ActivitySceneBinding.inflate(getLayoutInflater());
 
     this.lm = new LinearLayoutManager(this);
@@ -106,17 +89,54 @@ public class SceneActivity extends AppCompatActivity
   }
 
   @Override
-  public void onBackPressed() {
-    Bundle bundle = new Bundle();
-    model.setScenes(String.valueOf(adapter.getItemCount()) + " scenes");
-    bundle.putParcelable("updated_model", this.model);
-
-    Intent resultIntent = new Intent();
-    resultIntent.putExtras(bundle);
-
-    setResult(RESULT_OK, resultIntent);
-    super.onBackPressed();
+  public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+    mode.getMenuInflater().inflate(R.menu.contextual_menu_scene, menu);
+    mode.setTitle(selected_model.getTitle());
+    mode.setSubtitle(String.valueOf(selected_model.getNumber()));
+    return true;
   }
+
+  @Override
+  public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+    return false;
+  }
+
+  @Override
+  public boolean onActionItemClicked(ActionMode mode, MenuItem menu) {
+    switch (menu.getItemId()) {
+      case R.id.menu_scene_edit:
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("scene", selected_model);
+
+        EditSceneBottomSheet bottomSheetDialog = new EditSceneBottomSheet();
+        bottomSheetDialog.setArguments(bundle);
+        bottomSheetDialog.show(getSupportFragmentManager(), null);
+        mode.finish();
+        return true;
+
+      case R.id.menu_scene_delete:
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+        builder.setTitle("Delete scene");
+        builder.setMessage("Are you sure you want to delete " + selected_model.getTitle() + " scene?");
+        builder.setPositiveButton(
+            "Delete",
+            (DialogInterface dialog, int id) -> {
+              viewModel.deleteScene(selected_model);
+            });
+
+        builder.setNegativeButton("Cancel", (DialogInterface dialog, int id) -> {});
+
+        builder.create().show();
+
+        mode.finish();
+        return true;
+    }
+
+    return false;
+  }
+
+  @Override
+  public void onDestroyActionMode(ActionMode mode) {}
 
   private void onsetViewBinding() {
     this.rv = binding.rv;
@@ -132,7 +152,6 @@ public class SceneActivity extends AppCompatActivity
     rv.setLayoutManager(lm);
     rv.setAdapter(adapter);
     rv.setEmptyView(emptyView);
-    rv.setToolbarCollapsedWhenEmpty(appbar);
 
     fab.setOnClickListener(
         v -> {
@@ -168,21 +187,6 @@ public class SceneActivity extends AppCompatActivity
             this,
             model -> {
               viewModel.updateScene(model);
-            });
-
-    viewModel
-        .getDeleteScene()
-        .observe(
-            this,
-            model -> {
-              if ("0 frames".equals(model.getFrames())) viewModel.deleteScene(model);
-              else
-                Snackbar.make(
-                        binding.getRoot(),
-                        "Scene can't be deleted if it contains frames",
-                        Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Okay", v -> {})
-                    .show();
             });
   }
 }

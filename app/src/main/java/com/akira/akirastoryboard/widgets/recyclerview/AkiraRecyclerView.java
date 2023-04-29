@@ -4,11 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
-import com.google.android.material.appbar.AppBarLayout;
 
 public class AkiraRecyclerView extends RecyclerView {
   private View emptyView;
-  private AppBarLayout appbar;
   private boolean emptyViewVisible;
 
   private final AdapterDataObserver observer =
@@ -58,21 +56,11 @@ public class AkiraRecyclerView extends RecyclerView {
     checkIfEmpty();
   }
 
-  public void setToolbarCollapsedWhenEmpty(AppBarLayout appbar) {
-    this.appbar = appbar;
-    checkIfEmpty();
-  }
-
   private void checkIfEmpty() {
     if (emptyView != null && getAdapter() != null) {
       emptyViewVisible = getAdapter().getItemCount() == 0;
       emptyView.setVisibility(emptyViewVisible ? VISIBLE : GONE);
       setVisibility(emptyViewVisible ? GONE : VISIBLE);
-    }
-
-    if (appbar != null && getAdapter() != null) {
-      emptyViewVisible = getAdapter().getItemCount() == 0;
-      appbar.setExpanded(emptyViewVisible ? false : true);
     }
   }
 

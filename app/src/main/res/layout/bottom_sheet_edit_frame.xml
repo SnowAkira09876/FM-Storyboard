@@ -90,12 +90,12 @@
             android:text="Save" />
 
         <Button
+            android:id="@+id/btn_cancel"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             style="?attr/materialButtonOutlinedStyle"
             android:layout_marginTop="8dp"
-            android:id="@+id/btn_delete"
-            android:text="Delete" />
+            android:text="Cancel" />
 
     </LinearLayout>
 

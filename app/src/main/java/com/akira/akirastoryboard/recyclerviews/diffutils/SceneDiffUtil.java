@@ -1,16 +1,16 @@
 package com.akira.akirastoryboard.recyclerviews.diffutils;
 
 import androidx.recyclerview.widget.DiffUtil;
-import com.akira.akirastoryboard.pojos.SceneItemModel;
+import com.akira.akirastoryboard.pojos.SceneWithFramesModel;
 
-public class SceneDiffUtil extends DiffUtil.ItemCallback<SceneItemModel> {
+public class SceneDiffUtil extends DiffUtil.ItemCallback<SceneWithFramesModel> {
   @Override
-  public boolean areItemsTheSame(SceneItemModel oldItem, SceneItemModel newItem) {
-    return oldItem.getId() == newItem.getId();
+  public boolean areItemsTheSame(SceneWithFramesModel oldItem, SceneWithFramesModel newItem) {
+    return oldItem.sceneItemModel.getId() == newItem.sceneItemModel.getId();
   }
 
   @Override
-  public boolean areContentsTheSame(SceneItemModel oldItem, SceneItemModel newItem) {
+  public boolean areContentsTheSame(SceneWithFramesModel oldItem, SceneWithFramesModel newItem) {
     return oldItem.equals(newItem);
   }
 }

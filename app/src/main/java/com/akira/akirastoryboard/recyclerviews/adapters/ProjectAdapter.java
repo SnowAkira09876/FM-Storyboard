@@ -5,14 +5,15 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.DiffUtil;
 import com.akira.akirastoryboard.databinding.ItemProjectBinding;
 import com.akira.akirastoryboard.pojos.ProjectItemModel;
+import com.akira.akirastoryboard.pojos.ProjectWithScenesModel;
 import com.akira.akirastoryboard.recyclerviews.BaseListAdapter;
 import com.akira.akirastoryboard.recyclerviews.viewholders.ProjectViewHolder;
 
-public class ProjectAdapter extends BaseListAdapter<ProjectItemModel, ProjectViewHolder> {
+public class ProjectAdapter extends BaseListAdapter<ProjectWithScenesModel, ProjectViewHolder> {
   private ProjectItemClickListener listener;
 
   public ProjectAdapter(
-      DiffUtil.ItemCallback<ProjectItemModel> diffUtil, ProjectItemClickListener listener) {
+      DiffUtil.ItemCallback<ProjectWithScenesModel> diffUtil, ProjectItemClickListener listener) {
     super(diffUtil);
     this.listener = listener;
   }

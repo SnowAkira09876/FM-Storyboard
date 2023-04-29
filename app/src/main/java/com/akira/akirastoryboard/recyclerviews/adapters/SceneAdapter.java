@@ -5,14 +5,15 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.DiffUtil;
 import com.akira.akirastoryboard.databinding.ItemSceneBinding;
 import com.akira.akirastoryboard.pojos.SceneItemModel;
+import com.akira.akirastoryboard.pojos.SceneWithFramesModel;
 import com.akira.akirastoryboard.recyclerviews.BaseListAdapter;
 import com.akira.akirastoryboard.recyclerviews.viewholders.SceneViewHolder;
 
-public class SceneAdapter extends BaseListAdapter<SceneItemModel, SceneViewHolder> {
+public class SceneAdapter extends BaseListAdapter<SceneWithFramesModel, SceneViewHolder> {
   private SceneItemClickListener listener;
 
   public SceneAdapter(
-      DiffUtil.ItemCallback<SceneItemModel> diffUtil, SceneItemClickListener listener) {
+      DiffUtil.ItemCallback<SceneWithFramesModel> diffUtil, SceneItemClickListener listener) {
     super(diffUtil);
     this.listener = listener;
   }

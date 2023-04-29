@@ -26,7 +26,7 @@ public class EditProjectBottomSheet extends BottomSheetDialogFragment {
   private BottomSheetEditProjectBinding binding;
   private TextInputEditText te_path, te_project_name, te_info, te_number;
   private TextInputLayout tl_path, tl_project_name, tl_info, tl_number;
-  private Button btn_create, btn_delete;
+  private Button btn_create, btn_cancel;
   private ProjectItemModel model;
   private MainActivityViewModel viewModel;
   private ShapeableImageView iv_cover;
@@ -61,7 +61,7 @@ public class EditProjectBottomSheet extends BottomSheetDialogFragment {
     this.tl_number = binding.tlProjectNumber;
 
     this.btn_create = binding.btnCreate;
-    this.btn_delete = binding.btnDelete;
+    this.btn_cancel = binding.btnCancel;
     this.iv_cover = binding.ivCover;
   }
 
@@ -135,9 +135,8 @@ public class EditProjectBottomSheet extends BottomSheetDialogFragment {
           }
         });
 
-    btn_delete.setOnClickListener(
+    btn_cancel.setOnClickListener(
         v -> {
-          viewModel.setDeleteProject(model);
           dismiss();
         });
   }

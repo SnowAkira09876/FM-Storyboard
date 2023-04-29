@@ -3,6 +3,7 @@ package com.akira.akirastoryboard.recyclerviews.viewholders;
 import androidx.recyclerview.widget.RecyclerView;
 import com.akira.akirastoryboard.databinding.ItemSceneBinding;
 import com.akira.akirastoryboard.pojos.SceneItemModel;
+import com.akira.akirastoryboard.pojos.SceneWithFramesModel;
 import com.akira.akirastoryboard.recyclerviews.adapters.SceneAdapter;
 
 public class SceneViewHolder extends RecyclerView.ViewHolder {
@@ -14,19 +15,19 @@ public class SceneViewHolder extends RecyclerView.ViewHolder {
   }
 
   public void bind(
-      SceneItemModel model, SceneAdapter.SceneItemClickListener listener, int position) {
-
-    binding.setModel(model);
+      SceneWithFramesModel model, SceneAdapter.SceneItemClickListener listener, int position) {
+    binding.setModel(model.sceneItemModel);
+    binding.setListSize(model.frames.size());
     binding.executePendingBindings();
 
     itemView.setOnClickListener(
         v -> {
-          listener.onSceneClick(position, model);
+          listener.onSceneClick(position, model.sceneItemModel);
         });
 
     itemView.setOnLongClickListener(
         (v) -> {
-          listener.onSceneLongClick(position, model);
+          listener.onSceneLongClick(position, model.sceneItemModel);
           return true;
         });
   }

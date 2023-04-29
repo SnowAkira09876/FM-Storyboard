@@ -1,56 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:layout_height="match_parent"
-	android:layout_width="match_parent"
-	android:id="@+id/activity_root"
-	android:fitsSystemWindows="true">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/activity_root"
+    android:fitsSystemWindows="true">
 
-	<com.google.android.material.appbar.AppBarLayout
-		android:id="@+id/appbar"
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:fitsSystemWindows="true">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="true">
 
-		<com.google.android.material.appbar.CollapsingToolbarLayout
-			app:titleCollapseMode="scale"
-			android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
-			android:layout_width="match_parent"
-			app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-			style="?attr/collapsingToolbarLayoutLargeStyle">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:id="@+id/toolBar" />
 
-			<com.google.android.material.appbar.MaterialToolbar
-				android:layout_height="?attr/actionBarSize"
-				android:layout_width="match_parent"
-				android:id="@+id/toolBar" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-		</com.google.android.material.appbar.CollapsingToolbarLayout>
+    <com.akira.akirastoryboard.widgets.recyclerview.AkiraRecyclerView
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/rv"
+    />
 
-	</com.google.android.material.appbar.AppBarLayout>
+    <TextView
+        android:textAppearance="?attr/textAppearanceTitleLarge"
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="No items to display."
+        android:gravity="center" />
 
-	<com.akira.akirastoryboard.widgets.recyclerview.AkiraRecyclerView
-		app:layout_behavior="@string/appbar_scrolling_view_behavior"
-		android:layout_height="match_parent"
-		android:layout_width="match_parent"
-		android:id="@+id/rv"
-	 />
-
-	<TextView
-		android:textAppearance="?attr/textAppearanceTitleLarge"
-		android:id="@+id/empty_view"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:text="No items to display."
-		android:gravity="center" />
-	
-	<com.google.android.material.floatingactionbutton.FloatingActionButton
-		android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		app:layout_behavior="@string/akira_fab_behavior"
-		android:src="@drawable/ic_plus"
-		android:layout_margin="10dp"
-		android:layout_gravity="bottom|end"
-		android:id="@+id/fab" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_behavior="@string/akira_fab_behavior"
+        android:src="@drawable/ic_plus"
+        android:layout_margin="10dp"
+        android:layout_gravity="bottom|end"
+        android:id="@+id/fab" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,10 +1,13 @@
 package com.akira.akirastoryboard.activities.frame;
 
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.akira.akirastoryboard.StartApplication;
@@ -19,10 +22,12 @@ import com.akira.akirastoryboard.recyclerviews.adapters.FrameAdapter;
 import com.akira.akirastoryboard.widgets.recyclerview.AkiraRecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.akira.akirastoryboard.R;
 
 public class FrameActivity extends AppCompatActivity
-    implements FrameAdapter.FrameItemClickListener {
+    implements FrameAdapter.FrameItemClickListener, ActionMode.Callback {
   private ActivityFrameBinding binding;
   private LinearLayoutManager lm;
   private AkiraRecyclerView rv;
@@ -35,6 +40,7 @@ public class FrameActivity extends AppCompatActivity
   private AppComponent component;
   private SceneItemModel sceneItemModel;
   private AppBarLayout appbar;
+  private FrameItemModel selected_model;
 
   @SuppressWarnings("deprecation")
   @Override
@@ -64,26 +70,57 @@ public class FrameActivity extends AppCompatActivity
 
   @Override
   public void onItemLongClick(FrameItemModel model) {
-    Bundle bundle = new Bundle();
-    bundle.putParcelable("frame", model);
-
-    EditFrameBottomSheet bottomSheetDialog = new EditFrameBottomSheet();
-    bottomSheetDialog.setArguments(bundle);
-    bottomSheetDialog.show(getSupportFragmentManager(), null);
+    this.selected_model = model;
+    startSupportActionMode(this);
   }
 
   @Override
-  public void onBackPressed() {
-    Bundle bundle = new Bundle();
-    sceneItemModel.setFrames(String.valueOf(adapter.getItemCount()) + " frames");
-    bundle.putParcelable("updated_model", this.sceneItemModel);
-
-    Intent resultIntent = new Intent();
-    resultIntent.putExtras(bundle);
-
-    setResult(RESULT_OK, resultIntent);
-    super.onBackPressed();
+  public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+    mode.getMenuInflater().inflate(R.menu.contextual_menu_frame, menu);
+    mode.setTitle("Frame " + selected_model.getNumber());
+    return true;
   }
+
+  @Override
+  public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+    return false;
+  }
+
+  @Override
+  public boolean onActionItemClicked(ActionMode mode, MenuItem menu) {
+    switch (menu.getItemId()) {
+      case R.id.menu_frame_edit:
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("frame", selected_model);
+
+        EditFrameBottomSheet bottomSheetDialog = new EditFrameBottomSheet();
+        bottomSheetDialog.setArguments(bundle);
+        bottomSheetDialog.show(getSupportFragmentManager(), null);
+        mode.finish();
+        return true;
+
+      case R.id.menu_frame_delete:
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+        builder.setTitle("Delete frame");
+        builder.setMessage("Are you sure you want to delete frame " + selected_model.getNumber() + "?");
+        builder.setPositiveButton(
+            "Delete",
+            (DialogInterface dialog, int id) -> {
+              viewModel.deleteFrame(selected_model);
+            });
+
+        builder.setNegativeButton("Cancel", (DialogInterface dialog, int id) -> {});
+
+        builder.create().show();
+        mode.finish();
+        return true;
+    }
+
+    return false;
+  }
+
+  @Override
+  public void onDestroyActionMode(ActionMode mode) {}
 
   private void onsetViewBinding() {
     this.toolbar = binding.toolBar;
@@ -100,7 +137,6 @@ public class FrameActivity extends AppCompatActivity
     rv.setLayoutManager(lm);
     rv.setAdapter(adapter);
     rv.setEmptyView(emptyView);
-    rv.setToolbarCollapsedWhenEmpty(appbar);
 
     fab.setOnClickListener(
         v -> {
@@ -136,14 +172,6 @@ public class FrameActivity extends AppCompatActivity
             this,
             model -> {
               viewModel.updateFrame(model);
-            });
-
-    viewModel
-        .getDeleteFrame()
-        .observe(
-            this,
-            model -> {
-              viewModel.deleteFrame(model);
             });
   }
 }

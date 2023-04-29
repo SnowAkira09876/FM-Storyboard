@@ -3,13 +3,23 @@ package com.akira.akirastoryboard.pojos;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "ScenesTable")
+@Entity(
+    tableName = "ScenesTable",
+    foreignKeys =
+        @ForeignKey(
+            entity = ProjectItemModel.class,
+            parentColumns = "projectId",
+            childColumns = "projectId",
+            onDelete = ForeignKey.CASCADE),
+    indices = {@Index("projectId")})
 public class SceneItemModel implements Parcelable {
   @PrimaryKey(autoGenerate = true)
   private int id;
-  
+
   private int number;
 
   private String projectId, sceneId, title, frames, info;
@@ -62,7 +72,7 @@ public class SceneItemModel implements Parcelable {
   public void setId(int id) {
     this.id = id;
   }
-  
+
   public int getNumber() {
     return this.number;
   }

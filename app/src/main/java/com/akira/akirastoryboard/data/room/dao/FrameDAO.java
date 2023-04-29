@@ -1,5 +1,6 @@
 package com.akira.akirastoryboard.data.room.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -20,5 +21,5 @@ public interface FrameDAO {
   void delete(FrameItemModel model);
 
   @Query("SELECT * FROM FramesTable WHERE sceneId = :sceneId ORDER BY number ASC")
-  List<FrameItemModel> getFrames(String sceneId);
+  LiveData<List<FrameItemModel>> getFrames(String sceneId);
 }

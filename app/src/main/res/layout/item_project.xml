@@ -6,6 +6,10 @@
         <variable
             name="model"
             type="com.akira.akirastoryboard.pojos.ProjectItemModel" />
+
+        <variable
+            name="listSize"
+            type="Integer" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -42,7 +46,7 @@
                     android:textAppearance="?attr/textAppearanceBodySmall"
                     android:id="@+id/project_scenes"
                     android:paddingTop="10dp"
-                    android:text="@{model.scenes}" />
+                    android:text="@{listSize > 1 ? listSize + ` scenes` : listSize + ` scene`}" />
 
                 <TextView
                     android:layout_height="wrap_content"

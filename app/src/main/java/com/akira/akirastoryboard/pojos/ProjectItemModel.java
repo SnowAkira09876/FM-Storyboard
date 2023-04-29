@@ -3,16 +3,23 @@ package com.akira.akirastoryboard.pojos;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "ProjectsTable")
+@Entity(
+    tableName = "ProjectsTable",
+    indices = {
+      @Index(
+          value = {"projectId"},
+          unique = true)
+    })
 public class ProjectItemModel implements Parcelable {
   @PrimaryKey(autoGenerate = true)
   private int id;
 
   private int number;
 
-  private String projectId, title, scenes, info, imagePath;
+  private String projectId, title, info, imagePath;
 
   public ProjectItemModel() {}
 
@@ -34,7 +41,6 @@ public class ProjectItemModel implements Parcelable {
     number = in.readInt();
     projectId = in.readString();
     title = in.readString();
-    scenes = in.readString();
     info = in.readString();
     imagePath = in.readString();
   }
@@ -50,7 +56,6 @@ public class ProjectItemModel implements Parcelable {
     dest.writeInt(number);
     dest.writeString(projectId);
     dest.writeString(title);
-    dest.writeString(scenes);
     dest.writeString(info);
     dest.writeString(imagePath);
   }
@@ -85,14 +90,6 @@ public class ProjectItemModel implements Parcelable {
 
   public void setTitle(String title) {
     this.title = title;
-  }
-
-  public String getScenes() {
-    return this.scenes;
-  }
-
-  public void setScenes(String scenes) {
-    this.scenes = scenes;
   }
 
   public String getInfo() {

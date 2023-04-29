@@ -19,15 +19,22 @@
                 android:checkable="false"
                 app:showAsAction="ifRoom" />
             <item
-                android:id="@+id/drawer_info_guide"
+                android:id="@+id/drawer_info_feed"
                 android:icon="@drawable/ic_gmail"
                 android:title="Feedback"
                 android:checkable="false"
                 app:showAsAction="ifRoom" />
             <item
-                android:id="@+id/drawer_info_guide"
+                android:id="@+id/drawer_info_policy"
                 android:icon="@drawable/ic_policy"
                 android:title="Privacy Policy"
+                android:checkable="false"
+                app:showAsAction="ifRoom" />
+
+            <item
+                android:id="@+id/drawer_info_source"
+                android:icon="@drawable/ic_github"
+                android:title="Source Code"
                 android:checkable="false"
                 app:showAsAction="ifRoom" />
         </menu>

@@ -28,7 +28,7 @@ public class EditFrameBottomSheet extends BottomSheetDialogFragment {
   private BottomSheetEditFrameBinding binding;
   private TextInputEditText te_path, te_info, te_number;
   private TextInputLayout tl_path, tl_info, tl_number;
-  private Button btn_save, btn_delete;
+  private Button btn_save, btn_cancel;
   private FrameItemModel model;
   private FrameActivityViewModel viewModel;
   private ShapeableImageView iv_frame;
@@ -62,7 +62,7 @@ public class EditFrameBottomSheet extends BottomSheetDialogFragment {
     this.tl_number = binding.tlFrameNumber;
 
     this.btn_save = binding.btnSave;
-    this.btn_delete = binding.btnDelete;
+    this.btn_cancel = binding.btnCancel;
 
     this.iv_frame = binding.ivFrame;
     this.cb_centered = binding.cbCentered;
@@ -130,16 +130,15 @@ public class EditFrameBottomSheet extends BottomSheetDialogFragment {
           }
         });
 
-    btn_delete.setOnClickListener(
-        v -> {
-          viewModel.deleteFrame(model);
-          dismiss();
-        });
-
     cb_centered.setOnCheckedChangeListener(
         (CompoundButton buttonView, boolean isChecked) -> {
           if (isChecked) model.setIsCentered(true);
           else model.setIsCentered(false);
+        });
+
+    btn_cancel.setOnClickListener(
+        v -> {
+          dismiss();
         });
   }
 }

@@ -14,8 +14,7 @@ public class FrameActivityViewModel extends ViewModel {
   private ExecutorService executor;
   private final MutableLiveData<FrameItemModel> newFrame = new MutableLiveData<>();
   private final MutableLiveData<FrameItemModel> updateFrame = new MutableLiveData<>();
-  private final MutableLiveData<FrameItemModel> deleteFrame = new MutableLiveData<>();
-
+  
   public FrameActivityViewModel(AkiraRoomDatabase roomDatabase, ExecutorService executor) {
     this.roomDatabase = roomDatabase;
     this.executor = executor;
@@ -53,13 +52,5 @@ public class FrameActivityViewModel extends ViewModel {
 
   public LiveData<FrameItemModel> getUpdateFrame() {
     return this.updateFrame;
-  }
-
-  public void setDeleteFrame(FrameItemModel model) {
-    this.deleteFrame.setValue(model);
-  }
-
-  public LiveData<FrameItemModel> getDeleteFrame() {
-    return this.deleteFrame;
   }
 }

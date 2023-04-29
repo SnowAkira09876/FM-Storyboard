@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.akira.akirastoryboard.data.room.AkiraRoomDatabase;
 import com.akira.akirastoryboard.pojos.ProjectItemModel;
+import com.akira.akirastoryboard.pojos.ProjectWithScenesModel;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
@@ -12,8 +13,7 @@ public class MainActivityViewModel extends ViewModel {
   private MainActivityRepo repo;
   private final MutableLiveData<ProjectItemModel> newProject = new MutableLiveData<>();
   private final MutableLiveData<ProjectItemModel> updateProject = new MutableLiveData<>();
-  private final MutableLiveData<ProjectItemModel> deleteProject = new MutableLiveData<>();
-
+  
   public MainActivityViewModel(AkiraRoomDatabase roomDatabase, ExecutorService executor) {
     this.repo = new MainActivityRepo(roomDatabase, executor);
   }
@@ -25,12 +25,12 @@ public class MainActivityViewModel extends ViewModel {
   public void updateProject(ProjectItemModel model) {
     repo.updateProject(model);
   }
-
+  
   public void deleteProject(ProjectItemModel model) {
     repo.deleteProject(model);
   }
 
-  public LiveData<List<ProjectItemModel>> getProjects() {
+  public LiveData<List<ProjectWithScenesModel>> getProjects() {
     return repo.getProjects();
   }
 
@@ -48,13 +48,5 @@ public class MainActivityViewModel extends ViewModel {
 
   public void setUpdateProject(ProjectItemModel model) {
     this.updateProject.setValue(model);
-  }
-
-  public MutableLiveData<ProjectItemModel> getDeleteProject() {
-    return this.deleteProject;
-  }
-
-  public void setDeleteProject(ProjectItemModel model) {
-    this.deleteProject.setValue(model);
   }
 }

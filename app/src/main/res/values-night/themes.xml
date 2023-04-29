@@ -31,19 +31,22 @@
 
 		<!-- SYSTEM BARS NIGHT -->
 		<item
-			name="android:windowLightStatusBar">false</item>
+			name="android:windowLightStatusBar"
+            tools:targetApi="23">false</item>
 		<item
 			name="android:windowLightNavigationBar"
 			tools:targetApi="27">false</item>
 		<item
 			name="android:navigationBarColor"
 			tools:targetApi="27">@android:color/transparent</item>
-		<item name="android:statusBarColor">@android:color/transparent</item>
+		<item name="android:statusBarColor"
+        tools:targetApi="21">@android:color/transparent</item>
 		<item
 			name="android:enforceStatusBarContrast"
 			tools:targetApi="29">false</item>
 		<item
 			name="android:enforceNavigationBarContrast"
 			tools:targetApi="29">false</item>
+        <item name="windowActionModeOverlay">true</item>            
 	</style>
 </resources>

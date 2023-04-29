@@ -1,14 +1,12 @@
 package com.akira.akirastoryboard.activities.frame;
 
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.LiveData;
 import com.akira.akirastoryboard.data.room.AkiraRoomDatabase;
 import com.akira.akirastoryboard.pojos.FrameItemModel;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 
 public class FrameActivityRepo {
-  private final MutableLiveData<List<FrameItemModel>> mutableLiveData = new MutableLiveData<>();
   private AkiraRoomDatabase roomDatabase;
   private ExecutorService executor;
 
@@ -17,24 +15,14 @@ public class FrameActivityRepo {
     this.executor = executor;
   }
 
-  public MutableLiveData<List<FrameItemModel>> getFrames(String sceneId) {
-    Callable<List<FrameItemModel>> callable = () -> roomDatabase.getFrameDAO().getFrames(sceneId);
-    
-    executor.submit(
-        () -> {
-          List<FrameItemModel> frames = roomDatabase.runInTransaction(callable);
-
-          mutableLiveData.postValue(frames);
-        });
-
-    return mutableLiveData;
+  public LiveData<List<FrameItemModel>> getFrames(String sceneId) {
+    return roomDatabase.getFrameDAO().getFrames(sceneId);
   }
 
   public void addFrame(FrameItemModel model) {
     Runnable run =
         () -> {
           roomDatabase.getFrameDAO().insert(model);
-          getFrames(model.getSceneId());
         };
 
     executor.execute(() -> roomDatabase.runInTransaction(run));
@@ -44,7 +32,6 @@ public class FrameActivityRepo {
     Runnable run =
         () -> {
           roomDatabase.getFrameDAO().update(model);
-          getFrames(model.getSceneId());
         };
 
     executor.execute(() -> roomDatabase.runInTransaction(run));
@@ -54,7 +41,6 @@ public class FrameActivityRepo {
     Runnable run =
         () -> {
           roomDatabase.getFrameDAO().delete(model);
-          getFrames(model.getSceneId());
         };
 
     executor.execute(() -> roomDatabase.runInTransaction(run));

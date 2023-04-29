@@ -9,11 +9,11 @@ import androidx.room.PrimaryKey;
 public class FrameItemModel implements Parcelable {
   @PrimaryKey(autoGenerate = true)
   private int id;
-  
+
   private int number;
 
   private String sceneId, imagePath, info;
-  
+
   private boolean isCentered;
 
   public static final Creator<FrameItemModel> CREATOR =
@@ -37,7 +37,8 @@ public class FrameItemModel implements Parcelable {
     sceneId = in.readString();
     imagePath = in.readString();
     info = in.readString();
-    isCentered = in.readBoolean();
+    isCentered = (in.readInt() != 0);
+    ;
   }
 
   @Override
@@ -52,7 +53,7 @@ public class FrameItemModel implements Parcelable {
     dest.writeString(sceneId);
     dest.writeString(imagePath);
     dest.writeString(info);
-    dest.writeBoolean(isCentered);
+    dest.writeInt(isCentered ? 1 : 0);
   }
 
   public int getId() {
@@ -62,7 +63,7 @@ public class FrameItemModel implements Parcelable {
   public void setId(int id) {
     this.id = id;
   }
-  
+
   public int getNumber() {
     return this.number;
   }
@@ -101,5 +102,10 @@ public class FrameItemModel implements Parcelable {
 
   public void setIsCentered(boolean isCentered) {
     this.isCentered = isCentered;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    return super.equals(object);
   }
 }

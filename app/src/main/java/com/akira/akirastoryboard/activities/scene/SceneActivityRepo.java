@@ -1,15 +1,13 @@
 package com.akira.akirastoryboard.activities.scene;
 
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.LiveData;
 import com.akira.akirastoryboard.data.room.AkiraRoomDatabase;
 import com.akira.akirastoryboard.pojos.SceneItemModel;
-import java.util.ArrayList;
+import com.akira.akirastoryboard.pojos.SceneWithFramesModel;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 
 public class SceneActivityRepo {
-  private final MutableLiveData<List<SceneItemModel>> mutableLiveData = new MutableLiveData<>();
   private AkiraRoomDatabase roomDatabase;
   private ExecutorService executor;
 
@@ -18,17 +16,8 @@ public class SceneActivityRepo {
     this.executor = executor;
   }
 
-  public MutableLiveData<List<SceneItemModel>> getScenes(String projectId) {
-    Callable<List<SceneItemModel>> callable = () -> roomDatabase.getSceneDAO().getScenes(projectId);
-
-    executor.submit(
-        () -> {
-          List<SceneItemModel> scenes = roomDatabase.runInTransaction(callable);
-
-          mutableLiveData.postValue(scenes);
-        });
-
-    return mutableLiveData;
+  public LiveData<List<SceneWithFramesModel>> getScenes(String projectId) {
+    return roomDatabase.getSceneDAO().getScenesWithFrames(projectId);
   }
 
   public void addScene(SceneItemModel model) {

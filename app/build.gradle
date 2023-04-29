@@ -15,6 +15,23 @@ android {
 		versionCode 1
 		versionName "1.0"
 		multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+	}
+    
+    signingConfigs {
+    	release {
+	    	keyAlias 'AkiraSnow'
+	    	keyPassword 'Akira00'
+	    	storeFile file("/storage/emulated/0/AndroidIDEProjects/AkiraSnow00.jks")
+	    	storePassword 'Akira00'
+	}
+
+	debug {
+		keyAlias 'AkiraSnow'
+		keyPassword 'Akira00'
+		storeFile file("/storage/emulated/0/AndroidIDEProjects/AkiraSnow00.jks")
+		storePassword 'Akira00'
+	}
 	}
 
 	buildTypes {

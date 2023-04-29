@@ -1,17 +1,21 @@
 package com.akira.akirastoryboard.activities.main;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.*;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,12 +32,13 @@ import com.akira.akirastoryboard.recyclerviews.adapters.ProjectAdapter;
 import com.akira.akirastoryboard.widgets.recyclerview.AkiraRecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity
-    implements ProjectAdapter.ProjectItemClickListener {
+    implements ProjectAdapter.ProjectItemClickListener, ActionMode.Callback {
   private ActivityMainBinding binding;
   private LinearLayoutManager lm;
   private AkiraRecyclerView rv;
@@ -49,10 +54,8 @@ public class MainActivity extends AppCompatActivity
   private final int READ_STORAGE_PERMISSION_CODE = 1;
   private DrawerLayout drawerLayout;
   private ActionBarDrawerToggle toggle;
+  private ProjectItemModel selected_model;
 
-  private ActivityResultLauncher<Intent> launcher;
-
-  @SuppressWarnings("deprecation")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -60,21 +63,6 @@ public class MainActivity extends AppCompatActivity
 
     this.viewModelfactory = component.getMainActivityVMFactory();
     this.viewModel = new ViewModelProvider(this, viewModelfactory).get(MainActivityViewModel.class);
-    this.launcher =
-        registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-              if (result.getResultCode() == RESULT_OK) {
-                Intent intent = result.getData();
-                ProjectItemModel model;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                  model = intent.getExtras().getParcelable("updated_model", ProjectItemModel.class);
-                else model = intent.getExtras().getParcelable("updated_model");
-
-                viewModel.setUpdateProject(model);
-              }
-            });
-
     this.binding = ActivityMainBinding.inflate(getLayoutInflater());
 
     this.lm = new LinearLayoutManager(this);
@@ -97,22 +85,20 @@ public class MainActivity extends AppCompatActivity
     Bundle bundle = new Bundle();
     bundle.putParcelable("project", model);
 
-    launcher.launch(new Intent(this, SceneActivity.class).putExtras(bundle));
+    startActivity(new Intent(this, SceneActivity.class).putExtras(bundle));
   }
 
   @Override
   public void onProjectLongClick(int position, ProjectItemModel model) {
-    Bundle bundle = new Bundle();
-    bundle.putParcelable("project", model);
-
-    EditProjectBottomSheet project = new EditProjectBottomSheet();
-    project.setArguments(bundle);
-    project.show(getSupportFragmentManager(), null);
+    this.selected_model = model;
+    startSupportActionMode(this);
   }
 
   @Override
   public void onRequestPermissionsResult(
       int requestCode, String[] permissions, int[] grantResults) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
     if (requestCode == READ_STORAGE_PERMISSION_CODE) {
       if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
         Snackbar.make(binding.activityRoot, "Akira Storyboard is ready", Snackbar.LENGTH_SHORT)
@@ -125,6 +111,62 @@ public class MainActivity extends AppCompatActivity
             .show();
       }
     }
+  }
+
+  @Override
+  public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+    mode.getMenuInflater().inflate(R.menu.contextual_menu_project, menu);
+    mode.setTitle(selected_model.getTitle());
+    mode.setSubtitle(String.valueOf(selected_model.getNumber()));
+
+    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+    return true;
+  }
+
+  @Override
+  public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+    return false;
+  }
+
+  @Override
+  public boolean onActionItemClicked(ActionMode mode, MenuItem menu) {
+    switch (menu.getItemId()) {
+      case R.id.menu_project_edit:
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("project", selected_model);
+
+        EditProjectBottomSheet project = new EditProjectBottomSheet();
+        project.setArguments(bundle);
+        project.show(getSupportFragmentManager(), null);
+        mode.finish();
+        return true;
+
+      case R.id.menu_project_delete:
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+        builder.setTitle("Delete project");
+        builder.setMessage(
+            "Are you sure you want to delete " + selected_model.getTitle() + " project?");
+        builder.setPositiveButton(
+            "Delete",
+            (DialogInterface dialog, int id) -> {
+              viewModel.deleteProject(selected_model);
+            });
+
+        builder.setNegativeButton("Cancel", (DialogInterface dialog, int id) -> {});
+
+        builder.create().show();
+
+        mode.finish();
+        return true;
+    }
+
+    return false;
+  }
+
+  @Override
+  public void onDestroyActionMode(ActionMode mode) {
+
+    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.START);
   }
 
   private void onsetViewBinding() {
@@ -143,7 +185,6 @@ public class MainActivity extends AppCompatActivity
     rv.setLayoutManager(lm);
     rv.setAdapter(adapter);
     rv.setEmptyView(emptyView);
-    rv.setToolbarCollapsedWhenEmpty(appbar);
 
     fab.setOnClickListener(
         v -> {
@@ -158,7 +199,29 @@ public class MainActivity extends AppCompatActivity
 
     navigationView.setNavigationItemSelectedListener(
         menuItem -> {
-          return true;
+          switch (menuItem.getItemId()) {
+            case R.id.drawer_info_facebook:
+              openLink("https://www.facebook.com/profile.php?id=100087796637987");
+              return true;
+
+            case R.id.drawer_info_guide:
+              openLink("https://www.facebook.com/profile.php?id=100087796637987");
+              return true;
+
+            case R.id.drawer_info_feed:
+              openFeedBack();
+              return true;
+
+            case R.id.drawer_info_source:
+              openLink("https://github.com/SnowAkira09876");
+              return true;
+
+            case R.id.drawer_info_policy:
+              openLink(
+                  "https://www.freeprivacypolicy.com/live/99ad50d9-2235-40f1-a9ad-9b28d7735815");
+              return true;
+          }
+          return false;
         });
   }
 
@@ -186,20 +249,17 @@ public class MainActivity extends AppCompatActivity
             model -> {
               viewModel.updateProject(model);
             });
+  }
 
-    viewModel
-        .getDeleteProject()
-        .observe(
-            this,
-            model -> {
-              if ("0 scenes".equals(model.getScenes())) viewModel.deleteProject(model);
-              else
-                Snackbar.make(
-                        binding.activityRoot,
-                        "Project can't be deleted if it contains scenes",
-                        Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Okay", v -> {})
-                    .show();
-            });
+  private void openLink(String url) {
+    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+    startActivity(intent);
+  }
+
+  private void openFeedBack() {
+    String email = "snowakira2814@gmail.com";
+    Intent intent = new Intent(Intent.ACTION_SENDTO);
+    intent.setData(Uri.parse("mailto:" + email));
+    startActivity(intent);
   }
 }
