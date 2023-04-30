@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import com.akira.akirastoryboard.R;
 import com.akira.akirastoryboard.activities.frame.FrameActivityViewModel;
@@ -71,7 +72,7 @@ public class EditFrameBottomSheet extends BottomSheetDialogFragment {
   private void onsetViews() {
     Picasso.get()
         .load(Uri.fromFile(new File(model.getImagePath())))
-        .placeholder(R.drawable.ic_image_broken)
+        .placeholder(ContextCompat.getDrawable(getActivity(), R.drawable.ic_image_broken))
         .into(iv_frame);
 
     te_path.setText(model.getImagePath());
@@ -92,7 +93,7 @@ public class EditFrameBottomSheet extends BottomSheetDialogFragment {
           public void afterTextChanged(Editable s) {
             Picasso.get()
                 .load(Uri.fromFile(new File(s.toString())))
-                .placeholder(R.drawable.ic_image_broken)
+                .placeholder(ContextCompat.getDrawable(getActivity(), R.drawable.ic_image_broken))
                 .into(iv_frame);
           }
         });

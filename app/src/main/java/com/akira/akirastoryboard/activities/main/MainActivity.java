@@ -38,7 +38,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity
-    implements ProjectAdapter.ProjectItemClickListener, ActionMode.Callback {
+    implements ProjectAdapter.ProjectItemClickListener,
+        ActionMode.Callback {
   private ActivityMainBinding binding;
   private LinearLayoutManager lm;
   private AkiraRecyclerView rv;
@@ -101,12 +102,12 @@ public class MainActivity extends AppCompatActivity
 
     if (requestCode == READ_STORAGE_PERMISSION_CODE) {
       if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-        Snackbar.make(binding.activityRoot, "Akira Storyboard is ready", Snackbar.LENGTH_SHORT)
+        Snackbar.make(binding.activityRoot, "FM Storyboard is ready", Snackbar.LENGTH_SHORT)
             .show();
       } else {
         Snackbar.make(
                 binding.activityRoot,
-                "Akira Storyboard is still functional but you cannot put images",
+                "FM Storyboard is still functional but you cannot put images",
                 Snackbar.LENGTH_SHORT)
             .show();
       }

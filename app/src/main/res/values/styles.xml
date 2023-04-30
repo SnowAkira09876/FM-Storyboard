@@ -1,22 +1,22 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-	<style
-		name="RoundedImageView"
-		parent="">
-		<item name="cornerFamily">rounded</item>
-		<item name="cornerSize">10%</item>
-	</style>
-
-	<style
-		name="RoundedFrame"
-		parent="">
-		<item name="cornerFamily">rounded</item>
-		<item name="cornerSize">3%</item>
-	</style>
-    
     <style
-		name="CircularImage"
-		parent="">
-		<item name="cornerFamily">rounded</item>
+        name="RoundedImageView"
+        parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10%</item>
+    </style>
+
+    <style
+        name="RoundedFrame"
+        parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">3%</item>
+    </style>
+
+    <style
+        name="CircularImage"
+        parent="">
+        <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
-	</style>
+    </style>
 </resources>

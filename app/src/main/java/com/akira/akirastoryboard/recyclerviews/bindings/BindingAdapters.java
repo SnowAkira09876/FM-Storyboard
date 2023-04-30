@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.text.Spanned;
 import android.view.Gravity;
 import android.widget.TextView;
+import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.databinding.BindingAdapter;
 import com.akira.akirastoryboard.R;
@@ -29,7 +30,7 @@ public class BindingAdapters {
   public static void loadImage(ShapeableImageView imageView, String path) {
     Picasso.get()
         .load(Uri.fromFile(new File(path)))
-        .placeholder(R.drawable.ic_image_broken)
+        .placeholder(ContextCompat.getDrawable(imageView.getContext(), R.drawable.ic_image_broken))
         .into(imageView);
   }
 }

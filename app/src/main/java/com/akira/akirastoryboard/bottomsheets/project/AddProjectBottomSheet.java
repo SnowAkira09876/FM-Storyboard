@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import com.akira.akirastoryboard.R;
 import com.akira.akirastoryboard.activities.main.MainActivityViewModel;
@@ -75,7 +76,7 @@ public class AddProjectBottomSheet extends BottomSheetDialogFragment {
           public void afterTextChanged(Editable s) {
             Picasso.get()
                 .load(Uri.fromFile(new File(s.toString())))
-                .placeholder(R.drawable.ic_image_broken)
+                .placeholder(ContextCompat.getDrawable(getActivity(), R.drawable.ic_image_broken))
                 .into(iv_cover);
           }
         });

@@ -25,7 +25,7 @@ public class MainActivityViewModel extends ViewModel {
   public void updateProject(ProjectItemModel model) {
     repo.updateProject(model);
   }
-  
+
   public void deleteProject(ProjectItemModel model) {
     repo.deleteProject(model);
   }

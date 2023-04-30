@@ -10,12 +10,10 @@ android {
 
 	defaultConfig {
 		applicationId "com.akira.akirastoryboard"
-		minSdk 19
+		minSdk 21
 		targetSdk 33
 		versionCode 1
 		versionName "1.0"
-		multiDexEnabled true
-        vectorDrawables.useSupportLibrary = true
 	}
     
     signingConfigs {
@@ -85,6 +83,4 @@ dependencies {
 
 	implementation 'com.google.dagger:dagger:2.45'
 	annotationProcessor 'com.google.dagger:dagger-compiler:2.45'
-
-	implementation 'androidx.multidex:multidex:2.0.1'
 }
