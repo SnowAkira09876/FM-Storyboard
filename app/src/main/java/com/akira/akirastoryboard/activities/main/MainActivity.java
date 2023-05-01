@@ -1,6 +1,7 @@
 package com.akira.akirastoryboard.activities.main;
 
 import android.Manifest;
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,12 +10,15 @@ import android.os.*;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
@@ -36,10 +40,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 
 public class MainActivity extends AppCompatActivity
     implements ProjectAdapter.ProjectItemClickListener,
-        ActionMode.Callback {
+        ActionMode.Callback,
+        ViewTreeObserver.OnPreDrawListener {
   private ActivityMainBinding binding;
   private LinearLayoutManager lm;
   private AkiraRecyclerView rv;
@@ -56,10 +62,15 @@ public class MainActivity extends AppCompatActivity
   private DrawerLayout drawerLayout;
   private ActionBarDrawerToggle toggle;
   private ProjectItemModel selected_model;
+  private View content;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+    
+    setExitSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
     super.onCreate(savedInstanceState);
+
     this.component = StartApplication.getAppComponent();
 
     this.viewModelfactory = component.getMainActivityVMFactory();
@@ -82,11 +93,14 @@ public class MainActivity extends AppCompatActivity
   }
 
   @Override
-  public void onProjectClick(int position, ProjectItemModel model) {
+  public void onProjectClick(int position, ProjectItemModel model, View view) {
+    ActivityOptions options =
+        ActivityOptions.makeSceneTransitionAnimation(this, view, getString(R.string.project_to_scene));
+
     Bundle bundle = new Bundle();
     bundle.putParcelable("project", model);
 
-    startActivity(new Intent(this, SceneActivity.class).putExtras(bundle));
+    startActivity(new Intent(this, SceneActivity.class).putExtras(bundle), options.toBundle());
   }
 
   @Override
@@ -102,8 +116,7 @@ public class MainActivity extends AppCompatActivity
 
     if (requestCode == READ_STORAGE_PERMISSION_CODE) {
       if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-        Snackbar.make(binding.activityRoot, "FM Storyboard is ready", Snackbar.LENGTH_SHORT)
-            .show();
+        Snackbar.make(binding.activityRoot, "FM Storyboard is ready", Snackbar.LENGTH_SHORT).show();
       } else {
         Snackbar.make(
                 binding.activityRoot,
@@ -170,6 +183,16 @@ public class MainActivity extends AppCompatActivity
     drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.START);
   }
 
+  @Override
+  public boolean onPreDraw() {
+    if (viewModel.getDataIsReady().getValue() == true) {
+      content.getViewTreeObserver().removeOnPreDrawListener(this);
+      return true;
+    }
+
+    return false;
+  }
+
   private void onsetViewBinding() {
     this.rv = binding.rv;
     this.fab = binding.fab;
@@ -178,10 +201,14 @@ public class MainActivity extends AppCompatActivity
     this.toolbar = binding.toolBar;
     this.navigationView = binding.navigationView;
     this.drawerLayout = binding.drawerLayout;
+    this.content = findViewById(android.R.id.content);
   }
 
   private void onsetViews() {
+    viewModel.setDataIsReady(false);
+
     setContentView(binding.getRoot());
+    content.getViewTreeObserver().addOnPreDrawListener(this);
 
     rv.setLayoutManager(lm);
     rv.setAdapter(adapter);
@@ -233,6 +260,7 @@ public class MainActivity extends AppCompatActivity
             this,
             list -> {
               adapter.submitList(list);
+              viewModel.setDataIsReady(true);
             });
 
     viewModel

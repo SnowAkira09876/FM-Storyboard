@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.akira.akirastoryboard.StartApplication;
@@ -25,6 +26,9 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.akira.akirastoryboard.R;
+import com.google.android.material.transition.platform.MaterialContainerTransform;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
+import com.google.android.material.transition.platform.MaterialFadeThrough;
 
 public class FrameActivity extends AppCompatActivity
     implements FrameAdapter.FrameItemClickListener, ActionMode.Callback {
@@ -45,7 +49,15 @@ public class FrameActivity extends AppCompatActivity
   @SuppressWarnings("deprecation")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    MaterialFadeThrough enter = new MaterialFadeThrough();
+    getWindow().setEnterTransition(enter);
+    
+    MaterialFadeThrough exit = new MaterialFadeThrough();
+    getWindow().setExitTransition(enter);
+    
+    postponeEnterTransition();
     super.onCreate(savedInstanceState);
+
     this.component = StartApplication.getAppComponent();
     this.viewModelFactory = component.getFrameActivityVMFactory();
     this.viewModel =
@@ -102,7 +114,8 @@ public class FrameActivity extends AppCompatActivity
       case R.id.menu_frame_delete:
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
         builder.setTitle("Delete frame");
-        builder.setMessage("Are you sure you want to delete frame " + selected_model.getNumber() + "?");
+        builder.setMessage(
+            "Are you sure you want to delete frame " + selected_model.getNumber() + "?");
         builder.setPositiveButton(
             "Delete",
             (DialogInterface dialog, int id) -> {
@@ -156,6 +169,7 @@ public class FrameActivity extends AppCompatActivity
             this,
             list -> {
               adapter.submitList(list);
+              startPostponedEnterTransition();
             });
 
     viewModel

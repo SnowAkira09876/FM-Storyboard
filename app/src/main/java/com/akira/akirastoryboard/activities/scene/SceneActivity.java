@@ -1,14 +1,17 @@
 package com.akira.akirastoryboard.activities.scene;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.akira.akirastoryboard.R;
@@ -27,6 +30,9 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.transition.platform.MaterialContainerTransform;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
+import com.google.android.material.transition.platform.MaterialFadeThrough;
 
 public class SceneActivity extends AppCompatActivity
     implements SceneAdapter.SceneItemClickListener, ActionMode.Callback {
@@ -47,9 +53,11 @@ public class SceneActivity extends AppCompatActivity
 
   @Override
   public void onSceneClick(int position, SceneItemModel model) {
+    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+
     Bundle bundle = new Bundle();
     bundle.putParcelable("scene", model);
-    startActivity(new Intent(this, FrameActivity.class).putExtras(bundle));
+    startActivity(new Intent(this, FrameActivity.class).putExtras(bundle), options.toBundle());
   }
 
   @Override
@@ -61,7 +69,34 @@ public class SceneActivity extends AppCompatActivity
   @SuppressWarnings("deprecation")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    MaterialContainerTransformSharedElementCallback container_callback =
+        new MaterialContainerTransformSharedElementCallback();
+    container_callback.setTransparentWindowBackgroundEnabled(false);
+
+    MaterialContainerTransform enter = new MaterialContainerTransform();
+    enter.addTarget(R.id.activity_root);
+    enter.setAllContainerColors(ContextCompat.getColor(this, R.color.colorSurface));
+    
+    MaterialContainerTransform exit = new MaterialContainerTransform();
+    exit.addTarget(R.id.activity_root);
+    
+    MaterialFadeThrough fade_enter = new MaterialFadeThrough();
+    getWindow().setEnterTransition(enter);
+    
+    MaterialFadeThrough fade_exit = new MaterialFadeThrough();
+    getWindow().setExitTransition(enter);
+    
+    getWindow().setSharedElementEnterTransition(enter);
+    getWindow().setSharedElementExitTransition(enter);
+    getWindow().setSharedElementsUseOverlay(false);
+    
+    getWindow().setExitTransition(fade_exit);
+    getWindow().setEnterTransition(fade_enter);
+
+    setEnterSharedElementCallback(container_callback);
+
     super.onCreate(savedInstanceState);
+
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
       this.model =
           getIntent().getExtras() != null
@@ -117,7 +152,8 @@ public class SceneActivity extends AppCompatActivity
       case R.id.menu_scene_delete:
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
         builder.setTitle("Delete scene");
-        builder.setMessage("Are you sure you want to delete " + selected_model.getTitle() + " scene?");
+        builder.setMessage(
+            "Are you sure you want to delete " + selected_model.getTitle() + " scene?");
         builder.setPositiveButton(
             "Delete",
             (DialogInterface dialog, int id) -> {

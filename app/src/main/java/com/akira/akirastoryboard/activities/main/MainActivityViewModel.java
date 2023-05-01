@@ -13,7 +13,8 @@ public class MainActivityViewModel extends ViewModel {
   private MainActivityRepo repo;
   private final MutableLiveData<ProjectItemModel> newProject = new MutableLiveData<>();
   private final MutableLiveData<ProjectItemModel> updateProject = new MutableLiveData<>();
-  
+  private final MutableLiveData<Boolean> dataIsReady = new MutableLiveData<>();
+
   public MainActivityViewModel(AkiraRoomDatabase roomDatabase, ExecutorService executor) {
     this.repo = new MainActivityRepo(roomDatabase, executor);
   }
@@ -48,5 +49,13 @@ public class MainActivityViewModel extends ViewModel {
 
   public void setUpdateProject(ProjectItemModel model) {
     this.updateProject.setValue(model);
+  }
+
+  public MutableLiveData<Boolean> getDataIsReady() {
+    return this.dataIsReady;
+  }
+  
+  public void setDataIsReady(boolean isReady) {
+    this.dataIsReady.setValue(isReady);
   }
 }

@@ -1,6 +1,7 @@
 package com.akira.akirastoryboard.recyclerviews.adapters;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.DiffUtil;
 import com.akira.akirastoryboard.databinding.ItemProjectBinding;
@@ -30,7 +31,7 @@ public class ProjectAdapter extends BaseListAdapter<ProjectWithScenesModel, Proj
   }
 
   public interface ProjectItemClickListener {
-    void onProjectClick(int position, ProjectItemModel model);
+    void onProjectClick(int position, ProjectItemModel model, View view);
 
     void onProjectLongClick(int position, ProjectItemModel model);
   }

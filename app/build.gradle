@@ -10,7 +10,7 @@ android {
 
 	defaultConfig {
 		applicationId "com.akira.akirastoryboard"
-		minSdk 21
+		minSdk 23
 		targetSdk 33
 		versionCode 1
 		versionName "1.0"
@@ -22,18 +22,12 @@ android {
 	    	keyPassword 'Akira00'
 	    	storeFile file("/storage/emulated/0/AndroidIDEProjects/AkiraSnow00.jks")
 	    	storePassword 'Akira00'
-	}
-
-	debug {
-		keyAlias 'AkiraSnow'
-		keyPassword 'Akira00'
-		storeFile file("/storage/emulated/0/AndroidIDEProjects/AkiraSnow00.jks")
-		storePassword 'Akira00'
-	}
+    	}
 	}
 
 	buildTypes {
 		release {
+			signingConfig signingConfigs.release        
 			minifyEnabled false
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 		}
@@ -75,7 +69,8 @@ dependencies {
 	implementation 'androidx.appcompat:appcompat:1.6.1'
 	implementation 'androidx.fragment:fragment:1.5.5'
 	implementation 'androidx.viewpager2:viewpager2:1.0.0'
-	implementation 'com.google.android.material:material:1.9.0-alpha02'
+	implementation 'com.google.android.material:material:1.9.0-rc01'
+	implementation 'androidx.core:core-splashscreen:1.0.0-beta02'
 	implementation 'com.squareup.picasso:picasso:2.8'
 
 	implementation 'androidx.room:room-runtime:2.5.1'

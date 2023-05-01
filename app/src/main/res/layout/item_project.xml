@@ -13,6 +13,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:transitionName="@string/project_to_scene"
         android:id="@+id/projectCard"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

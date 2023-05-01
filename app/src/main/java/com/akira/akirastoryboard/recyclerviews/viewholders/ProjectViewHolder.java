@@ -23,7 +23,7 @@ public class ProjectViewHolder extends RecyclerView.ViewHolder {
 
     itemView.setOnClickListener(
         v -> {
-          listener.onProjectClick(position, model.projectItemModel);
+          listener.onProjectClick(position, model.projectItemModel, binding.projectCard);
         });
 
     itemView.setOnLongClickListener(

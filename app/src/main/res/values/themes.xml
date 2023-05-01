@@ -31,8 +31,7 @@
 
         <!-- SYSTEM BARS LIGHT -->
         <item
-            name="android:windowLightStatusBar"
-            tools:targetApi="23">true</item>
+            name="android:windowLightStatusBar">true</item>
         <item
             name="android:windowLightNavigationBar"
             tools:targetApi="27">true</item>
@@ -46,7 +45,9 @@
         <item
             name="android:enforceNavigationBarContrast"
             tools:targetApi="29">false</item>
-            
+
         <item name="windowActionModeOverlay">true</item>
+
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 </resources>
