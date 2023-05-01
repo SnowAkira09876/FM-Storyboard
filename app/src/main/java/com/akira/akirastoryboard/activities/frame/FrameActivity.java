@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.akira.akirastoryboard.StartApplication;
@@ -26,9 +25,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.akira.akirastoryboard.R;
-import com.google.android.material.transition.platform.MaterialContainerTransform;
-import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
-import com.google.android.material.transition.platform.MaterialFadeThrough;
+import com.google.android.material.transition.platform.MaterialSharedAxis;
 
 public class FrameActivity extends AppCompatActivity
     implements FrameAdapter.FrameItemClickListener, ActionMode.Callback {
@@ -49,9 +46,10 @@ public class FrameActivity extends AppCompatActivity
   @SuppressWarnings("deprecation")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    MaterialFadeThrough fade = new MaterialFadeThrough();
-    getWindow().setEnterTransition(fade);
-    getWindow().setExitTransition(fade);
+    MaterialSharedAxis axis = new MaterialSharedAxis(MaterialSharedAxis.Y, false);
+    
+    getWindow().setExitTransition(axis);
+    getWindow().setEnterTransition(axis);
     
     getWindow().setAllowEnterTransitionOverlap(true);
     

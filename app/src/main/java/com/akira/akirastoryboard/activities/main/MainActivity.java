@@ -45,7 +45,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.transition.platform.MaterialFadeThrough;
+import com.google.android.material.transition.platform.MaterialSharedAxis;
 
 public class MainActivity extends AppCompatActivity
     implements ProjectAdapter.ProjectItemClickListener,
@@ -73,10 +73,10 @@ public class MainActivity extends AppCompatActivity
   protected void onCreate(Bundle savedInstanceState) {
     SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
 
-    MaterialFadeThrough fade = new MaterialFadeThrough();
+    MaterialSharedAxis axis = new MaterialSharedAxis(MaterialSharedAxis.Y, false);
     
-    getWindow().setExitTransition(fade);
-    getWindow().setEnterTransition(fade);
+    getWindow().setExitTransition(axis);
+    getWindow().setEnterTransition(axis);
     
     super.onCreate(savedInstanceState);
 

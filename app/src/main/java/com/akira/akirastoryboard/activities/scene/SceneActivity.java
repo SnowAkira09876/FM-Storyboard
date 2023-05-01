@@ -28,7 +28,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.transition.platform.MaterialFadeThrough;
+import com.google.android.material.transition.platform.MaterialSharedAxis;
 
 public class SceneActivity extends AppCompatActivity
     implements SceneAdapter.SceneItemClickListener, ActionMode.Callback {
@@ -65,10 +65,10 @@ public class SceneActivity extends AppCompatActivity
   @SuppressWarnings("deprecation")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    MaterialFadeThrough fade = new MaterialFadeThrough();
+    MaterialSharedAxis axis = new MaterialSharedAxis(MaterialSharedAxis.Y, false);
     
-    getWindow().setExitTransition(fade);
-    getWindow().setEnterTransition(fade);
+    getWindow().setExitTransition(axis);
+    getWindow().setEnterTransition(axis);
     
     getWindow().setAllowEnterTransitionOverlap(true);
     
