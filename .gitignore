@@ -2,7 +2,6 @@
 app/build
 app/proguard-rules.pro
 build
-images
 .gradle
 .ssh
 gradle
