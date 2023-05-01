@@ -15,7 +15,12 @@ import androidx.room.PrimaryKey;
             parentColumns = "projectId",
             childColumns = "projectId",
             onDelete = ForeignKey.CASCADE),
-    indices = {@Index("projectId")})
+    indices = {
+      @Index(value = {"projectId"}),
+      @Index(
+          value = {"sceneId"},
+          unique = true)
+    })
 public class SceneItemModel implements Parcelable {
   @PrimaryKey(autoGenerate = true)
   private int id;

@@ -1,6 +1,7 @@
 .androidide
 app/build
 app/proguard-rules.pro
+images
 build
 .gradle
 .ssh

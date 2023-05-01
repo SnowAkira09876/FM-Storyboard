@@ -1,35 +1,3 @@
-
 <resources>
-    <color name="seed">#795548</color>
-    <color name="md_theme_dark_primary">#FFB59A</color>
-    <color name="md_theme_dark_onPrimary">#5B1B00</color>
-    <color name="md_theme_dark_primaryContainer">#7B2E0D</color>
-    <color name="md_theme_dark_onPrimaryContainer">#FFDBCF</color>
-    <color name="md_theme_dark_secondary">#E7BEAF</color>
-    <color name="md_theme_dark_onSecondary">#442A20</color>
-    <color name="md_theme_dark_secondaryContainer">#5D4035</color>
-    <color name="md_theme_dark_onSecondaryContainer">#FFDBCF</color>
-    <color name="md_theme_dark_tertiary">#D5C68E</color>
-    <color name="md_theme_dark_onTertiary">#393005</color>
-    <color name="md_theme_dark_tertiaryContainer">#50471A</color>
-    <color name="md_theme_dark_onTertiaryContainer">#F2E2A8</color>
-    <color name="md_theme_dark_error">#FFB4AB</color>
-    <color name="md_theme_dark_errorContainer">#93000A</color>
-    <color name="md_theme_dark_onError">#690005</color>
-    <color name="md_theme_dark_onErrorContainer">#FFDAD6</color>
-    <color name="md_theme_dark_background">#201A18</color>
-    <color name="md_theme_dark_onBackground">#EDE0DC</color>
-    <color name="md_theme_dark_surface">#201A18</color>
-    <color name="md_theme_dark_onSurface">#EDE0DC</color>
-    <color name="md_theme_dark_surfaceVariant">#53433E</color>
-    <color name="md_theme_dark_onSurfaceVariant">#D8C2BB</color>
-    <color name="md_theme_dark_outline">#A08D86</color>
-    <color name="md_theme_dark_inverseOnSurface">#201A18</color>
-    <color name="md_theme_dark_inverseSurface">#EDE0DC</color>
-    <color name="md_theme_dark_inversePrimary">#9A4522</color>
-    <color name="md_theme_dark_shadow">#000000</color>
-    <color name="md_theme_dark_surfaceTint">#FFB59A</color>
-    <color name="md_theme_dark_outlineVariant">#53433E</color>
-    <color name="md_theme_dark_scrim">#000000</color>
-        <color name="colorSurface">@color/md_theme_dark_surface</color>
+    <color name="colorSurface">@color/md_theme_dark_surface</color>
 </resources>

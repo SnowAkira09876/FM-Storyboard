@@ -3,9 +3,19 @@ package com.akira.akirastoryboard.pojos;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "FramesTable")
+@Entity(
+    tableName = "FramesTable",
+    foreignKeys =
+        @ForeignKey(
+            entity = SceneItemModel.class,
+            parentColumns = "sceneId",
+            childColumns = "sceneId",
+            onDelete = ForeignKey.CASCADE),
+    indices = {@Index(value = {"sceneId"})})
 public class FrameItemModel implements Parcelable {
   @PrimaryKey(autoGenerate = true)
   private int id;

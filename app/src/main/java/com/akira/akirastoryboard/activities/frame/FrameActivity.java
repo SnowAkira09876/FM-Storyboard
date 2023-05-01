@@ -49,13 +49,14 @@ public class FrameActivity extends AppCompatActivity
   @SuppressWarnings("deprecation")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    MaterialFadeThrough enter = new MaterialFadeThrough();
-    getWindow().setEnterTransition(enter);
+    MaterialFadeThrough fade = new MaterialFadeThrough();
+    getWindow().setEnterTransition(fade);
+    getWindow().setExitTransition(fade);
     
-    MaterialFadeThrough exit = new MaterialFadeThrough();
-    getWindow().setExitTransition(enter);
+    getWindow().setAllowEnterTransitionOverlap(true);
     
     postponeEnterTransition();
+    
     super.onCreate(savedInstanceState);
 
     this.component = StartApplication.getAppComponent();

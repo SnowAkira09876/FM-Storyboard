@@ -7,11 +7,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.akira.akirastoryboard.R;
@@ -30,8 +28,6 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.transition.platform.MaterialContainerTransform;
-import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 import com.google.android.material.transition.platform.MaterialFadeThrough;
 
 public class SceneActivity extends AppCompatActivity
@@ -69,31 +65,14 @@ public class SceneActivity extends AppCompatActivity
   @SuppressWarnings("deprecation")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    MaterialContainerTransformSharedElementCallback container_callback =
-        new MaterialContainerTransformSharedElementCallback();
-    container_callback.setTransparentWindowBackgroundEnabled(false);
-
-    MaterialContainerTransform enter = new MaterialContainerTransform();
-    enter.addTarget(R.id.activity_root);
-    enter.setAllContainerColors(ContextCompat.getColor(this, R.color.colorSurface));
+    MaterialFadeThrough fade = new MaterialFadeThrough();
     
-    MaterialContainerTransform exit = new MaterialContainerTransform();
-    exit.addTarget(R.id.activity_root);
+    getWindow().setExitTransition(fade);
+    getWindow().setEnterTransition(fade);
     
-    MaterialFadeThrough fade_enter = new MaterialFadeThrough();
-    getWindow().setEnterTransition(enter);
+    getWindow().setAllowEnterTransitionOverlap(true);
     
-    MaterialFadeThrough fade_exit = new MaterialFadeThrough();
-    getWindow().setExitTransition(enter);
-    
-    getWindow().setSharedElementEnterTransition(enter);
-    getWindow().setSharedElementExitTransition(enter);
-    getWindow().setSharedElementsUseOverlay(false);
-    
-    getWindow().setExitTransition(fade_exit);
-    getWindow().setEnterTransition(fade_enter);
-
-    setEnterSharedElementCallback(container_callback);
+    postponeEnterTransition();
 
     super.onCreate(savedInstanceState);
 
@@ -207,6 +186,7 @@ public class SceneActivity extends AppCompatActivity
             this,
             list -> {
               adapter.submitList(list);
+              startPostponedEnterTransition();
             });
 
     viewModel
