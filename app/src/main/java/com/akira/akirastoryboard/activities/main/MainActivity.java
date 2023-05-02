@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -19,12 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -214,20 +209,6 @@ public class MainActivity extends AppCompatActivity
 
   private void onsetViews() {
     viewModel.setDataIsReady(false);
-
-    WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-    ViewCompat.setOnApplyWindowInsetsListener(
-        binding.activityRoot,
-        (v, windowInsets) -> {
-          Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-          ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-          mlp.topMargin = insets.top;
-          mlp.bottomMargin = insets.bottom;
-          v.setLayoutParams(mlp);
-
-          return WindowInsetsCompat.CONSUMED;
-        });
-
     setContentView(binding.getRoot());
     content.getViewTreeObserver().addOnPreDrawListener(this);
 

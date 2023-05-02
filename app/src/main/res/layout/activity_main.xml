@@ -9,12 +9,14 @@
     tools:openDrawer="start">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:fitsSystemWindows="true"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:id="@+id/activity_root"
     >
 
         <com.google.android.material.appbar.AppBarLayout
+            android:fitsSystemWindows="true"
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
