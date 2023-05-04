@@ -10,7 +10,8 @@ public class ProjectDiffUtil extends DiffUtil.ItemCallback<ProjectWithScenesMode
   }
 
   @Override
-  public boolean areContentsTheSame(ProjectWithScenesModel oldItem, ProjectWithScenesModel newItem) {
+  public boolean areContentsTheSame(
+      ProjectWithScenesModel oldItem, ProjectWithScenesModel newItem) {
     return oldItem.equals(newItem);
   }
 }

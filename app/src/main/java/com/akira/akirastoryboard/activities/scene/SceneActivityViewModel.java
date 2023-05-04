@@ -13,7 +13,7 @@ public class SceneActivityViewModel extends ViewModel {
   private SceneActivityRepo repo;
   private final MutableLiveData<SceneItemModel> newScene = new MutableLiveData<>();
   private final MutableLiveData<SceneItemModel> updateScene = new MutableLiveData<>();
-  
+
   public SceneActivityViewModel(AkiraRoomDatabase roomDatabase, ExecutorService executor) {
     this.repo = new SceneActivityRepo(roomDatabase, executor);
   }

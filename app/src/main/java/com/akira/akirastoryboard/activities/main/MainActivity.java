@@ -69,10 +69,10 @@ public class MainActivity extends AppCompatActivity
     SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
 
     MaterialSharedAxis axis = new MaterialSharedAxis(MaterialSharedAxis.Y, false);
-    
+
     getWindow().setExitTransition(axis);
     getWindow().setEnterTransition(axis);
-    
+
     super.onCreate(savedInstanceState);
 
     this.component = StartApplication.getAppComponent();

@@ -12,22 +12,22 @@ android {
 		applicationId "com.akira.akirastoryboard"
 		minSdk 23
 		targetSdk 33
-		versionCode 1
-		versionName "1.0"
+		versionCode 2
+		versionName "1.2"
 	}
-    
-    signingConfigs {
-    	release {
-	    	keyAlias 'AkiraSnow'
-	    	keyPassword 'Akira00'
-	    	storeFile file("/storage/emulated/0/AndroidIDEProjects/AkiraSnow00.jks")
-	    	storePassword 'Akira00'
-    	}
+
+	signingConfigs {
+		release {
+			keyAlias 'AkiraSnow'
+			keyPassword 'Akira00'
+			storeFile file("/storage/emulated/0/AndroidIDEProjects/AkiraSnow00.jks")
+			storePassword 'Akira00'
+		}
 	}
 
 	buildTypes {
 		release {
-			signingConfig signingConfigs.release        
+			signingConfig signingConfigs.release
 			minifyEnabled false
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 		}

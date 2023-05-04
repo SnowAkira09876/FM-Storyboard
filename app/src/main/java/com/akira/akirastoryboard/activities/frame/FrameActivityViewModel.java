@@ -14,7 +14,7 @@ public class FrameActivityViewModel extends ViewModel {
   private ExecutorService executor;
   private final MutableLiveData<FrameItemModel> newFrame = new MutableLiveData<>();
   private final MutableLiveData<FrameItemModel> updateFrame = new MutableLiveData<>();
-  
+
   public FrameActivityViewModel(AkiraRoomDatabase roomDatabase, ExecutorService executor) {
     this.roomDatabase = roomDatabase;
     this.executor = executor;

@@ -65,7 +65,7 @@ public class AddSceneBottomSheet extends BottomSheetDialogFragment {
           }
           if (TextUtils.isEmpty(scene_info)) {
             tl_info.setErrorEnabled(true);
-            tl_info.setError("Story is empty");
+            tl_info.setError("Info is empty");
           }
 
           if (TextUtils.isEmpty(number)) {

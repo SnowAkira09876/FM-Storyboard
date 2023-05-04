@@ -35,9 +35,9 @@
 		<item
 			name="android:windowLightNavigationBar"
 			tools:targetApi="27">false</item>
-		<item
-			name="android:navigationBarColor"
-			tools:targetApi="27">@android:color/transparent</item>
+        <item
+            name="android:navigationBarColor"
+            tools:targetApi="27">@android:color/transparent</item>
 		<item name="android:statusBarColor">@android:color/transparent</item>
 		<item
 			name="android:enforceStatusBarContrast"

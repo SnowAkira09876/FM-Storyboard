@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.akira.akirastoryboard.R;
 import com.akira.akirastoryboard.StartApplication;
 import com.akira.akirastoryboard.bottomsheets.frame.AddFrameBottomSheet;
 import com.akira.akirastoryboard.bottomsheets.frame.EditFrameBottomSheet;
@@ -24,7 +25,6 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.akira.akirastoryboard.R;
 import com.google.android.material.transition.platform.MaterialSharedAxis;
 
 public class FrameActivity extends AppCompatActivity
@@ -47,14 +47,14 @@ public class FrameActivity extends AppCompatActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     MaterialSharedAxis axis = new MaterialSharedAxis(MaterialSharedAxis.Y, false);
-    
+
     getWindow().setExitTransition(axis);
     getWindow().setEnterTransition(axis);
-    
+
     getWindow().setAllowEnterTransitionOverlap(true);
-    
+
     postponeEnterTransition();
-    
+
     super.onCreate(savedInstanceState);
 
     this.component = StartApplication.getAppComponent();

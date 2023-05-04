@@ -66,12 +66,12 @@ public class SceneActivity extends AppCompatActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     MaterialSharedAxis axis = new MaterialSharedAxis(MaterialSharedAxis.Y, false);
-    
+
     getWindow().setExitTransition(axis);
     getWindow().setEnterTransition(axis);
-    
+
     getWindow().setAllowEnterTransitionOverlap(true);
-    
+
     postponeEnterTransition();
 
     super.onCreate(savedInstanceState);

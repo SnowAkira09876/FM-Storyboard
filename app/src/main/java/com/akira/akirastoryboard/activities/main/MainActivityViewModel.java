@@ -54,7 +54,7 @@ public class MainActivityViewModel extends ViewModel {
   public MutableLiveData<Boolean> getDataIsReady() {
     return this.dataIsReady;
   }
-  
+
   public void setDataIsReady(boolean isReady) {
     this.dataIsReady.setValue(isReady);
   }

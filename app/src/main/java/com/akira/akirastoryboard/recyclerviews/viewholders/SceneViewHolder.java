@@ -2,7 +2,6 @@ package com.akira.akirastoryboard.recyclerviews.viewholders;
 
 import androidx.recyclerview.widget.RecyclerView;
 import com.akira.akirastoryboard.databinding.ItemSceneBinding;
-import com.akira.akirastoryboard.pojos.SceneItemModel;
 import com.akira.akirastoryboard.pojos.SceneWithFramesModel;
 import com.akira.akirastoryboard.recyclerviews.adapters.SceneAdapter;
 
