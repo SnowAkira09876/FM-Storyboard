@@ -24,6 +24,7 @@ import com.akira.akirastoryboard.widgets.recyclerview.AkiraRecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.elevation.SurfaceColors;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.transition.platform.MaterialSharedAxis;
 
@@ -52,6 +53,7 @@ public class FrameActivity extends AppCompatActivity
     getWindow().setEnterTransition(axis);
 
     getWindow().setAllowEnterTransitionOverlap(true);
+    findViewById(android.R.id.content).setBackgroundColor(SurfaceColors.SURFACE_0.getColor(this));
 
     postponeEnterTransition();
 
