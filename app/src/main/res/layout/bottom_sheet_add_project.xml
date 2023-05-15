@@ -48,6 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:hint="Image path"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_file_path"
             android:paddingTop="15dp"
             android:id="@+id/tl_path">
 

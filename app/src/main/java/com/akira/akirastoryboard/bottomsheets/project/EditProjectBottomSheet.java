@@ -3,6 +3,7 @@ package com.akira.akirastoryboard.bottomsheets.project;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -10,6 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import androidx.activity.result.ActivityResultLauncher;
+import android.content.Intent;
+import android.app.Activity;
+import android.database.Cursor;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import com.akira.akirastoryboard.R;
@@ -31,6 +37,28 @@ public class EditProjectBottomSheet extends BottomSheetDialogFragment {
   private ProjectItemModel model;
   private MainActivityViewModel viewModel;
   private ShapeableImageView iv_cover;
+  private ActivityResultLauncher<Intent> launcher =
+      registerForActivityResult(
+          new ActivityResultContracts.StartActivityForResult(),
+          result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+              Intent intent = result.getData();
+              Uri imageUri = intent.getData();
+              String[] projection = {MediaStore.Images.Media.DATA};
+              try (Cursor cursor =
+                  getContext().getContentResolver().query(imageUri, projection, null, null, null)) {
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+                String imageFilePath = cursor.getString(column_index);
+                te_path.setText(imageFilePath);
+                Picasso.get()
+                    .load(Uri.fromFile(new File(imageFilePath)))
+                    .placeholder(
+                        ContextCompat.getDrawable(getActivity(), R.drawable.ic_image_broken))
+                    .into(iv_cover);
+              }
+            }
+          });
 
   @SuppressWarnings("deprecation")
   @Override
@@ -76,6 +104,13 @@ public class EditProjectBottomSheet extends BottomSheetDialogFragment {
     te_project_name.setText(model.getTitle());
     te_info.setText(model.getInfo());
     te_number.setText(String.valueOf(model.getNumber()));
+
+    tl_path.setEndIconOnClickListener(
+        v -> {
+          Intent intent =
+              new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+          launcher.launch(intent);
+        });
 
     te_path.addTextChangedListener(
         new TextWatcher() {

@@ -46,6 +46,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_file_path"
             android:hint="Image path"
             android:paddingTop="15dp"
             android:id="@+id/tl_path">
