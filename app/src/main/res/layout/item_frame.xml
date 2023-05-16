@@ -30,7 +30,8 @@
             />
 
             <TextView
-                android:layout_marginTop="10dp"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
                 android:id="@+id/tv_description"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"

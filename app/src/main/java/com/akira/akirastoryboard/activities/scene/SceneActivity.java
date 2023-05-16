@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
+import android.view.View;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.akira.akirastoryboard.R;
@@ -27,9 +29,7 @@ import com.akira.akirastoryboard.widgets.recyclerview.AkiraRecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.elevation.SurfaceColors;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.transition.platform.MaterialSharedAxis;
 
 public class SceneActivity extends AppCompatActivity
     implements SceneAdapter.SceneItemClickListener, ActionMode.Callback {
@@ -49,8 +49,9 @@ public class SceneActivity extends AppCompatActivity
   private SceneItemModel selected_model;
 
   @Override
-  public void onSceneClick(int position, SceneItemModel model) {
-    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
+  public void onSceneClick(int position, SceneItemModel model, View view) {
+    ActivityOptions options =
+        ActivityOptions.makeSceneTransitionAnimation(this, view, view.getTransitionName());
 
     Bundle bundle = new Bundle();
     bundle.putParcelable("scene", model);
@@ -66,15 +67,8 @@ public class SceneActivity extends AppCompatActivity
   @SuppressWarnings("deprecation")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    MaterialSharedAxis axis = new MaterialSharedAxis(MaterialSharedAxis.Y, false);
-
-    getWindow().setExitTransition(axis);
-    getWindow().setEnterTransition(axis);
-
-    getWindow().setAllowEnterTransitionOverlap(true);
-    findViewById(android.R.id.content).setBackgroundColor(SurfaceColors.SURFACE_0.getColor(this));
-
-    postponeEnterTransition();
+    setExitSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
+    getWindow().setSharedElementsUseOverlay(false);
 
     super.onCreate(savedInstanceState);
 
@@ -155,6 +149,11 @@ public class SceneActivity extends AppCompatActivity
   @Override
   public void onDestroyActionMode(ActionMode mode) {}
 
+  @Override
+  public void onBackPressed() {
+    finish();
+  }
+
   private void onsetViewBinding() {
     this.rv = binding.rv;
     this.toolbar = binding.toolBar;
@@ -188,7 +187,6 @@ public class SceneActivity extends AppCompatActivity
             this,
             list -> {
               adapter.submitList(list);
-              startPostponedEnterTransition();
             });
 
     viewModel

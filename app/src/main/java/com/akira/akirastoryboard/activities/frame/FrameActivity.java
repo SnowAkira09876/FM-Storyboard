@@ -8,6 +8,10 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
+import androidx.core.view.WindowCompat;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
+import com.google.android.material.transition.platform.MaterialContainerTransform;
+import android.view.View;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.akira.akirastoryboard.R;
@@ -47,16 +51,16 @@ public class FrameActivity extends AppCompatActivity
   @SuppressWarnings("deprecation")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    MaterialSharedAxis axis = new MaterialSharedAxis(MaterialSharedAxis.Y, false);
+    WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+    setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
+    MaterialContainerTransform transform = new MaterialContainerTransform();
+    View root = findViewById(android.R.id.content);
+    root.setBackgroundColor(SurfaceColors.SURFACE_0.getColor(this));
+    root.setTransitionName(getString(R.string.transform_scene_to_frame));
 
-    getWindow().setExitTransition(axis);
-    getWindow().setEnterTransition(axis);
+    transform.addTarget(root);
 
-    getWindow().setAllowEnterTransitionOverlap(true);
-    findViewById(android.R.id.content).setBackgroundColor(SurfaceColors.SURFACE_0.getColor(this));
-
-    postponeEnterTransition();
-
+    getWindow().setSharedElementEnterTransition(transform);
     super.onCreate(savedInstanceState);
 
     this.component = StartApplication.getAppComponent();
@@ -170,7 +174,6 @@ public class FrameActivity extends AppCompatActivity
             this,
             list -> {
               adapter.submitList(list);
-              startPostponedEnterTransition();
             });
 
     viewModel

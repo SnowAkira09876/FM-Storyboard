@@ -1,6 +1,7 @@
 package com.akira.akirastoryboard.recyclerviews.adapters;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.DiffUtil;
 import com.akira.akirastoryboard.databinding.ItemSceneBinding;
@@ -30,7 +31,7 @@ public class SceneAdapter extends BaseListAdapter<SceneWithFramesModel, SceneVie
   }
 
   public interface SceneItemClickListener {
-    void onSceneClick(int position, SceneItemModel model);
+    void onSceneClick(int position, SceneItemModel model, View view);
 
     void onSceneLongClick(int position, SceneItemModel model);
   }

@@ -1,7 +1,6 @@
 package com.akira.akirastoryboard.activities.main;
 
 import android.Manifest;
-import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -37,11 +36,9 @@ import com.akira.akirastoryboard.widgets.recyclerview.AkiraRecyclerView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.elevation.SurfaceColors;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.transition.platform.MaterialSharedAxis;
 
 public class MainActivity extends AppCompatActivity
     implements ProjectAdapter.ProjectItemClickListener,
@@ -68,12 +65,6 @@ public class MainActivity extends AppCompatActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
-
-    MaterialSharedAxis axis = new MaterialSharedAxis(MaterialSharedAxis.Y, false);
-
-    getWindow().setExitTransition(axis);
-    getWindow().setEnterTransition(axis);
-
     super.onCreate(savedInstanceState);
 
     this.component = StartApplication.getAppComponent();
@@ -99,12 +90,10 @@ public class MainActivity extends AppCompatActivity
 
   @Override
   public void onProjectClick(int position, ProjectItemModel model) {
-    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
-
     Bundle bundle = new Bundle();
     bundle.putParcelable("project", model);
 
-    startActivity(new Intent(this, SceneActivity.class).putExtras(bundle), options.toBundle());
+    startActivity(new Intent(this, SceneActivity.class).putExtras(bundle));
   }
 
   @Override

@@ -12,6 +12,7 @@
             type="Integer" />
     </data>
     <com.google.android.material.card.MaterialCardView
+        android:transitionName="@string/transform_scene_to_frame"
         android:id="@+id/scene_card"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

@@ -21,7 +21,7 @@ public class SceneViewHolder extends RecyclerView.ViewHolder {
 
     itemView.setOnClickListener(
         v -> {
-          listener.onSceneClick(position, model.sceneItemModel);
+          listener.onSceneClick(position, model.sceneItemModel, binding.getRoot());
         });
 
     itemView.setOnLongClickListener(
